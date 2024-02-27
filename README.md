@@ -1,2 +1,2 @@
-# swimming-school-booking-mgmt
-Part of course work for PSE
+# HJSS Booking Management System
+Hatfield Junior Swimming School (HJSS) booking management system for learners
