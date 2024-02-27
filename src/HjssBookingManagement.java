@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class HjssBookingManagement {
+public class HjssBookingManagement {
+    public static void main(String[] args) {
+//        Running initial test
+        System.out.println("Hello World!");
+    }
 }
