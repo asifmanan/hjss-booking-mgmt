@@ -5,7 +5,7 @@ This document specifies the requirements for a booking management system for Hat
 
 ## 2. Functional Requirements
 
-2.1. Lesson Management
+### 2.1. Lesson Management
 Lessons are categorized into Grade 1, 2, 3, 4, and 5. Each lesson lasts one hour and accommodates up to 4 learners.
 Lessons occur on Monday, Wednesday, Friday, and Saturday. Monday, Wednesday, and Friday have time slots at 4-5 pm, 5-6 pm, and 6-7 pm. Saturday has time slots at 2-3 pm and 3-4 pm.
 Administrators can assign coaches to lessons, ensuring they are qualified to teach the respective grade.
