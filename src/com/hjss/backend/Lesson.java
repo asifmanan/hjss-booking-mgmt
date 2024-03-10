@@ -13,6 +13,7 @@ public class Lesson {
           this.gradeLevel = gradeLevel;
           this.coach = coach;
           this.lessonId = generateLessonId();
+          this.learners = new ArrayList<Learner>();
      }
 
      private String generateLessonId(){
@@ -25,8 +26,13 @@ public class Lesson {
           return (  learner.getGradeLevel() == this.getGradeLevel()
                   || learner.getGradeLevel() + 1 == this.getGradeLevel() );
      }
+
+     public String getLessonId() {
+          return lessonId;
+     }
+
      public boolean addLearner(Learner learner){
-          if(!isGradeValid(learner)) return false;
+          if(!isGradeValid(learner) || this.learners.contains(learner)) return false;
           if(getLearnerCount() < MAX_LEARNERS){
                this.learners.add(learner);
                return true;
@@ -35,5 +41,9 @@ public class Lesson {
      }
      public int getGradeLevel(){
           return this.gradeLevel.getValue();
+     }
+
+     public Coach getCoach() {
+          return coach;
      }
 }

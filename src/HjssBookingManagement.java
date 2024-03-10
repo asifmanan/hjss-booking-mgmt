@@ -1,38 +1,74 @@
+import com.hjss.backend.*;
 import com.hjss.frontend.Menu;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class HjssBookingManagement {
     public static void main(String[] args) {
+        timeTableTest();
+    }
 
+    public static void timeTableTest(){
+        TimeTable timeTable = new TimeTable();
+        DayOfWeek day = DayOfWeek.FRIDAY;
 
+        TimeSlot timeSlot = new TimeSlot(LocalTime.of(16,0),LocalTime.of(17,0));
+        boolean check = timeTable.addTimeSlotOnDay(day,timeSlot);
+        System.out.println(check);
+
+        timeSlot = new TimeSlot(LocalTime.of(17,0),LocalTime.of(18,0));
+        check = timeTable.addTimeSlotOnDay(day,timeSlot);
+        System.out.println(check);
+
+        timeTable.printSchedule();
+//        LocalDate wednesdayDate = LocalDate.of(2024, 3, 13);
+//        LocalDate saturdayDate = LocalDate.of(2024, 3, 16);
+    }
+
+    public static Learner newLearner(){
+        return new Learner("Asif", "Manan",
+                Util.Gender.Male, LocalDate.of(1985, 4, 30),
+                0, "+447769728661");
+    }
+    public static void lessonTest(){
+        Learner learner = newLearner();
+        // Create some sample lessons
+        Lesson gradeOne = new Lesson(Util.GradeEnum.ONE, new Coach("Jack","Sparrow", Util.Gender.Male));
+        Lesson gradeTwo = new Lesson(Util.GradeEnum.TWO, new Coach("Taylor","Swift",Util.Gender.Female));
+        Lesson gradeThree = new Lesson(Util.GradeEnum.THREE, new Coach("Gunter","Stick",Util.Gender.Male));
+        Lesson gradeFour = new Lesson(Util.GradeEnum.FOUR, new Coach("Walter","Back",Util.Gender.Male));
+        Lesson gradeFive = new Lesson(Util.GradeEnum.FIVE, new Coach("Alice","Smith",Util.Gender.Female));
+
+        boolean operation = gradeOne.addLearner(learner);
+        if(operation) System.out.println("Success");
+        operation = gradeOne.addLearner(learner);
+        if(operation) System.out.println("Success");
+        else System.out.println("Already exists");
+    }
+
+    public void menuTest(){
         Menu mainMenu = new Menu();
         mainMenu.addMenuItem(1,"Add New Learner");
         mainMenu.addMenuItem(2,"View Learner");
         mainMenu.addMenuItem(0,"Exit");
 
         mainMenu.run();
+    }
 
+    public void gradeLevelTest(){
+        Learner l1 = newLearner();
+        for(int i = 0; i < 6; i++){
+            l1.gradeLevelUp();
+            System.out.println("Grade: " + l1.getGradeLevel());
+        }
+        l1.gradeLevelUp();
+        System.out.println("Grade: " + l1.getGradeLevel());
 
-//        Running initial test
-//        Learner p1 = new Learner("Asif", "Manan", Util.Gender.Male, LocalDate.of(1985, 4, 30), 0, "+447769728661");
-//        System.out.println("Learner ID: " + p1.getLearnerId().toUpperCase());
-//        System.out.println("First Name: " + p1.getFirstName());
-//        System.out.println("Last Name: " + p1.getLastName());
-//        System.out.println("Gender: " + p1.getGender());
-//        System.out.println("Age: " + Person.calculateAge(p1.getDateOfBirth()));
-//        System.out.println("Grade: " + p1.getGrade());
-//        System.out.println("Emergency Contact Number: " + p1.getEmergencyContactNumber());
-//        System.out.println("********");
-//        for(int i = 0; i < 6; i++){
-//            p1.gradeLevelUp();
-//            System.out.println("Grade: " + p1.getGrade());
-//        }
-//        p1.gradeLevelUp();
-//        System.out.println("Grade: " + p1.getGrade());
-
-//        LocalDate date = Util.convertToDate("2023-02-29");
-//        if (date != null){
-//            System.out.println(date);
-//        }
-
+        LocalDate date = Util.convertToDate("2023-02-29");
+        if (date != null){
+            System.out.println(date);
+        }
     }
 }
