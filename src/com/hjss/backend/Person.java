@@ -10,19 +10,18 @@ public abstract class Person {
     private LocalDate dateOfBirth;
 
     public Person(String firstName, String lastName, Util.Gender gender, LocalDate dateOfBirth){
-        this.firstName = firstName;
-        this.lastName = lastName;
+        setFirstName(firstName);
+        setLastName(lastName);
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
     }
-
-    public int calculateAge(){
-        if(this.dateOfBirth != null){
-            return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
-        }
-        else {
-            return -1;
-        }
+    public Person(String firstName, String lastName, Util.Gender gender){
+//        refactored to call overloaded constructor.
+        this(firstName, lastName, gender, null);
+    }
+// refactored to use calculateAge.
+    public int getAge(){
+        return calculateAge(this.dateOfBirth);
     }
 
     public String getFirstName() {
@@ -30,19 +29,27 @@ public abstract class Person {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = firstName.trim().toLowerCase();
     }
 
     public String getLastName() {
         return lastName;
     }
 
+    public String getFullName() {
+        return this.firstName+" "+this.lastName;
+    }
+
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = lastName.trim().toLowerCase();
     }
 
     public Util.Gender getGender() {
         return gender;
+    }
+
+    public String getGenderString() {
+        return getGender().toString().toLowerCase();
     }
 
     public void setGender(Util.Gender gender) {

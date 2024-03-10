@@ -23,7 +23,7 @@ public class Menu {
     }
 
     public int getUserChoice(){
-        System.out.println("Enter your choice: ");
+        System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
 //        scanner.nextLine();
         return choice;

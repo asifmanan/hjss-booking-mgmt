@@ -25,6 +25,9 @@ public class Learner extends Person {
                    String emergencyContactNumber) {
         this(firstName, lastName, gender, dateOfBirth, 0,emergencyContactNumber);
     }
+    public void verifyAge(){
+
+    }
 
     private void setGradeLevel(int grade){
         if(grade < 0 || grade > 5){
@@ -43,7 +46,7 @@ public class Learner extends Person {
         return this.learnerId;
     }
 
-    public int getGrade() {
+    public int getGradeLevel() {
         return grade.getValue();
     }
 

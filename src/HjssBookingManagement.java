@@ -1,6 +1,9 @@
 import com.hjss.frontend.Menu;
+
 public class HjssBookingManagement {
     public static void main(String[] args) {
+
+
         Menu mainMenu = new Menu();
         mainMenu.addMenuItem(1,"Add New Learner");
         mainMenu.addMenuItem(2,"View Learner");
