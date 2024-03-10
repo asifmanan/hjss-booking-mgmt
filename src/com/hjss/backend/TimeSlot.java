@@ -34,8 +34,16 @@ public class TimeSlot {
         }
         TimeSlot timeSlot = (TimeSlot) obj;
 //      Casting is done because otherwise the compiler still see obj as an Object and not an instance of TimeSlot
-            return Objects.equals(startTime, timeSlot.startTime) &&
-                    Objects.equals(endTime, timeSlot.endTime);
+        boolean isSameTime = Objects.equals(startTime, timeSlot.startTime) &&
+                                Objects.equals(endTime, timeSlot.endTime);
+        boolean isStartTimeWithin = startTime.isAfter(timeSlot.startTime) && startTime.isBefore(timeSlot.endTime);
+        boolean isEndTimeWithin = endTime.isAfter(timeSlot.startTime) && !endTime.isAfter(timeSlot.endTime);
+        boolean isEncompassing = startTime.isBefore(timeSlot.startTime) && endTime.isAfter(timeSlot.endTime);
+
+        boolean isOverLapping = isStartTimeWithin || isEndTimeWithin || isEncompassing;
+
+        return isSameTime || isOverLapping;
+
     }
     @Override
     public int hashCode(){

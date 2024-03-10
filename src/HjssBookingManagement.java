@@ -22,6 +22,10 @@ public class HjssBookingManagement {
         check = timeTable.addTimeSlotOnDay(day,timeSlot);
         System.out.println(check);
 
+        timeSlot = new TimeSlot(LocalTime.of(16,30),LocalTime.of(18,30));
+        check = timeTable.addTimeSlotOnDay(day,timeSlot);
+        System.out.println(check);
+
         timeTable.printSchedule();
 //        LocalDate wednesdayDate = LocalDate.of(2024, 3, 13);
 //        LocalDate saturdayDate = LocalDate.of(2024, 3, 16);
