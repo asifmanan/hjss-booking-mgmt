@@ -6,6 +6,9 @@ import java.util.Objects;
 public class TimeSlot {
     private LocalTime startTime;
     private LocalTime endTime;
+    public TimeSlot(){
+        this(null, null);
+    }
     public TimeSlot(LocalTime startTime, LocalTime endTime){
         this.startTime = startTime;
         this.endTime = endTime;
