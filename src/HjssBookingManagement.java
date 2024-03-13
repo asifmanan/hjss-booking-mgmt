@@ -27,7 +27,7 @@ public class HjssBookingManagement {
     }
 
     public static void timeTableTest(){
-        Schedule schedule = new Schedule();
+        TimeTable schedule = new TimeTable();
         DayOfWeek day = DayOfWeek.FRIDAY;
 
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(16,0),LocalTime.of(17,0));
@@ -42,7 +42,7 @@ public class HjssBookingManagement {
         check = schedule.addTimeSlotOnDay(day,timeSlot);
         if(!check) System.out.println("Time slot clashes...");
 
-        schedule.printWeekPlan();
+
 //        LocalDate wednesdayDate = LocalDate.of(2024, 3, 13);
 //        LocalDate saturdayDate = LocalDate.of(2024, 3, 16);
     }
