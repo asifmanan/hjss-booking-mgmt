@@ -1,4 +1,5 @@
 package com.hjss.managers;
 
-public class BookingManager {
+public class Scheduler {
+
 }

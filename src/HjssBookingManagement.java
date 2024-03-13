@@ -1,5 +1,6 @@
 import com.hjss.backend.*;
 import com.hjss.frontend.Menu;
+import com.hjss.managers.TimeTableManager;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -7,26 +8,41 @@ import java.time.LocalTime;
 
 public class HjssBookingManagement {
     public static void main(String[] args) {
-        timeTableTest();
+//        timeTableTest();
+        timeTableManagerTest();
+    }
+
+    public static void timeTableTest2(){
+        TimeTable tt = new TimeTable();
+        tt.addTimeSlotOnDay(DayOfWeek.MONDAY, new TimeSlot(LocalTime.of(16,00),LocalTime.of(17,00)));
+        tt.printSchedule();
+    }
+
+    public static void timeTableManagerTest(){
+        TimeTableManager ttManager = new TimeTableManager();
+        TimeTable tt = ttManager.getWeeklyScheduleContainingDate(LocalDate.now());
+
+        tt.addTimeSlotOnDay(DayOfWeek.FRIDAY, new TimeSlot(LocalTime.of(16,0),LocalTime.of(17,0)));
+        tt.printSchedule();
     }
 
     public static void timeTableTest(){
-        TimeTable timeTable = new TimeTable();
+        Schedule schedule = new Schedule();
         DayOfWeek day = DayOfWeek.FRIDAY;
 
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(16,0),LocalTime.of(17,0));
-        boolean check = timeTable.addTimeSlotOnDay(day,timeSlot);
+        boolean check = schedule.addTimeSlotOnDay(day,timeSlot);
         System.out.println(check);
 
         timeSlot = new TimeSlot(LocalTime.of(17,0),LocalTime.of(18,0));
-        check = timeTable.addTimeSlotOnDay(day,timeSlot);
+        check = schedule.addTimeSlotOnDay(day,timeSlot);
         System.out.println(check);
 
         timeSlot = new TimeSlot(LocalTime.of(16,30),LocalTime.of(18,30));
-        check = timeTable.addTimeSlotOnDay(day,timeSlot);
-        System.out.println(check);
+        check = schedule.addTimeSlotOnDay(day,timeSlot);
+        if(!check) System.out.println("Time slot clashes...");
 
-        timeTable.printSchedule();
+        schedule.printWeekPlan();
 //        LocalDate wednesdayDate = LocalDate.of(2024, 3, 13);
 //        LocalDate saturdayDate = LocalDate.of(2024, 3, 16);
     }

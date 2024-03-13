@@ -1,17 +1,27 @@
 package com.hjss.backend;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 public class TimeTable {
+    private LocalDate date = null;
     private Map<DayOfWeek, List<TimeSlot>> weeklySchedule;
-    public TimeTable (){
+    public TimeTable(){
+        this(null);
+    }
+    public TimeTable(LocalDate anchorDate){
+        this.setDate(anchorDate);
         weeklySchedule = new EnumMap<>(DayOfWeek.class);
 //      initializeSchedule() initialized the days in EnumMap of days
         initializeSchedule();
+    }
+    private void setDate(LocalDate anchorDate){
+        this.date = (this.date!=null) ? anchorDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)):null;
     }
     private void initializeSchedule(){
         for (DayOfWeek day : DayOfWeek.values()) {
