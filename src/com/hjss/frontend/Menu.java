@@ -18,7 +18,7 @@ public class Menu {
     }
     public void displayMenu(){
         for(Map.Entry<Integer, String> entry : menuItems.entrySet()){
-            System.out.println(entry.getKey() + " " + entry.getValue());
+            System.out.println(entry.getKey() + ". " + entry.getValue());
         }
     }
 

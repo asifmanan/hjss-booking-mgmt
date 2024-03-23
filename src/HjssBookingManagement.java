@@ -9,7 +9,9 @@ import java.time.LocalTime;
 public class HjssBookingManagement {
     public static void main(String[] args) {
 //        timeTableTest();
-        timeTableManagerTest();
+//        timeTableTest();
+        menuTest();
+
     }
 
     public static void timeTableTest2(){
@@ -27,21 +29,35 @@ public class HjssBookingManagement {
     }
 
     public static void timeTableTest(){
-        TimeTable schedule = new TimeTable();
-        DayOfWeek day = DayOfWeek.FRIDAY;
+        DayOfWeek friday = DayOfWeek.FRIDAY;
+        DayOfWeek monday = DayOfWeek.MONDAY;
+
+        TimeTable timeTable = new TimeTable(LocalDate.now());
+        TimeTable timeTableWithoutDate = new TimeTable();
 
         TimeSlot timeSlot = new TimeSlot(LocalTime.of(16,0),LocalTime.of(17,0));
-        boolean check = schedule.addTimeSlotOnDay(day,timeSlot);
-        System.out.println(check);
-
-        timeSlot = new TimeSlot(LocalTime.of(17,0),LocalTime.of(18,0));
-        check = schedule.addTimeSlotOnDay(day,timeSlot);
-        System.out.println(check);
-
-        timeSlot = new TimeSlot(LocalTime.of(16,30),LocalTime.of(18,30));
-        check = schedule.addTimeSlotOnDay(day,timeSlot);
+        boolean check = timeTable.addTimeSlotOnDay(friday,timeSlot);
         if(!check) System.out.println("Time slot clashes...");
+        else System.out.println("Time Slot Successfully added");
 
+        TimeSlot timeSlot2 = new TimeSlot(LocalTime.of(17,0),LocalTime.of(18,0));
+        check = timeTable.addTimeSlotOnDay(friday,timeSlot2);
+        if(!check) System.out.println("Time slot clashes...");
+        else System.out.println("Time Slot Successfully added");
+
+        TimeSlot timeSlot3 = new TimeSlot(LocalTime.of(16,30),LocalTime.of(18,30));
+        check = timeTable.addTimeSlotOnDay(friday,timeSlot);
+        if(!check) System.out.println("Time slot clashes...");
+        else System.out.println("Time Slot Successfully added");
+
+        timeTable.printSchedule();
+
+        System.out.println("#################");
+        check = timeTableWithoutDate.addTimeSlotOnDay(monday, timeSlot);
+        if(!check) System.out.println("Time slot clashes...");
+        else System.out.println("Time Slot Successfully added");
+
+        timeTableWithoutDate.printSchedule();
 
 //        LocalDate wednesdayDate = LocalDate.of(2024, 3, 13);
 //        LocalDate saturdayDate = LocalDate.of(2024, 3, 16);
@@ -68,7 +84,7 @@ public class HjssBookingManagement {
         else System.out.println("Already exists");
     }
 
-    public void menuTest(){
+    public static void menuTest(){
         Menu mainMenu = new Menu();
         mainMenu.addMenuItem(1,"Add New Learner");
         mainMenu.addMenuItem(2,"View Learner");

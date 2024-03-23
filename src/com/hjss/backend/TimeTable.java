@@ -42,6 +42,9 @@ public class TimeTable {
         return true;
     }
     public void printSchedule() {
+        if (this.date!=null) {
+            System.out.println("Schedule for Week Starting on: " + this.date);
+        }
         weeklySchedule.forEach((day, slots) -> {
             if(!slots.isEmpty()) System.out.println(day + ":");
             slots.forEach(slot -> System.out.println(" Time Slot: " + slot.getStartTime() + " - " + slot.getEndTime()));
