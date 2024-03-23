@@ -9,7 +9,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class HjssBookingManagement {
+public class HjssApplication {
     public static void main(String[] args) {
 //        timeTableTest();
 //        timeTableTest();
