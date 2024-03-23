@@ -1,6 +1,9 @@
-import com.hjss.models.*;
-import com.hjss.views.Menu;
 import com.hjss.controllers.TimeTableManager;
+import com.hjss.models.*;
+import com.hjss.utilities.DateUtil;
+import com.hjss.utilities.Gender;
+import com.hjss.utilities.Grade;
+import com.hjss.views.Menu;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -65,17 +68,17 @@ public class HjssBookingManagement {
 
     public static Learner newLearner(){
         return new Learner("Asif", "Manan",
-                Util.Gender.Male, LocalDate.of(1985, 4, 30),
+                Gender.Male, LocalDate.of(1985, 4, 30),
                 0, "+447769728661");
     }
     public static void lessonTest(){
         Learner learner = newLearner();
         // Create some sample lessons
-        Lesson gradeOne = new Lesson(Util.GradeEnum.ONE, new Coach("Jack","Sparrow", Util.Gender.Male));
-        Lesson gradeTwo = new Lesson(Util.GradeEnum.TWO, new Coach("Taylor","Swift",Util.Gender.Female));
-        Lesson gradeThree = new Lesson(Util.GradeEnum.THREE, new Coach("Gunter","Stick",Util.Gender.Male));
-        Lesson gradeFour = new Lesson(Util.GradeEnum.FOUR, new Coach("Walter","Back",Util.Gender.Male));
-        Lesson gradeFive = new Lesson(Util.GradeEnum.FIVE, new Coach("Alice","Smith",Util.Gender.Female));
+        Lesson gradeOne = new Lesson(Grade.ONE, new Coach("Jack","Sparrow", Gender.Male));
+        Lesson gradeTwo = new Lesson(Grade.TWO, new Coach("Taylor","Swift", Gender.Female));
+        Lesson gradeThree = new Lesson(Grade.THREE, new Coach("Gunter","Stick", Gender.Male));
+        Lesson gradeFour = new Lesson(Grade.FOUR, new Coach("Walter","Back", Gender.Male));
+        Lesson gradeFive = new Lesson(Grade.FIVE, new Coach("Alice","Smith", Gender.Female));
 
         boolean operation = gradeOne.addLearner(learner);
         if(operation) System.out.println("Success");
@@ -102,7 +105,7 @@ public class HjssBookingManagement {
         l1.gradeLevelUp();
         System.out.println("Grade: " + l1.getGradeLevel());
 
-        LocalDate date = Util.convertToDate("2023-02-29");
+        LocalDate date = DateUtil.convertToDate("2023-02-29");
         if (date != null){
             System.out.println(date);
         }

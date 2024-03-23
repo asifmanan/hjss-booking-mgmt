@@ -1,21 +1,23 @@
 package com.hjss.models;
 
+import com.hjss.utilities.Gender;
+
 import java.time.LocalDate;
 import java.time.Period;
 
 public abstract class Person {
     private String firstName;
     private String lastName;
-    private Util.Gender gender;
+    private Gender gender;
     private LocalDate dateOfBirth;
 
-    public Person(String firstName, String lastName, Util.Gender gender, LocalDate dateOfBirth){
+    public Person(String firstName, String lastName, Gender gender, LocalDate dateOfBirth){
         setFirstName(firstName);
         setLastName(lastName);
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
     }
-    public Person(String firstName, String lastName, Util.Gender gender){
+    public Person(String firstName, String lastName, Gender gender){
 //        refactored to call overloaded constructor.
         this(firstName, lastName, gender, null);
     }
@@ -44,7 +46,7 @@ public abstract class Person {
         this.lastName = lastName.trim().toLowerCase();
     }
 
-    public Util.Gender getGender() {
+    public Gender getGender() {
         return gender;
     }
 
@@ -52,7 +54,7 @@ public abstract class Person {
         return getGender().toString().toLowerCase();
     }
 
-    public void setGender(Util.Gender gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

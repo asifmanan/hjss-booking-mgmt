@@ -1,15 +1,18 @@
 package com.hjss.models;
 
+import com.hjss.utilities.Grade;
+import com.hjss.utilities.IdGenerator;
+
 import java.util.ArrayList;
 
 public class Lesson {
      int MAX_LEARNERS = 4;
      String lessonId;
-     Util.GradeEnum gradeLevel;
+     Grade gradeLevel;
      Coach coach;
      ArrayList<Learner> learners;
 
-     public Lesson(Util.GradeEnum gradeLevel, Coach coach) {
+     public Lesson(Grade gradeLevel, Coach coach) {
           this.gradeLevel = gradeLevel;
           this.coach = coach;
           this.lessonId = generateLessonId();
@@ -17,7 +20,7 @@ public class Lesson {
      }
 
      private String generateLessonId(){
-          return "LE" + Util.generateId();
+          return "LE" + IdGenerator.generateId();
      }
      public int getLearnerCount(){
           return learners.size();

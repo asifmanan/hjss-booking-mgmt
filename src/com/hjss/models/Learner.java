@@ -1,15 +1,19 @@
 package com.hjss.models;
 
+import com.hjss.utilities.Gender;
+import com.hjss.utilities.Grade;
+import com.hjss.utilities.IdGenerator;
+
 import java.time.LocalDate;
 
 public class Learner extends Person {
     private String learnerId;
-    private Util.GradeEnum grade;
+    private Grade grade;
     private String emergencyContactNumber;
 
     public Learner(String firstName,
                    String lastName,
-                   Util.Gender gender,
+                   Gender gender,
                    LocalDate dateOfBirth,
                    int grade,
                    String emergencyContactNumber) {
@@ -20,11 +24,12 @@ public class Learner extends Person {
     }
     public Learner(String firstName,
                    String lastName,
-                   Util.Gender gender,
+                   Gender gender,
                    LocalDate dateOfBirth,
                    String emergencyContactNumber) {
         this(firstName, lastName, gender, dateOfBirth, 0,emergencyContactNumber);
     }
+
     public void verifyAge(){
 
     }
@@ -33,13 +38,13 @@ public class Learner extends Person {
         if(grade < 0 || grade > 5){
             grade = 0;
         }
-        this.grade = Util.GradeEnum.fromInt(grade);
+        this.grade = Grade.fromInt(grade);
     }
     public void gradeLevelUp(){
         this.grade = this.grade.increment();
     }
     private void setLearnerId(){
-        this.learnerId = Util.generateId();
+        this.learnerId = IdGenerator.generateId();
     }
 
     public String getLearnerId(){
