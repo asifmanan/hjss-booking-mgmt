@@ -15,7 +15,7 @@ public class Coach extends Person{
         this(firstName, lastName, gender, null);
     }
     private String generateCoachId(){
-        return "ch"+ IdGenerator.generateId();
+        return "ch"+ IdGenerator.generateRandomId();
     }
 
     public String getCoachId() {

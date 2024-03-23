@@ -17,6 +17,7 @@ public class Learner extends Person {
                    LocalDate dateOfBirth,
                    int grade,
                    String emergencyContactNumber) {
+
         super(firstName, lastName, gender, dateOfBirth);
         setLearnerId();
         setGradeLevel(grade);
@@ -27,11 +28,16 @@ public class Learner extends Person {
                    Gender gender,
                    LocalDate dateOfBirth,
                    String emergencyContactNumber) {
+
         this(firstName, lastName, gender, dateOfBirth, 0,emergencyContactNumber);
     }
 
-    public void verifyAge(){
-
+    public boolean isAgeValid(){
+        int age = calculateAge(this.getDateOfBirth());
+        if(age >= 4 && age <=11){
+            return true;
+        }
+        return false;
     }
 
     private void setGradeLevel(int grade){
@@ -44,7 +50,7 @@ public class Learner extends Person {
         this.grade = this.grade.increment();
     }
     private void setLearnerId(){
-        this.learnerId = IdGenerator.generateId();
+        this.learnerId = "LR" + IdGenerator.generateSequentialId(this.getClass());
     }
 
     public String getLearnerId(){

@@ -20,7 +20,7 @@ public class Lesson {
      }
 
      private String generateLessonId(){
-          return "LE" + IdGenerator.generateId();
+          return "LE" + IdGenerator.generateRandomId();
      }
      public int getLearnerCount(){
           return learners.size();
