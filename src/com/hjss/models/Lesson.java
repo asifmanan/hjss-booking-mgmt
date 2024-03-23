@@ -1,4 +1,4 @@
-package com.hjss.backend;
+package com.hjss.models;
 
 import java.util.ArrayList;
 

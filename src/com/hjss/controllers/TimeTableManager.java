@@ -1,6 +1,6 @@
-package com.hjss.managers;
+package com.hjss.controllers;
 
-import com.hjss.backend.TimeTable;
+import com.hjss.models.TimeTable;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

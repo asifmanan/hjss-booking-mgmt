@@ -1,4 +1,4 @@
-package com.hjss.backend;
+package com.hjss.models;
 
 import java.time.LocalTime;
 import java.util.Objects;

@@ -1,0 +1,3 @@
+I decided to use the mvc approach which i beleive is more
+suitable for this project since its a data driven appliation
+and the data is at the centre.
