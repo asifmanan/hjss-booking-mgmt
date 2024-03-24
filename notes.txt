@@ -1,3 +1,6 @@
 I decided to use the mvc approach which i beleive is more
 suitable for this project since its a data driven appliation
 and the data is at the centre.
+
+I decided to use a reusable multilevel menu which I created as a side project while doing this assignment.
+So i kept it in a separate package (io.muxmenu) from the application.
