@@ -15,8 +15,10 @@ public class HjssApplication {
     public static void main(String[] args) {
         EntryView entryView = new EntryView();
         entryView.initializeMenu();
-//        menuTest();
     }
+
+
+
     public static void menuSetup(){
         Menu mainMenu = new Menu("Main");
         Menu learnerMenu = new Menu("Learners");

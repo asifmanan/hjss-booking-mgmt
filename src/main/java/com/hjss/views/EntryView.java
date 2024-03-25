@@ -17,8 +17,11 @@ public class EntryView {
     }
 
     public void initializeMenu() {
-        Menu mainMenu = new Menu("Main Menu");
-        mainMenu.addMenuItem("Create Learner", createLearnerView::createLearner, "Add a new learner");
+        Menu mainMenu = new Menu("Main");
+        Menu learnerMenu = new Menu("Learner",mainMenu);
+        mainMenu.addSubMenu(learnerMenu);
+
+        learnerMenu.addMenuItem("New Learner", createLearnerView::createLearner);
 
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
