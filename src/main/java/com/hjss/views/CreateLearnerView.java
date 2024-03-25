@@ -6,7 +6,10 @@ import com.hjss.utilities.Gender;
 import com.hjss.utilities.HelpText;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
+import org.jline.terminal.Terminal;
+import org.jline.utils.InfoCmp;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class CreateLearnerView {
@@ -22,8 +25,6 @@ public class CreateLearnerView {
 
             HelpText helpText = new HelpText();
             helpText.setAppend("\nEnter :c to cancel\n");
-
-
 
             helpText.setText("First Name must start with a character, max length is 20 characters");;
             String firstName = getAndValidateString(lineReader, "First Name: ", "^[A-Za-z].{0,19}$",helpText);
@@ -77,6 +78,7 @@ public class CreateLearnerView {
                 System.out.println("Invalid input. Please try again.");
             }
         }
+        clearScreen();
         return input;
     }
     private String getAndValidateString(LineReader lineReader, String prompt, String regex) {
@@ -98,9 +100,18 @@ public class CreateLearnerView {
                 System.out.println("Invalid date entered, please enter a valid date");
             }
         }
+        clearScreen();
         return dateOfBirth;
     }
     private LocalDate getAndValidateDate(LineReader lineReader, String prompt) {
         return getAndValidateDate(lineReader, prompt, null);
+    }
+    private void clearScreen(){
+        try {
+            Terminal terminal = TerminalManager.getTerminal();
+            terminal.puts(InfoCmp.Capability.clear_screen);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

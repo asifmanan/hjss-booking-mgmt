@@ -1,12 +1,13 @@
 package com.hjss.models;
 
+import com.hjss.dataregistry.Identifiable;
 import com.hjss.utilities.Gender;
 import com.hjss.utilities.Grade;
 import com.hjss.utilities.IdGenerator;
 
 import java.time.LocalDate;
 
-public class Learner extends Person {
+public class Learner extends Person implements Identifiable {
     private String learnerId;
     private Grade grade;
     private String emergencyContactNumber;
@@ -53,7 +54,8 @@ public class Learner extends Person {
         this.learnerId = "LR" + IdGenerator.generateSequentialId(this.getClass());
     }
 
-    public String getLearnerId(){
+    @Override
+    public String getId(){
         return this.learnerId;
     }
 
