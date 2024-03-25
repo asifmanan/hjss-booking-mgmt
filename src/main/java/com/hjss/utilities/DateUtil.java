@@ -11,7 +11,7 @@ public class DateUtil {
      * @return true if the date matches the ISO date format and false otherwise
      */
     public static boolean isDateFormatValid(String date){
-        if( date.matches("^\\d{4}(-)(0[1-9]|1[0-2])(-)(0[1-9]|[12][0-9]|3[01])$") ) {
+        if( date.matches("^\\d{4}[-/ ](0[1-9]|1[0-2])[-/ ](0[1-9]|[12][0-9]|3[01])$") ) {
             return true;
         }
         return false;
@@ -23,13 +23,17 @@ public class DateUtil {
      */
     public static LocalDate convertToDate(String dateString){
         if( isDateFormatValid(dateString) ) {
+            String hyphenDateString = convertToHyphenFormat(dateString);
             try {
-                return LocalDate.parse(dateString);
+                return LocalDate.parse(hyphenDateString);
             } catch (DateTimeException e) {
 //                System.out.println("Exception caught for String: " + e.getMessage());
                 return null;
             }
         }
         return null;
+    }
+    private static String convertToHyphenFormat(String dateString) {
+        return dateString.replace("/","-").replace(" ", "-");
     }
 }
