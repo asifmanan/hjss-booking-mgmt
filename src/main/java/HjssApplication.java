@@ -3,7 +3,9 @@ import com.hjss.models.*;
 import com.hjss.utilities.DateUtil;
 import com.hjss.utilities.Gender;
 import com.hjss.utilities.Grade;
-import com.hjss.views.Menu;
+import com.hjss.views.EntryView;
+import io.consolemenu.ConsoleMenu;
+import io.consolemenu.Menu;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -11,10 +13,14 @@ import java.time.LocalTime;
 
 public class HjssApplication {
     public static void main(String[] args) {
-//        timeTableTest();
-//        timeTableTest();
-        menuTest();
-
+        EntryView entryView = new EntryView();
+        entryView.initializeMenu();
+//        menuTest();
+    }
+    public static void menuSetup(){
+        Menu mainMenu = new Menu("Main");
+        Menu learnerMenu = new Menu("Learners");
+        learnerMenu.addMenuItem("Add",()->System.out.println("Add"));
     }
 
     public static void timeTableTest2(){
@@ -87,14 +93,7 @@ public class HjssApplication {
         else System.out.println("Already exists");
     }
 
-    public static void menuTest(){
-        Menu mainMenu = new Menu();
-        mainMenu.addMenuItem(1,"Add New Learner");
-        mainMenu.addMenuItem(2,"View Learner");
-        mainMenu.addMenuItem(0,"Exit");
 
-        mainMenu.run();
-    }
 
     public void gradeLevelTest(){
         Learner l1 = newLearner();

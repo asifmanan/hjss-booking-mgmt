@@ -35,4 +35,8 @@ public enum Grade {
         }
         throw new IllegalArgumentException("Invalid value: " + i);
     }
+    public static Grade fromString(String s){
+        int i = Integer.parseInt(s);
+        return fromInt(i);
+    }
 }

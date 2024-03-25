@@ -26,7 +26,8 @@ public class DateUtil {
             try {
                 return LocalDate.parse(dateString);
             } catch (DateTimeException e) {
-                System.out.println("Exception caught for String: " + e.getMessage());
+//                System.out.println("Exception caught for String: " + e.getMessage());
+                return null;
             }
         }
         return null;
