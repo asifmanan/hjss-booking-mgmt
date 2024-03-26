@@ -36,4 +36,8 @@ public class DateUtil {
     private static String convertToHyphenFormat(String dateString) {
         return dateString.replace("/","-").replace(" ", "-");
     }
+    public boolean isDateValid(String dateString){
+        LocalDate date = convertToDate(dateString);
+        return date != null;
+    }
 }
