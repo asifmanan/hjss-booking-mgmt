@@ -13,10 +13,10 @@ import org.jline.utils.InfoCmp;
 import java.io.IOException;
 import java.time.LocalDate;
 
-public class CreateLearnerView {
+public class LearnerCreateView {
     private LearnerController learnerController;
 
-    public CreateLearnerView(LearnerController learnerController) {
+    public LearnerCreateView(LearnerController learnerController) {
         this.learnerController = learnerController;
     }
 
