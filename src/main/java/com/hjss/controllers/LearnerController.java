@@ -46,19 +46,7 @@ public class LearnerController implements ModelController<Learner> {
     }
     @Override
     public String createAndAddObject(String[] values){
-            String firstName = values[0];
-            String lastName = values[1];
-            String genderString = values[2];
-            String dateOfBirthString = values[3];
-            String gradeString = values[4];
-            String contactNumber  = values[5];
-
-        Gender gender = Gender.fromString(genderString);
-        LocalDate dateOfBirth = LocalDate.parse(dateOfBirthString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        int grade = Integer.parseInt(gradeString);
-
-        Learner learner = createLearner(firstName, lastName, gender,
-                                        dateOfBirth, grade, contactNumber);
+        Learner learner = createObject(values);
         return addObject(learner);
     }
     @Override
