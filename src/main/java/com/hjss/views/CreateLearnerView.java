@@ -1,6 +1,7 @@
 package com.hjss.views;
 
 import com.hjss.controllers.LearnerController;
+import com.hjss.models.Learner;
 import com.hjss.utilities.DateUtil;
 import com.hjss.utilities.Gender;
 import com.hjss.utilities.HelpText;
@@ -52,8 +53,10 @@ public class CreateLearnerView {
             String contactNumber = getAndValidateString(lineReader, "Emergency Contact Number: ", "^\\+[1-9]{1}[0-9]{1,14}$",helpText);
             if (contactNumber == null) return;
 
-            String learnerId = learnerController.createLearner(firstName, lastName, gender,
+            Learner learner = learnerController.createLearner(firstName, lastName, gender,
                                                                 dateOfBirth, grade, contactNumber);
+            String learnerId = learnerController.addObject(learner);
+
             System.out.println("Learner created with ID: "+ learnerId);
         }
         catch (Exception e) {

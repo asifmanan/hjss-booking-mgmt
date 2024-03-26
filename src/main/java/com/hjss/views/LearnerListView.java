@@ -26,7 +26,7 @@ public class LearnerListView {
         return columnWidths;
     }
     public void printLearnerList(){
-        List<Learner> learnerList = learnerController.getAllLearners();
+        List<Learner> learnerList = learnerController.getAllObjects();
         Map<String, Integer> columnWidths = getColumnWidths();
         TablePrinter tablePrinter = new TablePrinter(this.headers, columnWidths);
         tablePrinter.printHeader();
