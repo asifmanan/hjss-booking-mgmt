@@ -32,14 +32,13 @@ public class DataLoader {
                 }
                 String[] values = line.split(",");
 
-                String firstName = getLearnerValue(values, 0);
-                String lastName = getLearnerValue(values, 1);
-                Gender gender = Gender.valueOf(getLearnerValue(values,2));
-                LocalDate dateOfBirth = LocalDate.parse(getLearnerValue(values, 3), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                int grade = Integer.parseInt(getLearnerValue(values,4));
-                String emergencyContact = getLearnerValue(values, 5);
+                trimValues(values);
 
-                learnerController.createLearner(firstName, lastName, gender, dateOfBirth, grade, emergencyContact);
+                if(values.length == 6) {
+                    learnerController.addObject(
+                            learnerController.createObject(values)
+                    );
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,6 +47,11 @@ public class DataLoader {
     private static String getLearnerValue(String[] values, int index) {
         // can probably add validation here using regex
         return values[index];
+    }
+    private static void trimValues(String[] values){
+        for (int i = 0; i < values.length; i++) {
+            values[i] = values[i].trim();
+        }
     }
 
 }
