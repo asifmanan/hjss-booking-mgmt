@@ -1,13 +1,10 @@
 package com.hjss.dataregistry;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ModelRegister<T extends Identifiable> {
-    private Map<String, T> register = new HashMap<>();
+    private Map<String, T> register = new LinkedHashMap<>();
     public String add(T object){
         String key = object.getId();
         this.register.put(key, object);
@@ -21,5 +18,8 @@ public class ModelRegister<T extends Identifiable> {
     }
     public List<T> getAllObjects(){
         return new ArrayList<>(register.values());
+    }
+    public Map<String, T> getRegisterCopy(){
+        return new LinkedHashMap<>(register);
     }
 }

@@ -10,10 +10,13 @@ public class EntryView {
 
     private LearnerController learnerController;
     private CreateLearnerView createLearnerView;
+    private LearnerListView learnerListView;
 
     public EntryView() {
         this.learnerController = new LearnerController();
         this.createLearnerView = new CreateLearnerView(learnerController);
+        this.learnerListView = new LearnerListView(learnerController);
+
     }
 
     public void initializeMenu() {
@@ -22,6 +25,7 @@ public class EntryView {
         mainMenu.addSubMenu(learnerMenu);
 
         learnerMenu.addMenuItem("New Learner", createLearnerView::createLearner);
+        learnerMenu.addMenuItem("Learners List", learnerListView::printLearnerList);
 
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);

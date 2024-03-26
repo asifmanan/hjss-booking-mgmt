@@ -11,7 +11,7 @@ public class IdGenerator {
         sequenceMap.putIfAbsent(clazz, new AtomicInteger(1));
         int currentYear = Year.now().getValue() % 100;
         int sequenceNumber = sequenceMap.get(clazz).getAndIncrement();
-        return String.format("%02d%05d", currentYear, sequenceNumber);
+        return String.format("%02d%04d", currentYear, sequenceNumber);
     }
     public static String generateRandomId(){
         final String CHAR_POOL = "abcdefghijklmnpqrsruvwxyz123456789";

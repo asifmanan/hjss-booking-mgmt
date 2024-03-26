@@ -62,6 +62,9 @@ public class Learner extends Person implements Identifiable {
     public int getGradeLevel() {
         return grade.getValue();
     }
+    public String getGradeLevelString(){
+        return Integer.toString(this.getGradeLevel());
+    }
 
     public String getEmergencyContactNumber() {
         return emergencyContactNumber;

@@ -5,6 +5,8 @@ import com.hjss.models.Learner;
 import com.hjss.utilities.Gender;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LearnerController {
@@ -21,6 +23,9 @@ public class LearnerController {
 
         Learner learner = new Learner(firstName, lastName, gender, dateOfBirth, grade, contactNumber);
         return learnerRegister.add(learner);
+    }
+    public List<Learner> getAllLearners(){
+        return new ArrayList<>(learnerRegister.getAllObjects());
     }
 
 }
