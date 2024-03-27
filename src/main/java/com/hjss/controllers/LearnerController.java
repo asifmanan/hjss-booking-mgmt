@@ -33,6 +33,16 @@ public class LearnerController implements ModelController<Learner> {
         String gradeString = values[4];
         String contactNumber  = values[5];
 
+        return createObject(firstName, lastName, genderString,
+                dateOfBirthString, gradeString, contactNumber);
+    }
+    public Learner createObject(String firstName,
+                                String lastName,
+                                String genderString,
+                                String dateOfBirthString,
+                                String gradeString,
+                                String contactNumber){
+
         Gender gender = Gender.fromString(genderString);
         LocalDate dateOfBirth = LocalDate.parse(dateOfBirthString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         int grade = Integer.parseInt(gradeString);

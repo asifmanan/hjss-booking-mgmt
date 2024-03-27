@@ -71,6 +71,6 @@ public class Learner extends Person implements Identifiable {
     }
 
     public void setEmergencyContactNumber(String emergencyContactNumber) {
-        this.emergencyContactNumber = emergencyContactNumber;
+        this.emergencyContactNumber = emergencyContactNumber.trim();
     }
 }
