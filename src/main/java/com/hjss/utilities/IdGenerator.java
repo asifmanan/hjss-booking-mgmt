@@ -7,11 +7,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class IdGenerator {
     public static ConcurrentHashMap<Class<?>, AtomicInteger> sequenceMap = new ConcurrentHashMap<>();
-    public static String generateSequentialId(Class<?> clazz){
+    public static int generateSequentialId(Class<?> clazz){
         sequenceMap.putIfAbsent(clazz, new AtomicInteger(1));
-        int currentYear = Year.now().getValue() % 100;
-        int sequenceNumber = sequenceMap.get(clazz).getAndIncrement();
-        return String.format("%02d%04d", currentYear, sequenceNumber);
+        return sequenceMap.get(clazz).getAndIncrement();
     }
     public static String generateRandomId(){
         final String CHAR_POOL = "abcdefghijklmnpqrsruvwxyz123456789";

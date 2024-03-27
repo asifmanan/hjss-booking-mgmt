@@ -6,6 +6,7 @@ import com.hjss.utilities.Grade;
 import com.hjss.utilities.IdGenerator;
 
 import java.time.LocalDate;
+import java.time.Year;
 
 public class Learner extends Person implements Identifiable {
     private String learnerId;
@@ -20,7 +21,7 @@ public class Learner extends Person implements Identifiable {
                    String emergencyContactNumber) {
 
         super(firstName, lastName, gender, dateOfBirth);
-        setLearnerId();
+        generateId();
         setGradeLevel(grade);
         this.emergencyContactNumber = emergencyContactNumber;
     }
@@ -50,8 +51,10 @@ public class Learner extends Person implements Identifiable {
     public void gradeLevelUp(){
         this.grade = this.grade.increment();
     }
-    private void setLearnerId(){
-        this.learnerId = "LR" + IdGenerator.generateSequentialId(this.getClass());
+    private void generateId(){
+        int currentYear = Year.now().getValue() % 100;
+        int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
+        this.learnerId = "LR" + String.format("%02d%04d", currentYear, sequenceNumber);
     }
 
     @Override
