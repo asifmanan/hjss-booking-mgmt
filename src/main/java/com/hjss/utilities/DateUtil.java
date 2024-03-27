@@ -6,16 +6,18 @@ import java.time.LocalDate;
  * Date Utility class containing helper functions and objects related to dates and duration.
  */
 public class DateUtil {
+    private static final String DateFormatRegex = "^\\d{4}[-/ ](0[1-9]|1[0-2])[-/ ](0[1-9]|[12][0-9]|3[01])$";
     /**
      * @param date String is passed as a parameter valid date string is in the format [YYYY-MM-DD]
      * @return true if the date matches the ISO date format and false otherwise
      */
     public static boolean isDateFormatValid(String date){
-        if( date.matches("^\\d{4}[-/ ](0[1-9]|1[0-2])[-/ ](0[1-9]|[12][0-9]|3[01])$") ) {
+        if( date.matches(getDateFormatRegex()) ) {
             return true;
         }
         return false;
     }
+
 
     /**
      * @param dateString a string containing a date in a valid format.
@@ -33,11 +35,18 @@ public class DateUtil {
         }
         return null;
     }
-    private static String convertToHyphenFormat(String dateString) {
+    public static String convertToHyphenFormat(String dateString) {
         return dateString.replace("/","-").replace(" ", "-");
     }
-    public boolean isDateValid(String dateString){
-        LocalDate date = convertToDate(dateString);
-        return date != null;
+    public static boolean isDateValid(String dateString){
+        try{
+            LocalDate.parse(dateString);
+            return true;
+        } catch (DateTimeException e){
+            return false;
+        }
+    }
+    public static String getDateFormatRegex(){
+        return DateFormatRegex;
     }
 }
