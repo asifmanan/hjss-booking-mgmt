@@ -82,17 +82,18 @@ public class HjssApplication {
     public static void lessonTest(){
         Learner learner = newLearner();
         // Create some sample lessons
-        Lesson gradeOne = new Lesson(Grade.ONE, new Coach("Jack","Sparrow", Gender.Male));
-        Lesson gradeTwo = new Lesson(Grade.TWO, new Coach("Taylor","Swift", Gender.Female));
-        Lesson gradeThree = new Lesson(Grade.THREE, new Coach("Gunter","Stick", Gender.Male));
-        Lesson gradeFour = new Lesson(Grade.FOUR, new Coach("Walter","Back", Gender.Male));
-        Lesson gradeFive = new Lesson(Grade.FIVE, new Coach("Alice","Smith", Gender.Female));
 
-        boolean operation = gradeOne.addLearner(learner);
-        if(operation) System.out.println("Success");
-        operation = gradeOne.addLearner(learner);
-        if(operation) System.out.println("Success");
-        else System.out.println("Already exists");
+//        Lesson gradeOne = new Lesson(Grade.ONE, new Coach("Jack","Sparrow", Gender.Male));
+//        Lesson gradeTwo = new Lesson(Grade.TWO, new Coach("Taylor","Swift", Gender.Female));
+//        Lesson gradeThree = new Lesson(Grade.THREE, new Coach("Gunter","Stick", Gender.Male));
+//        Lesson gradeFour = new Lesson(Grade.FOUR, new Coach("Walter","Back", Gender.Male));
+//        Lesson gradeFive = new Lesson(Grade.FIVE, new Coach("Alice","Smith", Gender.Female));
+
+//        boolean operation = gradeOne.addLearner(learner);
+//        if(operation) System.out.println("Success");
+//        operation = gradeOne.addLearner(learner);
+//        if(operation) System.out.println("Success");
+//        else System.out.println("Already exists");
     }
 
 
