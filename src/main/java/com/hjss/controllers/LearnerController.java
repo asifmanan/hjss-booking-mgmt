@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class LearnerController implements ModelController<Learner> {
-    private ModelRegister<Learner> learnerRegister;
+    private final ModelRegister<Learner> learnerRegister;
     public LearnerController(){
         this.learnerRegister = new ModelRegister<>();
     }

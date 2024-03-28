@@ -1,12 +1,13 @@
 package com.hjss.models;
 
+import com.hjss.dataregistry.Identifiable;
 import com.hjss.utilities.Gender;
 import com.hjss.utilities.IdGenerator;
 
 import java.time.LocalDate;
 import java.time.Year;
 
-public class Coach extends Person{
+public class Coach extends Person implements Identifiable {
     String coachId;
     int randomIdentifier;
     public Coach(String firstName, String lastName, Gender gender, LocalDate dateOfBirth) {
@@ -26,7 +27,7 @@ public class Coach extends Person{
         this.coachId = "CH" + String.format("%02d%03d", currentYear, sequenceNumber);
     }
 
-    public String getCoachId() {
+    public String getId() {
         return this.coachId;
     }
     public int getRandomIdentifier(){
