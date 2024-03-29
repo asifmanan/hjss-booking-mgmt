@@ -1,18 +1,32 @@
 package com.hjss.models;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 public class TimeSlot {
     private LocalTime startTime;
     private LocalTime endTime;
     public TimeSlot(){
-        this(null, null);
     }
     public TimeSlot(LocalTime startTime, LocalTime endTime){
         this.startTime = startTime;
         this.endTime = endTime;
         validateTimes();
+    }
+    public TimeSlot(String startTimeString, String endTimeString){
+        this.startTime = parseTimeString(startTimeString);
+        this.endTime = parseTimeString(endTimeString);
+        validateTimes();
+
+    }
+    private LocalTime parseTimeString(String timeString) {
+        try {
+            return LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm"));
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid time format: " + timeString, e);
+        }
     }
     private void validateTimes() {
         if (this.startTime != null && this.endTime != null && !this.startTime.isBefore(this.endTime)) {
