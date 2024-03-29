@@ -1,9 +1,11 @@
 package com.hjss.models;
 
+import com.hjss.dataregistry.Identifiable;
+
 import java.time.DayOfWeek;
 import java.util.Objects;
 
-public class DayTimeSlot {
+public class DayTimeSlot implements Identifiable {
     private DayOfWeek dayOfWeek;
     private TimeSlot timeSlot;
 
