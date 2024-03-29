@@ -1,24 +1,27 @@
 package com.hjss.models;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class DayTimeSlot {
     private DayOfWeek dayOfWeek;
-    private List<TimeSlot> timeSlots;
+    private TimeSlot timeSlot;
 
     public DayTimeSlot() {
         this.dayOfWeek = null;
-        this.timeSlots = new ArrayList<>();
+        this.timeSlot = null;
     }
     public DayTimeSlot(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
-        this.timeSlots = new ArrayList<>();
+        this.timeSlot = new TimeSlot();
     }
-    public DayTimeSlot(String dayOfWeekString) {
+    public DayTimeSlot(DayOfWeek dayOfWeek, TimeSlot timeSlot) {
+        this.dayOfWeek = dayOfWeek;
+        this.timeSlot = timeSlot;
+    }
+    public DayTimeSlot(String dayOfWeekString, TimeSlot timeSlot) {
         this.dayOfWeek = parseDayOfWeek(dayOfWeekString);
-        this.timeSlots = new ArrayList<>();
+        this.timeSlot = timeSlot;
     }
 
 
@@ -51,30 +54,23 @@ public class DayTimeSlot {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public List<TimeSlot> getTimeSlots() {
-        return timeSlots;
+    public TimeSlot getTimeSlot() {
+        return timeSlot;
     }
 
-    public boolean addTimeSlot(TimeSlot newTimeSlot) {
-        for (TimeSlot existingSlot : timeSlots) {
-            if (existingSlot.equals(newTimeSlot)) {
-                return false;
-            }
-        }
-        timeSlots.add(newTimeSlot);
-        return true;
+    public void setTimeSlot(TimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
     }
-    public boolean setTimeSlots(List<TimeSlot> timeSlots) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        DayTimeSlot otherDayTimeSlot = (DayTimeSlot) obj;
+        return dayOfWeek == otherDayTimeSlot.dayOfWeek && Objects.equals(timeSlot, otherDayTimeSlot.timeSlot);
+    }
 
-        for (int i = 0; i < timeSlots.size(); i++) {
-            for (int j = i + 1; j < timeSlots.size(); j++) {
-                if (timeSlots.get(i).equals(timeSlots.get(j))) {
-                    return false;
-                }
-            }
-        }
-
-        this.timeSlots = new ArrayList<>(timeSlots);
-        return true;
+    @Override
+    public int hashCode() {
+        return Objects.hash(dayOfWeek, timeSlot);
     }
 }

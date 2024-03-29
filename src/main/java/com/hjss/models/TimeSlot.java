@@ -12,11 +12,21 @@ public class TimeSlot {
     public TimeSlot(LocalTime startTime, LocalTime endTime){
         this.startTime = startTime;
         this.endTime = endTime;
+        validateTimes();
     }
+    private void validateTimes() {
+        if (this.startTime != null && this.endTime != null && !this.startTime.isBefore(this.endTime)) {
+            throw new IllegalArgumentException("Start time must be before end time.");
+        }
+    }
+
     public LocalTime getStartTime() {
         return startTime;
     }
     public void setStartTime(LocalTime startTime) {
+        if (endTime != null && !startTime.isBefore(endTime)) {
+            throw new IllegalArgumentException("Start time must be before end time.");
+        }
         this.startTime = startTime;
     }
 
@@ -25,6 +35,9 @@ public class TimeSlot {
     }
 
     public void setEndTime(LocalTime endTime) {
+        if (startTime != null && !endTime.isAfter(startTime)) {
+            throw new IllegalArgumentException("End time must be after start time.");
+        }
         this.endTime = endTime;
     }
     @Override
