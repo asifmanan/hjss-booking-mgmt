@@ -1,17 +1,25 @@
 package com.hjss.views;
 
+import com.hjss.controllers.CoachController;
 import com.hjss.controllers.LearnerController;
+import com.hjss.servicelayer.ServiceManager;
 import io.consolemenu.ConsoleMenu;
 import io.consolemenu.Menu;
 
 public class EntryView {
 
     private LearnerController learnerController;
+    private CoachController coachController;
+    private ServiceManager serviceManager = new ServiceManager();
     private LearnerCreateView learnerCreateView;
     private LearnerListView learnerListView;
 
     public EntryView() {
-        this.learnerController = new LearnerController();
+//        serviceManager.initializeData();
+
+        this.learnerController = serviceManager.getLearnerController();
+        this.coachController = serviceManager.getCoachController();
+
         this.learnerCreateView = new LearnerCreateView(learnerController);
         this.learnerListView = new LearnerListView(learnerController);
 
