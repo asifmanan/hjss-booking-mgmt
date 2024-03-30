@@ -24,25 +24,11 @@ public class LearnerController implements ModelController<Learner> {
         return new ArrayList<>(learnerRegister.getAllObjects());
     }
 
-    private Learner createLearner(String firstName,
-                                String lastName,
-                                Gender gender,
-                                LocalDate dateOfBirth,
-                                int grade,
-                                String contactNumber) {
 
-        return new Learner(firstName, lastName, gender, dateOfBirth, grade, contactNumber);
-    }
+
     public Learner createObject(String[] values){
-        String firstName = values[0];
-        String lastName = values[1];
-        String genderString = values[2];
-        String dateOfBirthString = values[3];
-        String gradeString = values[4];
-        String contactNumber  = values[5];
-
-        return createObject(firstName, lastName, genderString,
-                dateOfBirthString, gradeString, contactNumber);
+        return createObject(values[0], values[1], values[2],
+                values[3], values[4], values[5]);
     }
     public Learner createObject(String firstName,
                                 String lastName,
@@ -55,7 +41,7 @@ public class LearnerController implements ModelController<Learner> {
         LocalDate dateOfBirth = LocalDate.parse(dateOfBirthString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         int grade = Integer.parseInt(gradeString);
 
-        return createLearner(firstName, lastName, gender,
+        return new Learner(firstName, lastName, gender,
                 dateOfBirth, grade, contactNumber);
     }
     public String createAndAddObject(String[] values){
