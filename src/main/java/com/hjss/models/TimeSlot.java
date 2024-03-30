@@ -33,6 +33,9 @@ public class TimeSlot {
             throw new IllegalArgumentException("Start time must be before end time.");
         }
     }
+    public boolean isValid() {
+        return startTime != null && endTime != null;
+    }
 
     public LocalTime getStartTime() {
         return startTime;
