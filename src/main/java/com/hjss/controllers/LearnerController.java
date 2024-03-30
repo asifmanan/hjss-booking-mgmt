@@ -15,7 +15,16 @@ public class LearnerController implements ModelController<Learner> {
     public LearnerController(){
         this.learnerRegister = new ModelRegister<>();
     }
-    public Learner createLearner(String firstName,
+    @Override
+    public String addObject(Learner learner){
+        return learnerRegister.add(learner);
+    }
+    @Override
+    public List<Learner> getAllObjects(){
+        return new ArrayList<>(learnerRegister.getAllObjects());
+    }
+
+    private Learner createLearner(String firstName,
                                 String lastName,
                                 Gender gender,
                                 LocalDate dateOfBirth,
@@ -24,7 +33,6 @@ public class LearnerController implements ModelController<Learner> {
 
         return new Learner(firstName, lastName, gender, dateOfBirth, grade, contactNumber);
     }
-    @Override
     public Learner createObject(String[] values){
         String firstName = values[0];
         String lastName = values[1];
@@ -50,17 +58,8 @@ public class LearnerController implements ModelController<Learner> {
         return createLearner(firstName, lastName, gender,
                 dateOfBirth, grade, contactNumber);
     }
-    @Override
-    public String addObject(Learner learner){
-        return learnerRegister.add(learner);
-    }
-    @Override
     public String createAndAddObject(String[] values){
         Learner learner = createObject(values);
         return addObject(learner);
-    }
-    @Override
-    public List<Learner> getAllObjects(){
-        return new ArrayList<>(learnerRegister.getAllObjects());
     }
 }
