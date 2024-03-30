@@ -1,5 +1,6 @@
 package com.hjss.models;
 
+import com.hjss.dataregistry.Identifiable;
 import com.hjss.utilities.Grade;
 import com.hjss.utilities.IdGenerator;
 
@@ -8,23 +9,26 @@ import java.time.Year;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 
-public class Lesson {
+public class Lesson implements Identifiable {
 //     int MAX_LEARNERS = 4;
      String lessonId;
-     LocalDate lessonDate;
+     DayTimeSlot dayTimeSlot;
      Grade gradeLevel;
      Coach coach;
 
-     public Lesson(Grade gradeLevel, Coach coach, LocalDate lessonDate) {
+     public Lesson(Grade gradeLevel, Coach coach, DayTimeSlot dayTimeSlot) {
           this.gradeLevel = gradeLevel;
           this.coach = coach;
-          this.lessonDate = lessonDate;
-          generateLessonId(lessonDate);
+          if (!dayTimeSlot.isValid()){
+               throw new IllegalStateException("The DayTimeSlot object is not in a valid state, please ensure the object is properly set with appropriate dates and times.");
+          }
+          this.dayTimeSlot = dayTimeSlot;
+          generateLessonId();
      }
 
-     private void generateLessonId(LocalDate lessonDate){
-          int year = lessonDate.get(IsoFields.WEEK_BASED_YEAR) % 100;
-          int weekOfYear = lessonDate.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+     private void generateLessonId(){
+          int year = this.dayTimeSlot.getYear() % 100;
+          int weekOfYear = this.dayTimeSlot.getWeek();
           int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
           this.lessonId = "LE" + year + weekOfYear + sequenceNumber;
      }
@@ -54,5 +58,10 @@ public class Lesson {
 
      public Coach getCoach() {
           return coach;
+     }
+
+     @Override
+     public String getId() {
+          return this.lessonId;
      }
 }
