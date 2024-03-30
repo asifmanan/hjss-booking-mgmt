@@ -1,4 +1,4 @@
 package com.hjss.controllers;
 
-public class BookingManager {
+public class BookingController {
 }

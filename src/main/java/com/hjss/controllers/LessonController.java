@@ -1,6 +1,6 @@
 package com.hjss.controllers;
 
-import com.hjss.dataregistry.ModelRegister;
+import com.hjss.modelrepository.ModelRegister;
 import com.hjss.models.Lesson;
 
 import java.util.List;

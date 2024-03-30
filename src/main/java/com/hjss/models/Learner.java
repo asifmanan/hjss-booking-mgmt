@@ -1,6 +1,5 @@
 package com.hjss.models;
 
-import com.hjss.dataregistry.Identifiable;
 import com.hjss.utilities.Gender;
 import com.hjss.utilities.Grade;
 import com.hjss.utilities.IdGenerator;

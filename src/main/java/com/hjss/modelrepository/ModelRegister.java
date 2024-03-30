@@ -1,7 +1,8 @@
-package com.hjss.dataregistry;
+package com.hjss.modelrepository;
+
+import com.hjss.models.Identifiable;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ModelRegister<T extends Identifiable> {
     private Map<String, T> register = new LinkedHashMap<>();

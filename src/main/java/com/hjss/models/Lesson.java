@@ -1,13 +1,7 @@
 package com.hjss.models;
 
-import com.hjss.dataregistry.Identifiable;
 import com.hjss.utilities.Grade;
 import com.hjss.utilities.IdGenerator;
-
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.temporal.IsoFields;
-import java.util.ArrayList;
 
 public class Lesson implements Identifiable {
 //     int MAX_LEARNERS = 4;

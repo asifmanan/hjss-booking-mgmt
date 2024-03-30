@@ -1,11 +1,9 @@
 package com.hjss.models;
 
-import com.hjss.dataregistry.Identifiable;
 import org.threeten.extra.YearWeek;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Year;
 import java.util.Objects;
 
 public class DayTimeSlot {
