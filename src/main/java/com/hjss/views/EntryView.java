@@ -7,10 +7,9 @@ import io.consolemenu.ConsoleMenu;
 import io.consolemenu.Menu;
 
 public class EntryView {
-
+    private ServiceManager serviceManager = new ServiceManager();
     private LearnerController learnerController;
     private CoachController coachController;
-    private ServiceManager serviceManager = new ServiceManager();
     private LearnerCreateView learnerCreateView;
     private LearnerListView learnerListView;
 
