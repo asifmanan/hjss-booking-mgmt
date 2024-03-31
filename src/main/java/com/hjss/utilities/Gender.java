@@ -1,5 +1,9 @@
 package com.hjss.utilities;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum Gender {
     Male, Female, Other, Unknown;
     public static Gender fromString(String input) {
@@ -20,5 +24,10 @@ public enum Gender {
             default:
                 return Gender.Unknown;
         }
+    }
+    public static List<String> getGenderValues() {
+        return Arrays.stream(Gender.values())
+                     .map(Enum::name)
+                     .collect(Collectors.toList());
     }
 }

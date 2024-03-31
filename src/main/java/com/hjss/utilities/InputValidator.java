@@ -9,18 +9,20 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class InputValidator {
-    public static String getAndValidateString(LineReader lineReader, String prompt, String regex, HelpText helpText){
+    public static String getAndValidateString(Terminal terminal, LineReader lineReader, String prompt, String regex, HelpText helpText){
         String input;
+
         while (true) {
             if(helpText!=null){
                 System.out.println(helpText.getHelpText());
             }
             input = lineReader.readLine("    "+prompt);
             if (":c".equalsIgnoreCase(input.trim())) {
+                clearScreen();
                 System.out.println("Operation canceled by user.");
                 return null; // User canceled the operation
             }
-            if (input.matches(regex)) {
+            if (input.trim().matches(regex)) {
                 break;
             } else {
                 System.out.println("Invalid input. Please try again.");
@@ -29,8 +31,8 @@ public class InputValidator {
         clearScreen();
         return input;
     }
-    public static String getAndValidateString(LineReader lineReader, String prompt, String regex) {
-        return getAndValidateString(lineReader, prompt,regex,null);
+    public static String getAndValidateString(Terminal terminal, LineReader lineReader, String prompt, String regex) {
+        return getAndValidateString(terminal, lineReader, prompt,regex,null);
     }
     public static LocalDate getAndValidateDate(LineReader lineReader, String prompt, HelpText helpText){
         String input;

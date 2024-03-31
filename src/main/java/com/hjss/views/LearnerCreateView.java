@@ -3,10 +3,14 @@ package com.hjss.views;
 import com.hjss.controllers.LearnerController;
 import com.hjss.models.Learner;
 import com.hjss.utilities.DateUtil;
+import com.hjss.utilities.Gender;
 import com.hjss.utilities.HelpText;
 import com.hjss.utilities.InputValidator;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
+import org.jline.terminal.Terminal;
+
+import javax.swing.text.Utilities;
 
 public class LearnerCreateView {
     private LearnerController learnerController;
@@ -17,37 +21,43 @@ public class LearnerCreateView {
 
     public void createLearner() {
         try {
+            TerminalManager.disableAutocomplete();
             LineReader lineReader = TerminalManager.getLineReader();
+            Terminal terminal = TerminalManager.getTerminal();
 
             HelpText helpText = new HelpText();
             helpText.setAppend("\nEnter :c to cancel\n");
 
             helpText.setText("First Name must start with a character, max length is 20 characters");;
-            String firstName = InputValidator.getAndValidateString(lineReader, "First Name: ", "^[A-Za-z].{0,19}$",helpText);
+            String firstName = InputValidator.getAndValidateString(terminal, lineReader, "First Name: ", "^[A-Za-z].{0,19}$",helpText);
             if (firstName==null) return;
 
             helpText.setText("Last Name must start with a character, max length is 20 characters");
-            String lastName = InputValidator.getAndValidateString(lineReader, "Last Name: ", "^[A-Za-z].{0,19}$",helpText);
+            String lastName = InputValidator.getAndValidateString(terminal, lineReader, "Last Name: ", "^[A-Za-z].{0,19}$",helpText);
             if (lastName==null) return;
 
+            TerminalManager.updateCompleter(Gender.getGenderValues());
+            lineReader = TerminalManager.getLineReader();
             helpText.setText("Options (M/Male  //  F/Female  //  O/Other  //  U/Unknown)");
-            String gender = InputValidator.getAndValidateString(lineReader, "Gender: ", "(?i)^(m|f|o|u|male|female|other|unknown)$",helpText);
+            String gender = InputValidator.getAndValidateString(terminal, lineReader, "Gender: ", "(?i)^(m|f|o|u|male|female|other|unknown)$",helpText);
             if (gender==null) return;
+            TerminalManager.disableAutocomplete();
+            lineReader = TerminalManager.getLineReader();
 
             String dateOfBirth = null;
             do {
                 helpText.setText("Format (YYYY MM DD / YYYY-MM-DD / YYYY/MM/DD)");
-                dateOfBirth = InputValidator.getAndValidateString(lineReader, "Date of Birth: ",DateUtil.getDateFormatRegex(),helpText);
+                dateOfBirth = InputValidator.getAndValidateString(terminal, lineReader, "Date of Birth: ",DateUtil.getDateFormatRegex(),helpText);
                 if (dateOfBirth == null) return;
                 dateOfBirth = DateUtil.convertToHyphenFormat(dateOfBirth);
             } while(!DateUtil.isDateValid(dateOfBirth));
 
             helpText.setText("Valid input (0-5), 0 for Beginners");
-            String grade = InputValidator.getAndValidateString(lineReader, "Grade (0-5) or (): ", "^([0-5])?$",helpText);
+            String grade = InputValidator.getAndValidateString(terminal, lineReader, "Grade (0-5) or (): ", "^([0-5])?$",helpText);
             if (grade == null) return;
 
             helpText.setText("A phone number with country code in format (+XXXXXXXXX)");
-            String contactNumber = InputValidator.getAndValidateString(lineReader, "Emergency Contact Number: ", "^\\+[1-9]{1}[0-9]{1,14}$",helpText);
+            String contactNumber = InputValidator.getAndValidateString(terminal, lineReader, "Emergency Contact Number: ", "^\\+[1-9]{1}[0-9]{1,14}$",helpText);
             if (contactNumber == null) return;
 
             Learner learner = learnerController.createObject(firstName, lastName, gender,
