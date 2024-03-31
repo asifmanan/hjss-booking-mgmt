@@ -2,15 +2,15 @@ package io.consolemenu;
 
 public class MenuItem {
     private String displayName;
-    private String hint;
+    private String description;
     private Runnable action;
     public MenuItem(String displayName, Runnable action){
         this.displayName = displayName;
         this.action = action;
     }
-    public MenuItem(String displayName, Runnable action, String hint){
+    public MenuItem(String displayName, Runnable action, String description){
         this(displayName, action);
-        this.hint = hint;
+        this.description = description;
     }
     public void execute() {
         this.action.run();
@@ -22,8 +22,8 @@ public class MenuItem {
     public Runnable getAction(){
         return this.action;
     }
-    public String getHint(){
-        return this.hint;
+    public String getDescription(){
+        return this.description;
     }
 
 }

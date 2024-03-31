@@ -1,5 +1,8 @@
 package io.consolemenu;
 
+import org.jline.terminal.Terminal;
+import org.jline.utils.InfoCmp;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,14 +18,14 @@ public class Menu {
     }
     public Menu(String menuTitle){
         this(menuTitle, null);
-        this.addMenuItem(":q", this::quitApplication,"Quit");
+        this.addMenuItem(":q", this::quitApplication,"to QUIT the application");
     }
     public Menu(String menuTitle, Menu parentMenu){
         this.menuTitle = menuTitle;
         this.parentMenu = parentMenu;
         if (this.hasParentMenu()){
-            this.addMenuItem(":q", this::quitApplication, "Quit");
-            this.addMenuItem(":b", this::setBreakLoopFlag, "Back");
+            this.addMenuItem(":q", this::quitApplication, "to QUIT the application");
+            this.addMenuItem(":b", this::setBreakLoopFlag, "to go up one level");
         }
     }
     public String getMenuTitle(){
@@ -80,21 +83,60 @@ public class Menu {
         }
         return itemList;
     }
+    public void displayMenuDescription(Terminal terminal){
+        menuItems.sort(Comparator.comparing(MenuItem::getDisplayName));
+        String leftMargin = " ".repeat(3);
+        StringBuilder menuItemString = new StringBuilder();
+        StringBuilder infoString = new StringBuilder();
+
+        for(int i = 0; i<menuItems.size(); i++){
+            menuItemString.setLength(0);
+            menuItemString.append(leftMargin);
+
+            if(i==0){
+                terminal.writer().print("\n");
+            }
+            menuItemString.append("TYPE ");
+
+            menuItemString.append(FontStyles.boldStart());
+            menuItemString.append(menuItems.get(i).getDisplayName());
+            menuItemString.append(FontStyles.boldEnd());
+
+            menuItemString.append(" and ENTER ");
+            menuItemString.append(menuItems.get(i).getDescription());
+
+            terminal.writer().println(menuItemString);
+            terminal.flush();
+        }
+        infoString.append("\n");
+        infoString.append(leftMargin);
+
+        infoString.append("Press ");
+
+        infoString.append(FontStyles.boldStart());
+        infoString.append("TAB");
+        infoString.append(FontStyles.boldEnd());
+
+        infoString.append(" to activate AUTOCOMPLETE");
+        terminal.writer().println(infoString+ "\n");
+
+        terminal.flush();
+    }
     public String displayMenuOptions(){
         menuItems.sort(Comparator.comparing(MenuItem::getDisplayName));
         StringBuilder sb = new StringBuilder();
 
-        String itemName;
+        String item;
 
         for(int i = 0; i< menuItems.size(); i++){
             if(i != 0) {
                 sb.append("      ");
             }
-            itemName = menuItems.get(i).getDisplayName();
-            if (menuItems.get(i).getHint() != null) {
-                itemName = itemName + " ("+ menuItems.get(i).getHint()+")";
+            item = menuItems.get(i).getDisplayName();
+            if (menuItems.get(i).getDescription() != null) {
+                item = item + " ("+ menuItems.get(i).getDescription()+")";
             }
-            sb.append(itemName);
+            sb.append(item);
         }
 
         sb.append("\n\n(Press tab for autocomplete suggestions)\n");
