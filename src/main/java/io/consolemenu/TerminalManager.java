@@ -2,12 +2,14 @@ package io.consolemenu;
 
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.impl.completer.NullCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TerminalManager {
@@ -60,5 +62,8 @@ public class TerminalManager {
                     .completer(completer)
                     .build();
         }
+    }
+    public static void disableAutocomplete() {
+        updateCompleter(new ArrayList<>());
     }
 }
