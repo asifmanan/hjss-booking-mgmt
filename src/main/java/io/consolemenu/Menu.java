@@ -40,11 +40,14 @@ public class Menu {
     public void addMenuItem(String displayName, Runnable action) {
         menuItems.add(new MenuItem(displayName, action));
     }
-    public void addMenuItem(String displayName, Runnable action, String hint) {
-        menuItems.add(new MenuItem(displayName, action, hint));
+    public void addMenuItem(String displayName, Runnable action, String description) {
+        menuItems.add(new MenuItem(displayName, action, description));
     }
     public void addSubMenu(Menu subMenu){
         menuItems.add(new MenuItem(subMenu.menuTitle, subMenuAction(subMenu)));
+    }
+    public void addSubMenu(Menu subMenu, String description){
+        menuItems.add(new MenuItem(subMenu.menuTitle, subMenuAction(subMenu), description));
     }
     public Runnable subMenuAction(Menu subMenu){
         return () -> {
@@ -103,7 +106,9 @@ public class Menu {
             menuItemString.append(FontStyles.boldEnd());
 
             menuItemString.append(" and ENTER ");
-            menuItemString.append(menuItems.get(i).getDescription());
+            if(menuItems.get(i).getDescription()!=null){
+                menuItemString.append(menuItems.get(i).getDescription());
+            }
 
             terminal.writer().println(menuItemString);
             terminal.flush();
