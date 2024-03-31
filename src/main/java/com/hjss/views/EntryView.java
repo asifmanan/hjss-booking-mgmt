@@ -27,10 +27,10 @@ public class EntryView {
     public void initializeMenu() {
         Menu mainMenu = new Menu("Main");
         Menu learnerMenu = new Menu("Learner",mainMenu);
-        mainMenu.addSubMenu(learnerMenu);
+        mainMenu.addSubMenu(learnerMenu, "to manage LEARNERS");
 
-        learnerMenu.addMenuItem("New Learner", learnerCreateView::createLearner);
-        learnerMenu.addMenuItem("Learners List", learnerListView::printLearnerList);
+        learnerMenu.addMenuItem("CreateLearner", learnerCreateView::createLearner,"to create a new LEARNER");
+        learnerMenu.addMenuItem("ListLearners", learnerListView::printLearnerList,"to view all LEARNERS");
 
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
