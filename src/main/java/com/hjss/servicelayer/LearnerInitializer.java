@@ -40,7 +40,7 @@ public class LearnerInitializer {
             learnerController.addObject(learner);
         }
     }
-    public Learner createLearner(String[] values){
+    private Learner createLearner(String[] values){
         String firstName = values[0];
         String lastName = values[1];
         String genderString = values[2];
@@ -51,7 +51,7 @@ public class LearnerInitializer {
         return createLearner(firstName, lastName, genderString,
                 dateOfBirthString, gradeString, contactNumber);
     }
-    public Learner createLearner(String firstName,
+    private Learner createLearner(String firstName,
                                 String lastName,
                                 String genderString,
                                 String dateOfBirthString,
