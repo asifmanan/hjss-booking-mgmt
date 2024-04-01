@@ -6,25 +6,25 @@ import com.hjss.utilities.IdGenerator;
 public class Lesson implements Identifiable {
 //     int MAX_LEARNERS = 4;
      String lessonId;
-     WeekDayTimeSlot WeekdayTimeSlot;
+     WeekDayTimeSlot weekDayTimeSlot;
      Grade gradeLevel;
      Coach coach;
 
-     public Lesson(Grade gradeLevel, Coach coach, WeekDayTimeSlot WeekdayTimeSlot) {
+     public Lesson(Grade gradeLevel, Coach coach, WeekDayTimeSlot weekDayTimeSlot) {
           this.gradeLevel = gradeLevel;
           this.coach = coach;
-          if (!WeekdayTimeSlot.isValid()){
+          if (!weekDayTimeSlot.isValid()){
                throw new IllegalStateException("The DayTimeSlot object is not in a valid state, please ensure the object is properly set with appropriate dates and times.");
           }
-          this.WeekdayTimeSlot = WeekdayTimeSlot;
+          this.weekDayTimeSlot = weekDayTimeSlot;
           generateLessonId();
      }
 
      private void generateLessonId(){
-          int currentYear = this.WeekdayTimeSlot.getYear() % 100;
-          int currentWeekOfYear = this.WeekdayTimeSlot.getWeek();
+          int gradeLevel = this.gradeLevel.getValue();
           int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
-          this.lessonId = "LR" + String.format("%02d%02d%02d", currentYear, currentWeekOfYear,sequenceNumber);
+
+          this.lessonId = "LR" + String.format("%02d%04d", gradeLevel, sequenceNumber);
      }
 //     public int getLearnerCount(){
 //          return learners.size();

@@ -55,6 +55,9 @@ public class DayTimeSlot {
     public DayOfWeek getDayOfWeek() {
         return this.dayOfWeek;
     }
+    public int getDayOfWeekNumber() {
+        return this.dayOfWeek.getValue();
+    }
 
     public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
@@ -73,7 +76,8 @@ public class DayTimeSlot {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         DayTimeSlot otherDayTimeSlot = (DayTimeSlot) obj;
-        return dayOfWeek == otherDayTimeSlot.dayOfWeek && Objects.equals(timeSlot, otherDayTimeSlot.timeSlot);
+        return dayOfWeek == otherDayTimeSlot.dayOfWeek &&
+                Objects.equals(timeSlot, otherDayTimeSlot.timeSlot);
     }
 
     @Override
