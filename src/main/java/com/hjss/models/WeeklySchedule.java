@@ -1,53 +1,51 @@
 package com.hjss.models;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
-public class TimeTable {
-    private LocalDate date = null;
-    private Map<DayOfWeek, List<TimeSlot>> weeklySchedule;
-    public TimeTable(){
-        this(null);
-    }
-    public TimeTable(LocalDate anchorDate){
-        this.setDate(anchorDate);
-        weeklySchedule = new EnumMap<>(DayOfWeek.class);
-//      initializeSchedule() initialized the days in EnumMap of days
+public class WeeklySchedule {
+    private final List<DayTimeSlot> weeklySchedule;
+    private final String[][] schedule;
+    private final String[][] defaultSchedule = {
+            {"Monday","16:00","17:00"},
+            {"Monday","17:00","18:00"},
+            {"Monday","18:00","19:00"},
+
+            {"Wednesday","16:00","17:00"},
+            {"Wednesday","17:00","18:00"},
+            {"Wednesday","18:00","19:00"},
+
+            {"Friday","16:00","17:00"},
+            {"Friday","17:00","18:00"},
+            {"Friday","18:00","19:00"},
+
+            {"Saturday","14:00","15:00"},
+            {"Saturday","15:00","16:00"},
+    };
+    public WeeklySchedule(){
+        weeklySchedule = new ArrayList<>();
+        this.schedule = defaultSchedule;
         initializeSchedule();
     }
-    private void setDate(LocalDate anchorDate){
-        this.date = (this.date!=null) ? anchorDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)):null;
-    }
     private void initializeSchedule(){
-        for (DayOfWeek day : DayOfWeek.values()) {
-            weeklySchedule.put(day, new ArrayList<>());
+        for(String[] values : this.schedule){
+            DayTimeSlot dts = createDayTimeSlot(values);
+            add(dts);
         }
     }
-    public boolean addTimeSlotOnDay(DayOfWeek day, TimeSlot newTimeSlot){
-        List<TimeSlot> timeSlots = weeklySchedule.get(day);
-        // In java when get is used to fetch an object from a collection (list or map)
-        // it creates a reference, any now the timeSlots object is the actual object.
-        // any changes made affects the original object.
-        for(TimeSlot timeSlot : timeSlots) {
-            if(timeSlot.equals(newTimeSlot)) {
-                return false;
-            }
-        }
-        timeSlots.add(newTimeSlot);
-        return true;
+    private DayTimeSlot createDayTimeSlot(String[] values){
+        String day = values[0];
+        String starTime = values[1];
+        String endTime =values[2];
+
+        TimeSlot ts = new TimeSlot(starTime, endTime);
+
+        return new DayTimeSlot(day, ts);
     }
-    public void printSchedule() {
-        if (this.date!=null) {
-            System.out.println("Schedule for Week Starting on: " + this.date);
-        }
-        weeklySchedule.forEach((day, slots) -> {
-            if(!slots.isEmpty()) System.out.println(day + ":");
-            slots.forEach(slot -> System.out.println(" Time Slot: " + slot.getStartTime() + " - " + slot.getEndTime()));
-        });
+    private void add(DayTimeSlot dts){
+        this.weeklySchedule.add(dts);
+    }
+    public List<DayTimeSlot> getSchedule(){
+        return this.weeklySchedule;
     }
 }
