@@ -1,26 +1,34 @@
 package com.hjss.servicelayer;
 
 import com.hjss.controllers.TimeSlotController;
+import com.hjss.models.DayTimeSlot;
+import com.hjss.models.WeekDayTimeSlot;
+import com.hjss.models.WeeklySchedule;
+import org.threeten.extra.YearWeek;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public class TimeSlotInitializer {
     private final TimeSlotController timeSlotController;
+    private final WeeklySchedule weeklySchedule;
+    private YearWeek currentYearWeek;
     public TimeSlotInitializer(TimeSlotController timeSlotController){
         this.timeSlotController = timeSlotController;
+        this.weeklySchedule = new WeeklySchedule();
+        this.currentYearWeek = YearWeek.from(LocalDate.now());
     }
-    private final String[][] timeTable = {
-            {"Monday","16:00","17:00"},
-            {"Monday","17:00","18:00"},
-            {"Monday","18:00","19:00"},
-
-            {"Wednesday","16:00","17:00"},
-            {"Wednesday","17:00","18:00"},
-            {"Wednesday","18:00","19:00"},
-
-            {"Friday","16:00","17:00"},
-            {"Friday","17:00","18:00"},
-            {"Friday","18:00","19:00"},
-
-            {"Saturday","14:00","15:00"},
-            {"Saturday","15:00","16:00"},
-    };
+    public void populateTimeSlots(){
+        List<DayTimeSlot> dayTimeSlots = this.weeklySchedule.getSchedule();
+        for(DayTimeSlot dayTimeSlot : dayTimeSlots){
+            WeekDayTimeSlot weekDayTimeSlot = createWeekDayTimeSlot(currentYearWeek, dayTimeSlot);
+            add(weekDayTimeSlot);
+        }
+    }
+    private WeekDayTimeSlot createWeekDayTimeSlot(YearWeek yearWeek, DayTimeSlot dayTimeSlot){
+        return new WeekDayTimeSlot(yearWeek, dayTimeSlot);
+    }
+    private void add(WeekDayTimeSlot weekDayTimeSlot){
+        this.timeSlotController.addObject(weekDayTimeSlot);
+    }
 }
