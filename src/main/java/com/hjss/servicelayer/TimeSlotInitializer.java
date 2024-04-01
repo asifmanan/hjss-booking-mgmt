@@ -19,15 +19,27 @@ public class TimeSlotInitializer {
         this.currentYearWeek = YearWeek.from(LocalDate.now());
     }
     public void populateTimeSlots(){
+        populateTimeSlots(12);
+    }
+    public void populateTimeSlots(int weeks){
         List<DayTimeSlot> dayTimeSlots = this.weeklySchedule.getSchedule();
+        for(int i=0; i <= weeks; i++){
+            YearWeek yearWeek = currentYearWeek.plusWeeks(i);
+            createWeekDayTimeSlotCollection(yearWeek, dayTimeSlots);
+        }
+    }
+
+    private void createWeekDayTimeSlotCollection(YearWeek yearWeek, List<DayTimeSlot> dayTimeSlots){
         for(DayTimeSlot dayTimeSlot : dayTimeSlots){
-            WeekDayTimeSlot weekDayTimeSlot = createWeekDayTimeSlot(currentYearWeek, dayTimeSlot);
+            WeekDayTimeSlot weekDayTimeSlot = createWeekDayTimeSlotObject(yearWeek, dayTimeSlot);
             add(weekDayTimeSlot);
         }
     }
-    private WeekDayTimeSlot createWeekDayTimeSlot(YearWeek yearWeek, DayTimeSlot dayTimeSlot){
+
+    private WeekDayTimeSlot createWeekDayTimeSlotObject(YearWeek yearWeek, DayTimeSlot dayTimeSlot){
         return new WeekDayTimeSlot(yearWeek, dayTimeSlot);
     }
+
     private void add(WeekDayTimeSlot weekDayTimeSlot){
         this.timeSlotController.addObject(weekDayTimeSlot);
     }
