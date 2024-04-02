@@ -1,9 +1,9 @@
 package com.hjss.views;
 
 import com.hjss.controllers.LessonController;
+import com.hjss.models.Coach;
 import com.hjss.models.Lesson;
 import com.hjss.utilities.TablePrinter;
-import io.consolemenu.ConsoleMenu;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
@@ -11,6 +11,7 @@ import org.jline.utils.InfoCmp;
 import org.threeten.extra.YearWeek;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -65,7 +66,7 @@ public class LessonListView {
 
             do {
                 YearWeek currentYearWeek = yearWeek.plusWeeks(plusWeek);
-                weeklyLessons = getWeeklyLessons(currentYearWeek);
+                weeklyLessons = getLessonsByWeek(currentYearWeek);
                 terminal.puts(InfoCmp.Capability.clear_screen);
 
                 String weekInfo = String.format("Displaying lessons for Week %d of %d", currentYearWeek.getWeek(), currentYearWeek.getYear());
@@ -97,10 +98,16 @@ public class LessonListView {
             e.printStackTrace();
         }
     }
-    public List<Lesson> getWeeklyLessons(YearWeek yearWeek){
+    public List<Lesson> getLessonsByWeek(YearWeek yearWeek){
         return this.lessonList.stream().filter
                         (lesson -> lesson.getWeekDayTimeSlot().getYearWeek().equals(yearWeek))
                             .collect(Collectors.toList());
+    }
+    public List<Lesson> getLessonsByDay(DayOfWeek dayOfWeek){
+        return null;
+    }
+    public List<Lesson> getLessonByCoach(Coach coach){
+        return null;
     }
     private List<String> getLessonData(Lesson lesson){
         List<String> lessonData = new ArrayList<>();
@@ -110,25 +117,31 @@ public class LessonListView {
         lessonData.add(lesson.getLessonDay().toString());
         lessonData.add(lesson.getStartTime().toString());
         lessonData.add(lesson.getEndTime().toString());
-//            lessonData.add(lesson.getGradeInt().toString());
         lessonData.add(lesson.getGrade().toString());
         lessonData.add(lesson.getCoach().getFormattedFullName());
 
         return lessonData;
     }
     private String getInput(Terminal terminal, LineReader lineReader){
-        String input="";
+        renderUserOption(terminal);
+        return lineReader.readLine("BookLesson>>").trim();
+    }
+    private void renderUserOption(Terminal terminal){
         StringBuilder output = new StringBuilder();
         output.append("\n\n");
         String leftMargin = "    ";
+
         output.append(leftMargin).append("TYPE :c to CANCEL and EXIT\n");
         output.append(leftMargin).append("TYPE n for NEXT PAGE\n");
         output.append(leftMargin).append("TYPE p for PREVIOUS PAGE\n");
         output.append(leftMargin).append("TYPE [BOOKING ID] to BOOK a LESSON\n");
         output.append(leftMargin).append("\n");
+
         terminal.writer().print(output);
+
         terminal.flush();
-        input = lineReader.readLine("BookLesson>>").trim();
-        return input;
+    }
+    private void renderPageHeading(Terminal terminal){
+
     }
 }
