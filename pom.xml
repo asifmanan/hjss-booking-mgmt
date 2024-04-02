@@ -16,6 +16,13 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.threeten/threeten-extra -->
+        <!-- YearWeek dependency -->
+        <dependency>
+            <groupId>org.threeten</groupId>
+            <artifactId>threeten-extra</artifactId>
+            <version>1.7.2</version>
+        </dependency>
         <!-- JNA 5.14 dependency -->
         <dependency>
             <groupId>net.java.dev.jna</groupId>

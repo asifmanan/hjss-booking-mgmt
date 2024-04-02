@@ -1,17 +1,24 @@
 package com.hjss.views;
 
+import com.hjss.controllers.CoachController;
 import com.hjss.controllers.LearnerController;
+import com.hjss.servicelayer.ServiceManager;
 import io.consolemenu.ConsoleMenu;
 import io.consolemenu.Menu;
 
 public class EntryView {
-
+    private ServiceManager serviceManager = new ServiceManager();
     private LearnerController learnerController;
+    private CoachController coachController;
     private LearnerCreateView learnerCreateView;
     private LearnerListView learnerListView;
 
     public EntryView() {
-        this.learnerController = new LearnerController();
+//        serviceManager.initializeData();
+
+        this.learnerController = serviceManager.getLearnerController();
+        this.coachController = serviceManager.getCoachController();
+
         this.learnerCreateView = new LearnerCreateView(learnerController);
         this.learnerListView = new LearnerListView(learnerController);
 
@@ -20,11 +27,16 @@ public class EntryView {
     public void initializeMenu() {
         Menu mainMenu = new Menu("Main");
         Menu learnerMenu = new Menu("Learner",mainMenu);
-        mainMenu.addSubMenu(learnerMenu);
+        Menu bookingMenu = new Menu("Booking",mainMenu);
 
-        learnerMenu.addMenuItem("New Learner", learnerCreateView::createLearner);
-        learnerMenu.addMenuItem("Learners List", learnerListView::printLearnerList);
+        mainMenu.addSubMenu(learnerMenu, "to manage LEARNERS");
+        mainMenu.addSubMenu(bookingMenu, "to manage BOOKINGS");
 
+        learnerMenu.addMenuItem("CreateLearner", learnerCreateView::createLearner,"to create a new LEARNER");
+        learnerMenu.addMenuItem("ListLearners", learnerListView::printLearnerList,"to view all LEARNERS");
+
+//        bookingMenu.addMenuItem("BookByDay",);
+//        bookingMenu.addMenuItem("View Lessons",);
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();

@@ -2,22 +2,47 @@ package io.consolemenu;
 
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.impl.completer.NullCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TerminalManager {
     private static Terminal terminal = null;
     private static LineReader lineReader = null;
+    private static Boolean ansiSupported = null;
 
     public static Terminal getTerminal() throws IOException {
         if (terminal == null) {
             terminal = TerminalBuilder.builder().build();
+            checkAnsiSupport();
         }
         return terminal;
+    }
+    private static void checkAnsiSupport() {
+        if (terminal != null) {
+            // Check ANSI support by checking terminal type
+            ansiSupported = terminal.puts(InfoCmp.Capability.enter_bold_mode);
+            terminal.puts(InfoCmp.Capability.exit_attribute_mode);
+            terminal.flush();
+        }
+    }
+    public static boolean isAnsiSupported() {
+        if (ansiSupported == null) {
+            try {
+                getTerminal();
+                // To ensure terminal is initialized and ANSI support is checked
+            } catch (IOException e) {
+                e.printStackTrace();
+                ansiSupported = false;
+            }
+        }
+        return ansiSupported != null && ansiSupported;
     }
 
     public static LineReader getLineReader() throws IOException {
@@ -37,5 +62,8 @@ public class TerminalManager {
                     .completer(completer)
                     .build();
         }
+    }
+    public static void disableAutocomplete() {
+        updateCompleter(new ArrayList<>());
     }
 }

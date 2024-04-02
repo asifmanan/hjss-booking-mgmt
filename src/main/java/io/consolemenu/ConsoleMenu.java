@@ -36,7 +36,8 @@ public class ConsoleMenu {
 
         while(!menu.getBreakLoopFlag()){
 
-            System.out.println(menu.displayMenuOptions());
+//            System.out.println(menu.displayMenuOptions());
+            menu.displayMenuDescription(terminal);
 
             try {
                 TerminalManager.updateCompleter(menu.getItemsList());
