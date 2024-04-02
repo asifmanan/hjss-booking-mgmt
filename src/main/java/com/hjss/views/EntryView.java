@@ -27,15 +27,16 @@ public class EntryView {
     public void initializeMenu() {
         Menu mainMenu = new Menu("Main");
         Menu learnerMenu = new Menu("Learner",mainMenu);
-        Menu lessonMenu = new Menu("Lessons",mainMenu);
+        Menu bookingMenu = new Menu("Booking",mainMenu);
 
         mainMenu.addSubMenu(learnerMenu, "to manage LEARNERS");
-        mainMenu.addSubMenu(learnerMenu, "to view Lessons");
+        mainMenu.addSubMenu(bookingMenu, "to manage BOOKINGS");
 
         learnerMenu.addMenuItem("CreateLearner", learnerCreateView::createLearner,"to create a new LEARNER");
         learnerMenu.addMenuItem("ListLearners", learnerListView::printLearnerList,"to view all LEARNERS");
 
-//        lessonMenu.addMenuItem("View Lessons",);
+//        bookingMenu.addMenuItem("BookByDay",);
+//        bookingMenu.addMenuItem("View Lessons",);
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();
