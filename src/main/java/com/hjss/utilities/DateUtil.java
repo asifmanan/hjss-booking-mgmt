@@ -1,5 +1,7 @@
 package com.hjss.utilities;
 
+import org.threeten.extra.YearWeek;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 /**
@@ -48,5 +50,8 @@ public class DateUtil {
     }
     public static String getDateFormatRegex(){
         return DateFormatRegex;
+    }
+    public static YearWeek getYearWeekForDate(LocalDate date){
+        return YearWeek.from(date);
     }
 }
