@@ -30,18 +30,15 @@ public class LessonInitializer {
     }
     public void initializeLessons(){
         Grade grade = Grade.ONE;
-        Coach coach;
-        WeekDayTimeSlot weekDayTimeSlot;
-        do{
+        Coach coach = coachController.getAndRotate();
+        WeekDayTimeSlot weekDayTimeSlot = timeSlotController.getAndIncrement();
+        while(weekDayTimeSlot!=null){
+            Lesson lesson = createLesson(grade, coach, weekDayTimeSlot.getId());
+            String lessonId = lessonController.addObject(lesson);
+//            System.out.println("Lesson Created with id: " + lessonId);
             coach = coachController.getAndRotate();
-            weekDayTimeSlot = timeSlotController.getAndIncrement();
-            if(weekDayTimeSlot!=null){
-                Lesson lesson = createLesson(grade, coach, weekDayTimeSlot.getId());
-                String lessonId = lessonController.addObject(lesson);
-
-                System.out.println("Lesson Created with id: " + lessonId);
-            }
             grade = grade.getNext()==Grade.ZERO?grade.getNext().getNext():grade.getNext();
-        } while(weekDayTimeSlot!=null);
+            weekDayTimeSlot = timeSlotController.getAndIncrement();
+        }
     }
 }

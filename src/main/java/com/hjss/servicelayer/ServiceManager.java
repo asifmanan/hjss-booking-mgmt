@@ -24,7 +24,7 @@ public class ServiceManager {
         learnerInitializer = new LearnerInitializer(learnerController);
         coachInitializer = new CoachInitializer(coachController);
         timeSlotInitializer = new TimeSlotInitializer(timeSlotController);
-
+        lessonInitializer = new LessonInitializer(lessonController, timeSlotController, coachController);
 
         startServices();
     }
@@ -32,15 +32,9 @@ public class ServiceManager {
         learnerInitializer.populateLearners();
         coachInitializer.populateCoaches();
         timeSlotInitializer.populateTimeSlots();
-        lessonInitializer = new LessonInitializer(lessonController, timeSlotController, coachController);
+
         lessonInitializer.initializeLessons();
-        try{
-            Terminal terminal = TerminalManager.getTerminal();
-            LineReader lineReader = TerminalManager.getLineReader();
-            lineReader.readLine(">>");
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+
 
     }
     public LearnerController getLearnerController(){
@@ -51,5 +45,8 @@ public class ServiceManager {
     }
     public TimeSlotController getTimeSlotController(){
         return this.timeSlotController;
+    }
+    public LessonController getLessonController(){
+        return this.lessonController;
     }
 }
