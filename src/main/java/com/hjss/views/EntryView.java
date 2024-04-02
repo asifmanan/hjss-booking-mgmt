@@ -2,6 +2,7 @@ package com.hjss.views;
 
 import com.hjss.controllers.CoachController;
 import com.hjss.controllers.LearnerController;
+import com.hjss.controllers.LessonController;
 import com.hjss.servicelayer.ServiceManager;
 import io.consolemenu.ConsoleMenu;
 import io.consolemenu.Menu;
@@ -11,16 +12,21 @@ public class EntryView {
     private LearnerController learnerController;
     private CoachController coachController;
     private LearnerCreateView learnerCreateView;
+    private LessonController lessonController;
     private LearnerListView learnerListView;
+    private LessonListView lessonListView;
 
     public EntryView() {
 //        serviceManager.initializeData();
 
         this.learnerController = serviceManager.getLearnerController();
         this.coachController = serviceManager.getCoachController();
+        this.lessonController = serviceManager.getLessonController();
 
         this.learnerCreateView = new LearnerCreateView(learnerController);
         this.learnerListView = new LearnerListView(learnerController);
+
+        this.lessonListView = new LessonListView(lessonController);
 
     }
 
@@ -36,7 +42,7 @@ public class EntryView {
         learnerMenu.addMenuItem("ListLearners", learnerListView::printLearnerList,"to view all LEARNERS");
 
 //        bookingMenu.addMenuItem("BookByDay",);
-//        bookingMenu.addMenuItem("View Lessons",);
+        bookingMenu.addMenuItem("ViewLessons", lessonListView::printPaginatedList);
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();

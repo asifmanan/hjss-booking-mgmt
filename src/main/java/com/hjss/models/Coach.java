@@ -29,6 +29,7 @@ public class Coach extends Person implements Identifiable {
     public String getId() {
         return this.coachId;
     }
+
     public int getRandomIdentifier(){
         return this.randomIdentifier;
     }

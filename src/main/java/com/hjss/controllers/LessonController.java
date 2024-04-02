@@ -6,10 +6,12 @@ import com.hjss.models.Lesson;
 import com.hjss.models.TimeSlot;
 import com.hjss.models.WeekDayTimeSlot;
 import com.hjss.utilities.Grade;
+import org.threeten.extra.YearWeek;
 
 import javax.swing.text.Utilities;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LessonController implements ModelController<Lesson> {
     private final ModelRegister<Lesson> lessonRegister;

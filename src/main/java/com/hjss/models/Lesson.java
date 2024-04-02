@@ -3,7 +3,9 @@ package com.hjss.models;
 import com.hjss.utilities.Grade;
 import com.hjss.utilities.IdGenerator;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Lesson implements Identifiable {
 //     int MAX_LEARNERS = 4;
@@ -34,8 +36,8 @@ public class Lesson implements Identifiable {
 //          return learners.size();
 //     }
      public boolean isGradeValid(Learner learner){
-          return (  learner.getGradeLevel() == this.getGradeLevel()
-                  || learner.getGradeLevel() + 1 == this.getGradeLevel() );
+          return (  learner.getGradeLevel() == this.getGradeInt()
+                  || learner.getGradeLevel() + 1 == this.getGradeInt() );
      }
 
 //     public boolean addLearner(Learner learner){
@@ -46,9 +48,26 @@ public class Lesson implements Identifiable {
 //          }
 //          return false;
 //     }
-
-     public int getGradeLevel(){
+     public WeekDayTimeSlot getWeekDayTimeSlot(){
+          return this.weekDayTimeSlot;
+     }
+     public LocalDate getLessonDate(){
+          return this.weekDayTimeSlot.getDate();
+     }
+     public DayOfWeek getLessonDay(){
+          return this.weekDayTimeSlot.getDayOfWeek();
+     }
+     public LocalTime getStartTime(){
+          return this.weekDayTimeSlot.getStartTime();
+     }
+     public LocalTime getEndTime(){
+          return this.weekDayTimeSlot.getEndTime();
+     }
+     public Integer getGradeInt(){
           return this.gradeLevel.getValue();
+     }
+     public Grade getGrade(){
+          return this.gradeLevel;
      }
 
      public Coach getCoach() {
