@@ -11,19 +11,12 @@ public enum Gender {
             return Gender.Unknown;
         }
 
-        switch (input.trim().toLowerCase()) {
-            case "m":
-            case "male":
-                return Gender.Male;
-            case "f":
-            case "female":
-                return Gender.Female;
-            case "o":
-            case "other":
-                return Gender.Other;
-            default:
-                return Gender.Unknown;
-        }
+        return switch (input.trim().toLowerCase()) {
+            case "m", "male" -> Gender.Male;
+            case "f", "female" -> Gender.Female;
+            case "o", "other" -> Gender.Other;
+            default -> Gender.Unknown;
+        };
     }
     public static List<String> getGenderValues() {
         return Arrays.stream(Gender.values())
