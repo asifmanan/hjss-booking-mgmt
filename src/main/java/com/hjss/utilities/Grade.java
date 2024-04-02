@@ -39,4 +39,8 @@ public enum Grade {
         int i = Integer.parseInt(s);
         return fromInt(i);
     }
+    public Grade getNext() {
+        int nextOrdinal = (this.ordinal() + 1) % Grade.values().length;
+        return Grade.values()[nextOrdinal];
+    }
 }

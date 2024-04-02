@@ -41,7 +41,7 @@ public class WeekDayTimeSlot implements Identifiable {
     public void allocate(){
         this.allocation = true;
     }
-    public void deallocate(){
+    public void deAllocate(){
         this.allocation = false;
     }
 
@@ -66,7 +66,7 @@ public class WeekDayTimeSlot implements Identifiable {
     public String getId() {
         return this.timeSlotId;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

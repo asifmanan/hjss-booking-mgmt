@@ -38,4 +38,7 @@ public class CoachController implements ModelController<Coach>{
                               Gender gender){
         return new Coach(firstName, lastName, gender);
     }
+    public Coach getAndRotate(){
+        return coachRegister.getAndRotate();
+    }
 }
