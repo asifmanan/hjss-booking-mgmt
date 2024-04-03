@@ -23,6 +23,9 @@ public class LessonController implements ModelController<Lesson> {
     public Lesson createObject(Grade grade, Coach coach, WeekDayTimeSlot weekDayTimeSlot){
         return new Lesson(grade, coach, weekDayTimeSlot);
     }
+    public Lesson getLesson(String id){
+        return lessonRegister.get(id);
+    }
 
     @Override
     public String addObject(Lesson lesson) {

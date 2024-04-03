@@ -52,15 +52,18 @@ public class LessonListViewByDay extends LessonListView{
             return null;
         }
     }
+    private Lesson getLessonById(String lessonId){
+        return getLessonController().getLesson(lessonId);
+    }
     @Override
-    public void viewLessonsPaginated() {
+    public Lesson getLessonFromPaginatedList() {
         try {
             TerminalManager.disableAutocomplete();
             Terminal terminal = TerminalManager.getTerminal();
             LineReader lineReader = TerminalManager.getLineReader();
 
             List<Lesson> dayLessons = getAndValidateLessonList();
-            if (dayLessons==null) return;
+            if (dayLessons==null) return null;
 
             int lessonCount = dayLessons.size();
             int pageSize = 10;
@@ -84,6 +87,12 @@ public class LessonListViewByDay extends LessonListView{
                 terminal.writer().println(String.format("\n   Page %d/%d", currentPage + 1, pageCount));
 
                 input = getUserInput(terminal, lineReader);
+                if (input.matches("(?i)LE\\d{6}")){
+                    Lesson lesson = getLessonById(input);
+                    if (lesson!=null){
+                        return lesson;
+                    }
+                }
 
                 switch (input) {
                     case "n":
@@ -102,5 +111,6 @@ public class LessonListViewByDay extends LessonListView{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

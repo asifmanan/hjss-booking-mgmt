@@ -44,8 +44,8 @@ public class EntryView {
         learnerMenu.addMenuItem("ListLearners", learnerListView::printLearnerList,"to view all LEARNERS");
 
 //        bookingMenu.addMenuItem("BookByDay",);
-        bookingMenu.addMenuItem("Week", lessonListViewByWeek::viewLessonsPaginated, "to VIEW LESSONS by WEEK");
-        bookingMenu.addMenuItem("Day", lessonListViewByDay::viewLessonsPaginated, "to VIEW LESSONS by DAY");
+        bookingMenu.addMenuItem("Week", lessonListViewByWeek::getLessonFromPaginatedList, "to VIEW LESSONS by WEEK");
+        bookingMenu.addMenuItem("Day", lessonListViewByDay::getLessonFromPaginatedList, "to VIEW LESSONS by DAY");
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();

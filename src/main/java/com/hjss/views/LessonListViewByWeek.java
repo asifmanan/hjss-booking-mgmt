@@ -16,7 +16,10 @@ public class LessonListViewByWeek extends LessonListView{
     public LessonListViewByWeek(LessonController lessonController) {
         super(lessonController);
     }
-    public void viewLessonsPaginated() {
+    private Lesson getLessonById(String lessonId){
+        return getLessonController().getLesson(lessonId);
+    }
+    public Lesson getLessonFromPaginatedList() {
         try {
             TerminalManager.disableAutocomplete();
             Terminal terminal = TerminalManager.getTerminal();
@@ -48,6 +51,12 @@ public class LessonListViewByWeek extends LessonListView{
                 }
 
                 input = getUserInput(terminal, lineReader);
+                if (input.matches("(?i)LE\\d{6}")){
+                    Lesson lesson = getLessonById(input);
+                    if (lesson!=null){
+                        return lesson;
+                    }
+                }
                 switch (input) {
                     case "n":
                         plusWeek++;
@@ -62,5 +71,6 @@ public class LessonListViewByWeek extends LessonListView{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

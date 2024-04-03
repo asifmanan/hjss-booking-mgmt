@@ -39,7 +39,7 @@ public abstract class LessonListView {
                 "Coach",12
         );
     }
-    public abstract void viewLessonsPaginated();
+    public abstract Lesson getLessonFromPaginatedList();
     protected void printHeader(){
         tablePrinter.printHeader();
     }
