@@ -11,14 +11,14 @@ import static com.hjss.utilities.DateUtil.getYearWeekForDate;
 
 public class Booking implements Identifiable {
     private String bookingId;
-    private String learnerId;
-    private String lessonId;
+    private Learner learner;
+    private Lesson lesson;
     private BookingStatus bookingStatus;
     private LocalDate createdOn;
     private LocalDate updatedOn;
-    public Booking(String learnerId, String lessonId){
-        this.learnerId = learnerId;
-        this.lessonId = lessonId;
+    public Booking(Learner learner, Lesson lesson){
+        this.learner = learner;
+        this.lesson = lesson;
         this.bookingStatus = BookingStatus.Active;
         this.createdOn = LocalDate.now();
         this.updatedOn = LocalDate.now();
