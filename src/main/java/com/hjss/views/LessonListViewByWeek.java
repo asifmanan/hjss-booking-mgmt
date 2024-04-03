@@ -47,7 +47,7 @@ public class LessonListViewByWeek extends LessonListView{
                     }
                 }
 
-                input = getInput(terminal, lineReader);
+                input = getUserInput(terminal, lineReader);
                 switch (input) {
                     case "n":
                         plusWeek++;

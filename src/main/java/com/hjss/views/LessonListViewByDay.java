@@ -2,6 +2,7 @@ package com.hjss.views;
 
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Lesson;
+import com.hjss.utilities.HelpText;
 import com.hjss.utilities.InputValidator;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
@@ -20,9 +21,9 @@ public class LessonListViewByDay extends LessonListView{
     private DayOfWeek getDayOfWeek(Terminal terminal, LineReader lineReader){
         String dayPrompt = "DayOfWeek >>";
         String regex = "(?i)^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$";
+        HelpText helpText = new HelpText("Enter day of the Week","Enter :c to cancel","");
         String dayOfWeekString = InputValidator.getAndValidateString(terminal, lineReader, dayPrompt, regex);
-        DayOfWeek dayOfWeek = DayOfWeek.valueOf(dayOfWeekString.toUpperCase());
-        return dayOfWeek;
+        return DayOfWeek.valueOf(dayOfWeekString.toUpperCase());
     }
     @Override
     public void viewLessonsPaginated() {
@@ -32,6 +33,7 @@ public class LessonListViewByDay extends LessonListView{
             LineReader lineReader = TerminalManager.getLineReader();
 
             DayOfWeek dayOfWeek = getDayOfWeek(terminal, lineReader);
+
             List<Lesson> dayLessons = getLessonsByDay(dayOfWeek);
 
             int lessonCount = dayLessons.size();
@@ -53,17 +55,18 @@ public class LessonListViewByDay extends LessonListView{
                     List<String> lessonData = getLessonData(lesson);
                     getTablePrinter().printRow(lessonData);
                 }
-                terminal.writer().println(String.format("Page %d/%d", currentPage + 1, pageCount));
+                terminal.writer().println(String.format("\n   Page %d/%d", currentPage + 1, pageCount));
 
-                input = lineReader.readLine(String.format("Page %d/%d (n: next, p: previous, c: cancel)>>", currentPage + 1, pageCount)).trim();
+                input = getUserInput(terminal, lineReader);
+//                input = lineReader.readLine(String.format("Page %d/%d (n: next, p: previous, c: cancel)>>", currentPage + 1, pageCount)).trim();
 
                 switch (input) {
-                    case ":n":
+                    case "n":
                         if (currentPage < pageCount - 1) {
                             currentPage++;
                         }
                         break;
-                    case ":p":
+                    case "p":
                         if (currentPage > 0) {
                             currentPage--;
                         }

@@ -3,17 +3,12 @@ package com.hjss.views;
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Coach;
 import com.hjss.models.Lesson;
-import com.hjss.utilities.InputValidator;
 import com.hjss.utilities.TablePrinter;
-import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
-import org.jline.utils.InfoCmp;
 import org.threeten.extra.YearWeek;
 
-import java.io.IOException;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -82,14 +77,14 @@ public abstract class LessonListView {
 
         return lessonData;
     }
-    protected String getInput(Terminal terminal, LineReader lineReader){
+    protected String getUserInput(Terminal terminal, LineReader lineReader){
         renderUserOption(terminal);
         return lineReader.readLine("BookLesson>>").trim();
     }
     private void renderUserOption(Terminal terminal){
         StringBuilder output = new StringBuilder();
         output.append("\n\n");
-        String leftMargin = "    ";
+        String leftMargin = "   ";
 
         output.append(leftMargin).append("TYPE :c to CANCEL and EXIT\n");
         output.append(leftMargin).append("TYPE n for NEXT PAGE\n");
