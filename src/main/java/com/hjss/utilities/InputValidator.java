@@ -14,18 +14,18 @@ public class InputValidator {
 
         while (true) {
             if(helpText!=null){
-                System.out.println(helpText.getHelpText());
+                terminal.writer().println(helpText.getHelpText());
             }
             input = lineReader.readLine("    "+prompt);
             if (":c".equalsIgnoreCase(input.trim())) {
                 clearScreen();
-                System.out.println("Operation canceled by user.");
+                terminal.writer().println("Operation canceled by user.");
                 return null; // User canceled the operation
             }
             if (input.trim().matches(regex)) {
                 break;
             } else {
-                System.out.println("Invalid input. Please try again.");
+                terminal.writer().println("Invalid input. Please try again.");
             }
         }
         clearScreen();

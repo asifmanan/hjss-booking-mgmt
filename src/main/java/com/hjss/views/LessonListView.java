@@ -3,6 +3,7 @@ package com.hjss.views;
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Coach;
 import com.hjss.models.Lesson;
+import com.hjss.utilities.InputValidator;
 import com.hjss.utilities.TablePrinter;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
@@ -51,7 +52,7 @@ public class LessonListView {
             tablePrinter.printRow(lessonData);
         }
     }
-    public void printPaginatedList() {
+    public void viewLessonsByWeekPaginated() {
         try {
             TerminalManager.disableAutocomplete();
             Terminal terminal = TerminalManager.getTerminal();
@@ -98,13 +99,67 @@ public class LessonListView {
             e.printStackTrace();
         }
     }
+    public void viewLessonsByDayPaginated() {
+        try {
+            TerminalManager.disableAutocomplete();
+            Terminal terminal = TerminalManager.getTerminal();
+            LineReader lineReader = TerminalManager.getLineReader();
+
+            String dayPrompt = "DayOfWeek >>";
+            String regex = "(?i)^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$";
+            String dayOfWeekString = InputValidator.getAndValidateString(terminal, lineReader, dayPrompt, regex);
+            DayOfWeek dayOfWeek = DayOfWeek.valueOf(dayOfWeekString.toUpperCase());
+            List<Lesson> dayLessons = getLessonsByDay(dayOfWeek);
+
+            int lessonCount = dayLessons.size();
+            int pageSize = 10;
+            int pageCount = (int) Math.ceil((double) lessonCount / pageSize);
+
+            String input = "";
+            int currentPage = 0;
+
+            do {
+                terminal.puts(InfoCmp.Capability.clear_screen);
+                printHeader();
+
+                int start = currentPage * pageSize;
+                int end = Math.min(start + pageSize, lessonCount);
+
+                for (int i = start; i < end; i++) {
+                    Lesson lesson = dayLessons.get(i);
+                    List<String> lessonData = getLessonData(lesson);
+                    tablePrinter.printRow(lessonData);
+                }
+
+                input = lineReader.readLine(String.format("Page %d/%d (n: next, p: previous, c: cancel)>>", currentPage + 1, pageCount)).trim();
+
+                switch (input) {
+                    case ":n":
+                        if (currentPage < pageCount - 1) {
+                            currentPage++;
+                        }
+                        break;
+                    case ":p":
+                        if (currentPage > 0) {
+                            currentPage--;
+                        }
+                        break;
+                }
+            } while (!input.equalsIgnoreCase(":c"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public List<Lesson> getLessonsByWeek(YearWeek yearWeek){
         return this.lessonList.stream().filter
                         (lesson -> lesson.getWeekDayTimeSlot().getYearWeek().equals(yearWeek))
                             .collect(Collectors.toList());
     }
     public List<Lesson> getLessonsByDay(DayOfWeek dayOfWeek){
-        return null;
+        return this.lessonList.stream().filter
+                        (lesson -> lesson.getWeekDayTimeSlot().getDayOfWeek().equals(dayOfWeek))
+                            .collect(Collectors.toList());
     }
     public List<Lesson> getLessonByCoach(Coach coach){
         return null;
