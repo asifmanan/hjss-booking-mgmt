@@ -14,7 +14,8 @@ public class EntryView {
     private LearnerCreateView learnerCreateView;
     private LessonController lessonController;
     private LearnerListView learnerListView;
-    private LessonListView lessonListView;
+    private LessonListView lessonListViewByWeek, lessonListViewByDay;
+
 
     public EntryView() {
 //        serviceManager.initializeData();
@@ -26,7 +27,8 @@ public class EntryView {
         this.learnerCreateView = new LearnerCreateView(learnerController);
         this.learnerListView = new LearnerListView(learnerController);
 
-        this.lessonListView = new LessonListView(lessonController);
+        this.lessonListViewByWeek = new LessonListViewByWeek(lessonController);
+        this.lessonListViewByDay = new LessonListViewByDay(lessonController);
 
     }
 
@@ -42,8 +44,8 @@ public class EntryView {
         learnerMenu.addMenuItem("ListLearners", learnerListView::printLearnerList,"to view all LEARNERS");
 
 //        bookingMenu.addMenuItem("BookByDay",);
-        bookingMenu.addMenuItem("Week", lessonListView::viewLessonsByWeekPaginated, "to VIEW LESSONS by WEEK");
-        bookingMenu.addMenuItem("Day", lessonListView::viewLessonsByDayPaginated, "to VIEW LESSONS by DAY");
+        bookingMenu.addMenuItem("Week", lessonListViewByWeek::viewLessonsPaginated, "to VIEW LESSONS by WEEK");
+        bookingMenu.addMenuItem("Day", lessonListViewByDay::viewLessonsPaginated, "to VIEW LESSONS by DAY");
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();
