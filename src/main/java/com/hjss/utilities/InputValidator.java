@@ -16,16 +16,17 @@ public class InputValidator {
             if(helpText!=null){
                 terminal.writer().println(helpText.getHelpText());
             }
-            input = lineReader.readLine("    "+prompt);
+            input = lineReader.readLine("   "+prompt);
             if (":c".equalsIgnoreCase(input.trim())) {
                 clearScreen();
-                terminal.writer().println("Operation canceled by user.");
+                terminal.writer().println("   Operation canceled by user.");
                 return null; // User canceled the operation
             }
             if (input.trim().matches(regex)) {
                 break;
             } else {
-                terminal.writer().println("Invalid input. Please try again.");
+                clearScreen();
+                terminal.writer().println("   Invalid input. Please try again.\n");
             }
         }
         clearScreen();

@@ -18,6 +18,7 @@ public abstract class LessonListView {
     private TablePrinter tablePrinter;
     private List<String> headers;
     private Map<String, Integer> columnWidths = new HashMap<>();
+    protected String leftMargin = " ".repeat(3);
 
     
     public LessonListView(LessonController lessonController){
@@ -62,7 +63,9 @@ public abstract class LessonListView {
                             .collect(Collectors.toList());
     }
     public List<Lesson> getLessonByCoach(Coach coach){
-        return null;
+        return this.lessonList.stream().filter
+                        (lesson -> lesson.getCoach().equals(coach))
+                            .collect(Collectors.toList());
     }
     protected List<String> getLessonData(Lesson lesson){
         List<String> lessonData = new ArrayList<>();
@@ -84,7 +87,6 @@ public abstract class LessonListView {
     private void renderUserOption(Terminal terminal){
         StringBuilder output = new StringBuilder();
         output.append("\n\n");
-        String leftMargin = "   ";
 
         output.append(leftMargin).append("TYPE :c to CANCEL and EXIT\n");
         output.append(leftMargin).append("TYPE n for NEXT PAGE\n");
