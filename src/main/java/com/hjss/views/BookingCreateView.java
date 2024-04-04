@@ -29,16 +29,17 @@ public class BookingCreateView {
     public void getLessonByDay(){
         LearnerCreateView learnerCreateView = new LearnerCreateView(learnerController);
         Optional<Learner> optionalLearner = learnerCreateView.getOrCreateLearner();
-        if (!optionalLearner.isPresent()) {
+        if (optionalLearner.isEmpty()) {
             return;
         } else {
             Learner learner = optionalLearner.get();
             // Proceed with the learner
             Lesson lesson = lessonListViewByDay.getLessonFromPaginatedList();
-            if(learner!=null && lesson != null){
+            if(lesson != null){
                 System.out.println(learner.getId());
                 System.out.println(lesson.getLessonDate());
             }
+
         }
     }
 }

@@ -2,13 +2,11 @@ package com.hjss.views;
 
 import com.hjss.controllers.LearnerController;
 import com.hjss.models.Learner;
-import com.hjss.utilities.DateUtil;
-import com.hjss.utilities.Gender;
-import com.hjss.utilities.HelpText;
-import com.hjss.utilities.InputValidator;
+import com.hjss.utilities.*;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
+import org.jline.utils.InfoCmp;
 
 import javax.swing.text.Utilities;
 import java.io.IOException;
@@ -21,8 +19,9 @@ public class LearnerCreateView {
         this.learnerController = learnerController;
     }
 
-    private String getAndValidateInput(){
+    private Pair<String, Boolean> getAndValidateInput(){
         String input = null;
+        Pair<String, Boolean> valuePair = null;
         String prompt = "LEARNER>>";
         HelpText helpText = new HelpText();
         helpText.setText("SELECT Learner by entering LEARNER ID\nOR TYPE new TO CREATE A NEW LEARNER\n");
@@ -30,38 +29,36 @@ public class LearnerCreateView {
         try{
             Terminal terminal = TerminalManager.getTerminal();
             LineReader lineReader = TerminalManager.getLineReader();
-            input = InputValidator.getAndValidateString(terminal, lineReader, prompt,"(?i)(LR\\d{6}|new)", helpText);
-
+            valuePair = InputValidator.getAndValidateStringSingleRun(terminal, lineReader, prompt,"(?i)(LR\\d{6}|new)", helpText);
         } catch (IOException e){
             e.printStackTrace();
         }
-        return input;
+        return valuePair;
     }
 
     public Optional<Learner> getOrCreateLearner(){
         LearnerListView learnerListView = new LearnerListView(learnerController);
         while (true) {
             learnerListView.printLearnerList();
-            String input = getAndValidateInput();
+            Pair<String, Boolean> inputPair = getAndValidateInput();
 
-            // Check for exit code
-            if (input.trim().equalsIgnoreCase(":c")) {
-                System.out.println("Operation cancelled.");
+            if (inputPair == null) {
                 return Optional.empty(); // Signal cancellation
             }
 
-            if (input.matches("(?i)LR\\d{6}")) {
-                Learner learner = learnerController.getLearnerById(input);
+            if (inputPair.getLeft().matches("(?i)LR\\d{6}")) {
+                String inputValue = inputPair.getLeft();
+                Learner learner = learnerController.getLearnerById(inputValue);
                 if (learner != null) {
                     return Optional.of(learner);
                 }
                 System.out.println("Learner not found. Please try again or enter :c to cancel.");
-            } else if (input.trim().equalsIgnoreCase("new")) {
+            } else if (inputPair.getLeft().trim().equalsIgnoreCase("new")) {
                 Learner learner = createLearner();
                 if (learner != null) {
                     return Optional.of(learner);
                 }
-                // Handle case where learner creation fails, if necessary
+                // Handle case where learner creation fails
             } else {
                 System.out.println("Invalid input. Please enter a valid learner ID, 'new' to create a learner, or ':c' to cancel.");
             }
@@ -73,6 +70,8 @@ public class LearnerCreateView {
             TerminalManager.disableAutocomplete();
             LineReader lineReader = TerminalManager.getLineReader();
             Terminal terminal = TerminalManager.getTerminal();
+
+            terminal.puts(InfoCmp.Capability.clear_screen);
 
             HelpText helpText = new HelpText();
             helpText.setAppend("\nEnter :c to cancel\n");
