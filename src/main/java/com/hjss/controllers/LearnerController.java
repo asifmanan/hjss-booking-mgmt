@@ -16,7 +16,7 @@ public class LearnerController implements ModelController<Learner> {
         this.learnerRegister = new ModelRegister<>();
     }
     public Learner getLearnerById(String id){
-        return learnerRegister.get(id);
+        return learnerRegister.get(id.toUpperCase());
     }
     @Override
     public String addObject(Learner learner){

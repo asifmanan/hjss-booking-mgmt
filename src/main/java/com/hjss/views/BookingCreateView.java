@@ -29,17 +29,27 @@ public class BookingCreateView {
     public void getLessonByDay(){
         LearnerCreateView learnerCreateView = new LearnerCreateView(learnerController);
         Optional<Learner> optionalLearner = learnerCreateView.getOrCreateLearner();
-        if (optionalLearner.isEmpty()) {
-            return;
-        } else {
+        if (optionalLearner.isPresent()) {
             Learner learner = optionalLearner.get();
             // Proceed with the learner
             Lesson lesson = lessonListViewByDay.getLessonFromPaginatedList();
             if(lesson != null){
-                System.out.println(learner.getId());
-                System.out.println(lesson.getLessonDate());
-            }
+                if(!bookingController.isAlreadyBookedByLearner(learner, lesson)){
+                    if(!bookingController.isFullyBooked(lesson)){
+                        bookingController.createObject(learner, lesson);
+                    } else {
+                        System.out.println("Booking Unsuccessful, This lesson is fully booked!");
+                    }
+                } else {
+                    System.out.println("Booking Unsuccessful, Lesson already booked by the same Learner");
+                }
 
+            }
+        }
+        else {
+            // else = if (optionalLearner.isEmpty())
+            // (User cancel signal)
+            return;
         }
     }
 }

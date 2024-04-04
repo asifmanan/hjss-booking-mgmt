@@ -24,7 +24,7 @@ public class LessonController implements ModelController<Lesson> {
         return new Lesson(grade, coach, weekDayTimeSlot);
     }
     public Lesson getLesson(String id){
-        return lessonRegister.get(id);
+        return lessonRegister.get(id.toUpperCase());
     }
 
     @Override
