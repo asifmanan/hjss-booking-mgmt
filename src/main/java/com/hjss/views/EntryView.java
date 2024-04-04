@@ -1,5 +1,6 @@
 package com.hjss.views;
 
+import com.hjss.controllers.BookingController;
 import com.hjss.controllers.CoachController;
 import com.hjss.controllers.LearnerController;
 import com.hjss.controllers.LessonController;
@@ -13,8 +14,10 @@ public class EntryView {
     private CoachController coachController;
     private LearnerCreateView learnerCreateView;
     private LessonController lessonController;
+    private BookingController bookingController;
     private LearnerListView learnerListView;
     private LessonListView lessonListViewByWeek, lessonListViewByDay;
+    private BookingCreateView bookingCreateView;
 
 
     public EntryView() {
@@ -23,12 +26,15 @@ public class EntryView {
         this.learnerController = serviceManager.getLearnerController();
         this.coachController = serviceManager.getCoachController();
         this.lessonController = serviceManager.getLessonController();
+        this.bookingController = serviceManager.getBookingController();
 
         this.learnerCreateView = new LearnerCreateView(learnerController);
         this.learnerListView = new LearnerListView(learnerController);
 
         this.lessonListViewByWeek = new LessonListViewByWeek(lessonController);
         this.lessonListViewByDay = new LessonListViewByDay(lessonController);
+
+        this.bookingCreateView = new BookingCreateView(bookingController, lessonController, learnerController);
 
     }
 
@@ -45,7 +51,7 @@ public class EntryView {
 
 //        bookingMenu.addMenuItem("BookByDay",);
         bookingMenu.addMenuItem("Week", lessonListViewByWeek::getLessonFromPaginatedList, "to VIEW LESSONS by WEEK");
-        bookingMenu.addMenuItem("Day", lessonListViewByDay::getLessonFromPaginatedList, "to VIEW LESSONS by DAY");
+        bookingMenu.addMenuItem("Day", bookingCreateView::getLessonByDay, "to VIEW LESSONS by DAY");
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();
