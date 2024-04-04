@@ -16,6 +16,12 @@ public class LessonListViewByWeek extends LessonListView{
     public LessonListViewByWeek(LessonController lessonController) {
         super(lessonController);
     }
+
+    @Override
+    protected List<Lesson> fetchLessons(Terminal terminal, LineReader lineReader) {
+        return null;
+    }
+
     private Lesson getLessonById(String lessonId){
         return getLessonController().getLesson(lessonId);
     }

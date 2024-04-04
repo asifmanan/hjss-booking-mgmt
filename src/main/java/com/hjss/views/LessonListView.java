@@ -3,11 +3,15 @@ package com.hjss.views;
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Coach;
 import com.hjss.models.Lesson;
+import com.hjss.utilities.Grade;
 import com.hjss.utilities.TablePrinter;
+import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
+import org.jline.utils.InfoCmp;
 import org.threeten.extra.YearWeek;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,7 +43,7 @@ public abstract class LessonListView {
                 "Coach",12
         );
     }
-    public abstract Lesson getLessonFromPaginatedList();
+    protected abstract List<Lesson> fetchLessons(Terminal terminal, LineReader lineReader);
     protected void printHeader(){
         tablePrinter.printHeader();
     }
@@ -51,6 +55,60 @@ public abstract class LessonListView {
         }
     }
 
+    public Lesson getLessonFromPaginatedList() {
+        try {
+            TerminalManager.disableAutocomplete();
+            Terminal terminal = TerminalManager.getTerminal();
+            LineReader lineReader = TerminalManager.getLineReader();
+
+            List<Lesson> lessons = fetchLessons(terminal, lineReader);
+            if (lessons == null || lessons.isEmpty()) return null; //for user cancellation
+
+            int lessonCount = lessons.size();
+            int pageSize = 10; // Or may be dynamic, let see
+            int pageCount = (int) Math.ceil((double) lessonCount / pageSize);
+
+            String input = "";
+            int currentPage = 0;
+
+            do {
+                terminal.puts(InfoCmp.Capability.clear_screen);
+                printHeader();
+
+                int start = currentPage * pageSize;
+                int end = Math.min(start + pageSize, lessonCount);
+
+                for (int i = start; i < end; i++) {
+                    Lesson lesson = lessons.get(i);
+                    List<String> lessonData = getLessonData(lesson);
+                    tablePrinter.printRow(lessonData);
+                }
+                terminal.writer().println(String.format("\n   Page %d/%d", currentPage + 1, pageCount));
+
+                input = getUserInput(terminal, lineReader);
+
+//                processUserInput(input); // Delegate input processing to the subclass
+                if (input.matches("(?i)LE\\d{6}")){
+                    Lesson lesson = getLessonById(input);
+                    if (lesson!=null){
+                        return lesson;
+                    }
+                }
+
+                if (input.equals("n") && currentPage < pageCount - 1) currentPage++;
+                else if (input.equals("p") && currentPage > 0) currentPage--;
+
+            } while (!input.equalsIgnoreCase(":c"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Lesson getLessonById(String lessonId){
+        return getLessonController().getLesson(lessonId);
+    }
 
     public List<Lesson> getLessonsByWeek(YearWeek yearWeek){
         return this.lessonList.stream().filter
@@ -61,6 +119,10 @@ public abstract class LessonListView {
         return this.lessonList.stream().filter
                         (lesson -> lesson.getWeekDayTimeSlot().getDayOfWeek().equals(dayOfWeek))
                             .collect(Collectors.toList());
+    }
+    public List<Lesson> getLessonsByGrade(Grade grade){
+        return this.lessonList.stream().filter
+                        (lesson -> lesson.getGrade() == grade).toList();
     }
     public List<Lesson> getLessonByCoach(Coach coach){
         return this.lessonList.stream().filter

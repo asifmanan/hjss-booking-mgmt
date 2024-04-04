@@ -35,4 +35,12 @@ public class LessonController implements ModelController<Lesson> {
     public List<Lesson> getAllObjects() {
         return new ArrayList<>(lessonRegister.getAllObjects());
     }
+    public List<Lesson> filterByGrade(int grade) {
+        List<Lesson> allLessons = getAllObjects();
+        return allLessons.stream()
+                .filter(lesson -> lesson.getGradeInt() == grade).toList();
+    }
+    public int filterByGradeCount(int grade) {
+        return filterByGrade(grade).size();
+    }
 }
