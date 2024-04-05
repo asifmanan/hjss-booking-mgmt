@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Lesson implements Identifiable {
-//     int MAX_LEARNERS = 4;
+     private final int maxCapacity;
      String lessonId;
      WeekDayTimeSlot weekDayTimeSlot;
      Grade gradeLevel;
@@ -17,11 +17,12 @@ public class Lesson implements Identifiable {
      public Lesson(Grade gradeLevel, Coach coach, WeekDayTimeSlot weekDayTimeSlot) {
           this.gradeLevel = gradeLevel;
           this.coach = coach;
-//          if (!weekDayTimeSlot.isValid()){
-//               throw new IllegalStateException("The DayTimeSlot object is not in a valid state, please ensure the object is properly set with appropriate dates and times.");
-//          }
+          if (!weekDayTimeSlot.isValid()){
+               throw new IllegalStateException("The DayTimeSlot object is not in a valid state, please ensure the object is properly set with appropriate dates and times.");
+          }
           this.weekDayTimeSlot = weekDayTimeSlot;
           generateLessonId();
+          this.maxCapacity = 4; //setting default maxCapacity to 4
      }
 
      private void generateLessonId(){
@@ -36,22 +37,11 @@ public class Lesson implements Identifiable {
      }
 
 
-//     public int getLearnerCount(){
-//          return learners.size();
-//     }
      public boolean isGradeValid(Learner learner){
           return (  learner.getGradeLevel() == this.getGradeInt()
                   || learner.getGradeLevel() + 1 == this.getGradeInt() );
      }
 
-//     public boolean addLearner(Learner learner){
-//          if(!isGradeValid(learner) || this.learners.contains(learner)) return false;
-//          if(getLearnerCount() < MAX_LEARNERS){
-//               this.learners.add(learner);
-//               return true;
-//          }
-//          return false;
-//     }
      public WeekDayTimeSlot getWeekDayTimeSlot(){
           return this.weekDayTimeSlot;
      }
@@ -81,5 +71,8 @@ public class Lesson implements Identifiable {
      @Override
      public String getId() {
           return this.lessonId;
+     }
+     public int getMaxCapacity(){
+          return this.maxCapacity;
      }
 }
