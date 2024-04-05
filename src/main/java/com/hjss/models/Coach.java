@@ -22,8 +22,9 @@ public class Coach extends Person implements Identifiable {
     private void generateId(){
         int currentYear = Year.now().getValue() % 100;
         int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
+        String randomString = IdGenerator.generateRandomSequence(3);
         this.randomIdentifier = sequenceNumber;
-        this.coachId = "CH" + String.format("%02d%03d", currentYear, sequenceNumber);
+        this.coachId = "12" + randomString + String.format("%03d", sequenceNumber);
     }
 
     public String getId() {

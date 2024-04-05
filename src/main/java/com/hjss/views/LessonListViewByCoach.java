@@ -60,14 +60,14 @@ public class LessonListViewByCoach extends LessonListView {
                 leftMargin+"COACH ID or COACH FIRSTNAME\n");
 
         String dayPrompt = "Coach [ID or FIRSTNAME]: ";
-        String regex = "^(?i)[a-z]+|ch\\d{5}$";
+        String regex = "^(?i)[a-z]+|^\\d{8}$";
         String coachString = InputValidator.getAndValidateString(terminal, lineReader, dayPrompt, regex, helpText);
         if (coachString == null) return null;
         Coach coach = null;
 //        coachString = coachString.trim();
         if(coachString.matches("^(?i)[a-z]+$")){
             coach = coachList.stream().filter(ch -> ch.getFirstName().equalsIgnoreCase(coachString)).findFirst().orElse(null);
-        } else if(coachString.matches("^(?i)ch\\d{5}$")){
+        } else if(coachString.matches("^\\d{8}$")){
             coach = coachList.stream().filter(ch -> ch.getId().equalsIgnoreCase(coachString)).findFirst().orElse(null);
         }
         if (coach != null) return new Pair<>(coach, false);
