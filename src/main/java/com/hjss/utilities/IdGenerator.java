@@ -11,6 +11,9 @@ public class IdGenerator {
         sequenceMap.putIfAbsent(clazz, new AtomicInteger(1));
         return sequenceMap.get(clazz).getAndIncrement();
     }
+    public static void resetSequenceForClass(Class<?> clazz){
+        sequenceMap.put(clazz, new AtomicInteger(1));
+    }
     public static String generateRandomId(){
         final String CHAR_POOL = "abcdefghijklmnpqrsruvwxyz123456789";
         final int ID_LENGTH = 8;

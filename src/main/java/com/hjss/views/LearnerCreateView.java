@@ -9,13 +9,20 @@ import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class LearnerCreateView {
     private LearnerController learnerController;
+    private List<Learner> learnerList;
 
     public LearnerCreateView(LearnerController learnerController) {
         this.learnerController = learnerController;
+        updateLearnerList();
+
+    }
+    private void updateLearnerList(){
+        learnerList = learnerController.getAllObjects();
     }
 
     private Pair<String, Boolean> getAndValidateInput(){
@@ -26,6 +33,8 @@ public class LearnerCreateView {
         helpText.setText("SELECT Learner by entering LEARNER ID\nOR TYPE new TO CREATE A NEW LEARNER\n");
 //        helpText.setAppend("");
         try{
+            List<String> learnerIds = learnerList.stream().map(Learner::getId).toList();
+            TerminalManager.updateCompleter(learnerIds);
             Terminal terminal = TerminalManager.getTerminal();
             LineReader lineReader = TerminalManager.getLineReader();
             valuePair = InputValidator.getAndValidateStringSingleRun(terminal, lineReader, prompt,"(?i)(LR\\d{6}|new)", helpText);
@@ -36,6 +45,7 @@ public class LearnerCreateView {
     }
 
     public Optional<Learner> getOrCreateLearner(){
+        updateLearnerList();
         LearnerListView learnerListView = new LearnerListView(learnerController);
         while (true) {
             learnerListView.printLearnerList();
@@ -45,7 +55,7 @@ public class LearnerCreateView {
                 return Optional.empty(); // Signal cancellation
             }
 
-            if (inputPair.getObj().matches("(?i)LR\\d{6}")) {
+            if (inputPair.getObj().matches("^\\d{8}$")) {
                 String inputValue = inputPair.getObj();
                 Learner learner = learnerController.getLearnerById(inputValue);
                 if (learner != null) {

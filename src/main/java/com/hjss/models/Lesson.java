@@ -27,8 +27,12 @@ public class Lesson implements Identifiable {
      private void generateLessonId(){
           int gradeLevel = this.gradeLevel.getValue();
           int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
-
-          this.lessonId = "LE" + String.format("%02d%04d", gradeLevel, sequenceNumber);
+          if(sequenceNumber>=100){
+               IdGenerator.resetSequenceForClass(this.getClass());
+               sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
+          }
+          String randomSequence = IdGenerator.generateRandomSequence(3);
+          this.lessonId = "21" + randomSequence + String.format("%01d%02d", gradeLevel, sequenceNumber);
      }
 
 

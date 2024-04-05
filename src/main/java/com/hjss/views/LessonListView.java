@@ -27,7 +27,7 @@ public abstract class LessonListView {
     
     public LessonListView(LessonController lessonController){
         this.lessonController = lessonController;
-        this.lessonList = lessonController.getAllObjects();
+        updateLessonList();
         this.headers = Arrays.asList("Id", "Date", "Day", "Start", "End", "Grade", "Coach");
         setColumnWidths(this.headers);
         this.tablePrinter = new TablePrinter(this.headers, this.columnWidths);
@@ -57,7 +57,7 @@ public abstract class LessonListView {
 
     public Lesson getLessonFromPaginatedList() {
         try {
-            TerminalManager.disableAutocomplete();
+
             Terminal terminal = TerminalManager.getTerminal();
             LineReader lineReader = TerminalManager.getLineReader();
 
@@ -71,24 +71,31 @@ public abstract class LessonListView {
             String input = "";
             int currentPage = 0;
 
+            List<String> lessonIds = new ArrayList<>(); //for completer
+
             do {
                 terminal.puts(InfoCmp.Capability.clear_screen);
                 printHeader();
+
+                lessonIds.clear();
 
                 int start = currentPage * pageSize;
                 int end = Math.min(start + pageSize, lessonCount);
 
                 for (int i = start; i < end; i++) {
                     Lesson lesson = lessons.get(i);
+                    lessonIds.add(lesson.getId());
                     List<String> lessonData = getLessonData(lesson);
                     tablePrinter.printRow(lessonData);
                 }
+                TerminalManager.updateCompleter(lessonIds);
+                lineReader = TerminalManager.getLineReader();
                 terminal.writer().println(String.format("\n   Page %d/%d", currentPage + 1, pageCount));
 
                 input = getUserInput(terminal, lineReader);
 
 //                processUserInput(input); // Delegate input processing to the subclass
-                if (input.matches("(?i)LE\\d{6}")){
+                if (input.matches("^\\d{8}$")){
                     Lesson lesson = getLessonById(input);
                     if (lesson!=null){
                         return lesson;
@@ -153,7 +160,7 @@ public abstract class LessonListView {
         output.append(leftMargin).append("TYPE :c to CANCEL and EXIT\n");
         output.append(leftMargin).append("TYPE n for NEXT PAGE\n");
         output.append(leftMargin).append("TYPE p for PREVIOUS PAGE\n");
-        output.append(leftMargin).append("TYPE [BOOKING ID] to BOOK a LESSON\n");
+        output.append(leftMargin).append("TYPE [LESSON ID] to BOOK a LESSON\n");
         output.append(leftMargin).append("\n");
 
         terminal.writer().print(output);
