@@ -26,10 +26,16 @@ public class Booking implements Identifiable {
     }
     private void generateId(){
         YearWeek yearWeek = getYearWeekForDate(this.createdOn);
-        int year = yearWeek.getYear();
         int week = yearWeek.getWeek();
+        String formatWeek = String.format("%02d",week);
+
+        String randomSequence = IdGenerator.generateRandomSequence(3);
         int sequence = IdGenerator.generateSequentialId(this.getClass());
-        this.bookingId = String.format("%02d%02d%03d", year, week, sequence);
+        if (sequence>=100){
+            IdGenerator.resetSequenceForClass(this.getClass());
+            sequence = IdGenerator.generateSequentialId(this.getClass());
+        }
+        this.bookingId = randomSequence + formatWeek + String.format("%02d", sequence);
     }
     @Override
     public String getId() {
