@@ -20,11 +20,15 @@ public class Coach extends Person implements Identifiable {
         this(firstName, lastName, Gender.Unknown, null);
     }
     private void generateId(){
-        int currentYear = Year.now().getValue() % 100;
+
         int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
-        String randomString = IdGenerator.generateRandomSequence(3);
+        if(sequenceNumber>=100){
+            IdGenerator.resetSequenceForClass(this.getClass());
+            sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
+        }
+        String randomString = IdGenerator.generateRandomSequence(2);
         this.randomIdentifier = sequenceNumber;
-        this.coachId = "12" + randomString + String.format("%03d", sequenceNumber);
+        this.coachId = "12" + randomString + String.format("%02d", sequenceNumber);
     }
 
     public String getId() {
