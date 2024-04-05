@@ -1,6 +1,7 @@
 package com.hjss.views;
 
 import com.hjss.controllers.BookingController;
+import com.hjss.controllers.CoachController;
 import com.hjss.controllers.LearnerController;
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Learner;
@@ -12,18 +13,20 @@ public class BookingCreateView {
     private BookingController bookingController;
     private LearnerController learnerController;
     private LessonController lessonController;
+    private CoachController coachController;
     private LessonListView lessonListView, lessonListViewByWeek, lessonListViewByDay, lessonListViewByGrade;
-    public BookingCreateView(BookingController bookingController, LessonController lessonController, LearnerController learnerController){
+    public BookingCreateView(BookingController bookingController, LessonController lessonController, LearnerController learnerController, CoachController coachController){
         this.bookingController = bookingController;
         this.lessonController = lessonController;
         this.learnerController = learnerController;
+        this.coachController = coachController;
 
         this.lessonListViewByDay = new LessonListViewByDay(lessonController);
         this.lessonListViewByGrade = new LessonListViewByGrade(lessonController);
         this.lessonListViewByWeek = new LessonListViewByWeek(lessonController);
     }
 
-    public Optional<Learner> getOrCreateLearner() {
+    public Optional<Learner> getLearner() {
         LearnerCreateView learnerCreateView = new LearnerCreateView(learnerController);
         return learnerCreateView.getOrCreateLearner();
     }
@@ -35,16 +38,19 @@ public class BookingCreateView {
         this.lessonListView = new LessonListViewByDay(lessonController);
         bookLesson();
     }
+    public void bookLessonByCoach(){
+        this.lessonListView = new LessonListViewByCoach(lessonController, coachController);
+        bookLesson();
+    }
     public void bookLesson() {
-        LearnerCreateView learnerCreateView = new LearnerCreateView(learnerController);
-        Optional<Learner> optionalLearner = learnerCreateView.getOrCreateLearner();
+        Optional<Learner> optionalLearner = getLearner();
 
         if (!optionalLearner.isPresent()) {
-            System.out.println("Booking operation cancelled.");
-            return;  // Exit the method if no learner was selected (user cancelled the operation)
+//            System.out.println("Booking operation cancelled.");
+            return;  // Exit the method if no learner was selected (user cancelled the operation) :(
         }
 
-        // A valid learner
+        // A valid learner is present at this point :)
         Learner learner = optionalLearner.get();
 
         // get lesson from the list
@@ -68,7 +74,7 @@ public class BookingCreateView {
         }
 
         // If all checks pass, create the booking :)
-        bookingController.createObject(learner, lesson);
+        bookingController.createAndAddObject(learner, lesson);
         System.out.println("Booking successful.");
     }
 }

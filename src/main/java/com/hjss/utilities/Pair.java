@@ -1,20 +1,20 @@
 package com.hjss.utilities;
 
 public class Pair<L, R> {
-    private final L left;
-    private final R right;
+    private final L obj;
+    private final R invalidFlag;
 
-    public Pair(L left, R right) {
-        this.left = left;
-        this.right = right;
+    public Pair(L obj, R invalidFlag) {
+        this.obj = obj;
+        this.invalidFlag = invalidFlag;
     }
 
-    public L getLeft() {
-        return left;
+    public L getObj() {
+        return obj;
     }
 
-    public R getRight() {
-        return right;
+    public R getInvalidFlag() {
+        return invalidFlag;
     }
 
     // Need to include equals(), hashCode() and toString()

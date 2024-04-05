@@ -23,6 +23,7 @@ public class InputValidator {
                 return null; // User canceled the operation
             }
             if (input.trim().matches(regex)) {
+                input = input.trim();
                 break;
             } else {
                 clearScreen();

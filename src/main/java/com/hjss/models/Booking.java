@@ -35,6 +35,9 @@ public class Booking implements Identifiable {
     public String getId() {
         return this.bookingId;
     }
+    public BookingStatus getBookingStatus(){
+        return this.bookingStatus;
+    }
     public Lesson getLesson() {
         return this.lesson;
     }

@@ -34,8 +34,8 @@ public class LessonFilterByGrade {
                 String regex = "[12345]";
                 inputPair = InputValidator.getAndValidateStringSingleRun(terminal, lineReader, gradePrompt, regex, helpText);
                 if (inputPair==null) return null;
-                if(!inputPair.getRight()){
-                    int grade = Integer.parseInt(inputPair.getLeft());
+                if(!inputPair.getInvalidFlag()){
+                    int grade = Integer.parseInt(inputPair.getObj());
                     int lessonCount = lessonController.filterByGradeCount(grade);
                     if(lessonCount>0){
                         return grade;

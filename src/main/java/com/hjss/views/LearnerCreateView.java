@@ -8,7 +8,6 @@ import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
-import javax.swing.text.Utilities;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -46,14 +45,14 @@ public class LearnerCreateView {
                 return Optional.empty(); // Signal cancellation
             }
 
-            if (inputPair.getLeft().matches("(?i)LR\\d{6}")) {
-                String inputValue = inputPair.getLeft();
+            if (inputPair.getObj().matches("(?i)LR\\d{6}")) {
+                String inputValue = inputPair.getObj();
                 Learner learner = learnerController.getLearnerById(inputValue);
                 if (learner != null) {
                     return Optional.of(learner);
                 }
                 System.out.println("Learner not found. Please try again or enter :c to cancel.");
-            } else if (inputPair.getLeft().trim().equalsIgnoreCase("new")) {
+            } else if (inputPair.getObj().trim().equalsIgnoreCase("new")) {
                 Learner learner = createLearner();
                 if (learner != null) {
                     return Optional.of(learner);

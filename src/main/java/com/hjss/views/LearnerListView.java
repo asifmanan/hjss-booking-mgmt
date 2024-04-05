@@ -9,6 +9,7 @@ import java.util.*;
 public class LearnerListView {
     private LearnerController learnerController;
     private List<String> headers;
+    protected String leftMargin = " ".repeat(3);
     public LearnerListView(LearnerController learnerController){
         this.learnerController = learnerController;
         this.headers = Arrays.asList("Id", "fName", "lName", "Gender","Grade", "Emergency Contact");

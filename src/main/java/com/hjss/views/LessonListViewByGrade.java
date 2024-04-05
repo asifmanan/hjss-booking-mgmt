@@ -14,10 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LessonListViewByGrade extends LessonListView{
-    List<Lesson> filteredLessonList = new ArrayList<>();
     public LessonListViewByGrade(LessonController lessonController) {
         super(lessonController);
     }

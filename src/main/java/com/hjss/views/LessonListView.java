@@ -166,6 +166,9 @@ public abstract class LessonListView {
     protected TablePrinter getTablePrinter(){
         return this.tablePrinter;
     }
+    private void updateLessonList(){
+        this.lessonList = lessonController.getAllObjects();
+    }
     protected List<Lesson> getLessonList(){
         return this.lessonList;
     }

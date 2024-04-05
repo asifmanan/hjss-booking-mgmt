@@ -18,6 +18,7 @@ public class EntryView {
     private LearnerListView learnerListView;
     private LessonListView lessonListViewByWeek, lessonListViewByDay;
     private BookingCreateView bookingCreateView;
+    private BookingListView bookingListView;
 
 
     public EntryView() {
@@ -27,6 +28,7 @@ public class EntryView {
         this.coachController = serviceManager.getCoachController();
         this.lessonController = serviceManager.getLessonController();
         this.bookingController = serviceManager.getBookingController();
+        this.coachController = serviceManager.getCoachController();
 
         this.learnerCreateView = new LearnerCreateView(learnerController);
         this.learnerListView = new LearnerListView(learnerController);
@@ -34,7 +36,12 @@ public class EntryView {
         this.lessonListViewByWeek = new LessonListViewByWeek(lessonController);
         this.lessonListViewByDay = new LessonListViewByDay(lessonController);
 
-        this.bookingCreateView = new BookingCreateView(bookingController, lessonController, learnerController);
+        this.bookingCreateView = new BookingCreateView(bookingController,
+                                                        lessonController,
+                                                        learnerController,
+                                                        coachController);
+        this.bookingListView = new BookingListView(bookingController);
+
 
     }
 
@@ -55,6 +62,8 @@ public class EntryView {
         bookingMenu.addMenuItem("Week", lessonListViewByWeek::getLessonFromPaginatedList, "to VIEW LESSONS by WEEK");
         bookingMenu.addMenuItem("Day", bookingCreateView::bookLessonByDay, "to VIEW LESSONS by DAY");
         bookingMenu.addMenuItem("Grade", bookingCreateView::bookLessonByGrade, "to VIEW LESSONS by GRADE");
+        bookingMenu.addMenuItem("Coach", bookingCreateView::bookLessonByCoach, "to VIEW LESSONS by COACH");
+        bookingMenu.addMenuItem("ViewBookings", bookingListView::printList, "to VIEW BOOKINGS");
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();
