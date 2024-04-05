@@ -75,12 +75,10 @@ public class LessonListViewByCoach extends LessonListView {
                 leftMargin+"COACH ID or COACH FIRSTNAME\n");
 
         String coachPrompt = "Coach [ID or FIRSTNAME]: ";
-        String regex = "^(?i)[a-z]+|^\\d{6}$";
+//        String regex = "^(?i)[a-z]+|^\\d{6}$";
 
-        String inputString = lineReader.readLine("   "+coachPrompt);
-        if (Objects.equals(inputString, ":c")) return null;
-        if (inputString == null) return null;
-        String coachString = inputString.trim();
+        String coachString = InputValidator.inputGetter(terminal, lineReader, coachPrompt, helpText);
+        if (coachString == null) return null;
         Coach coach = null;
         Pair<Coach, Boolean> coachValuePair = new Pair<>(coach,true);
         if(coachString.matches("^(?i)[a-z]+$")){

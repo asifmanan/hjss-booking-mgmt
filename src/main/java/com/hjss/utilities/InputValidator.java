@@ -9,6 +9,26 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class InputValidator {
+    public static String inputGetter(Terminal terminal, LineReader lineReader, String prompt, HelpText helpText){
+        String input;
+        if(helpText!=null){
+            terminal.writer().println(helpText.getHelpText());
+        }
+        //        This provides graceful exit when user presses ctrl+c
+        try {
+            input = lineReader.readLine("   "+prompt);
+        } catch (RuntimeException re){
+            terminal.writer().println("Operation Interrupted by User.");
+            return null;
+        }
+
+        if (":c".equalsIgnoreCase(input.trim())) {
+            clearScreen();
+            terminal.writer().println("   Operation canceled by user.");
+            return null; // User canceled the operation
+        }
+        return input.trim();
+    }
     public static String getAndValidateString(Terminal terminal, LineReader lineReader, String prompt, String regex, HelpText helpText){
         String input;
 
