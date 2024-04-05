@@ -1,9 +1,12 @@
 package com.hjss.utilities;
 
 public class Pair<L, R> {
-    private final L obj;
-    private final R invalidFlag;
+    private L obj;
+    private R invalidFlag;
 
+    public Pair(){
+
+    }
     public Pair(L obj, R invalidFlag) {
         this.obj = obj;
         this.invalidFlag = invalidFlag;
@@ -15,6 +18,13 @@ public class Pair<L, R> {
 
     public R getInvalidFlag() {
         return invalidFlag;
+    }
+
+    public void setInvalidFlag(R value) {
+        this.invalidFlag = value;
+    }
+    public void setObject(L value) {
+        this.obj = value;
     }
 
     // Need to include equals(), hashCode() and toString()
