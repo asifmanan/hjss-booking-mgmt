@@ -22,4 +22,18 @@ public class IdGenerator {
         }
         return stringBuilder.toString();
     }
+    public static String generateRandomSequence(int length){
+        final String CHAR_POOL = "123456789";
+
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i<length; i++){
+            stringBuilder.append(CHAR_POOL.charAt(random.nextInt(CHAR_POOL.length())));
+        }
+        return stringBuilder.toString();
+    }
+    public static int generateRandomBetweenRange(int min, int max){
+        Random random = new Random();
+        return random.nextInt(max-min+1)+min;
+    }
 }
