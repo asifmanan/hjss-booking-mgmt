@@ -60,7 +60,7 @@ public class EntryView {
         mainMenu.addSubMenu(bookingMenu, "to manage BOOKINGS");
         mainMenu.addSubMenu(getLearnerMenu, "to SELECT or CREATE LEARNER");
 
-        getLearnerMenu.addMenuItem("SelectExisting", learnerGetOrCreateView::selectLearner,"to SELECT an Existing Learner");
+        getLearnerMenu.addMenuItem("SelectExisting", learnerGetOrCreateView::updateSelectedLearner,"to SELECT an Existing Learner");
         getLearnerMenu.addMenuItem("New", learnerGetOrCreateView::createLearner,"to CREATE a NEW LEARNER");
 
         learnerMenu.addMenuItem("CreateLearner", learnerCreateView::createLearner,"to create a new LEARNER");

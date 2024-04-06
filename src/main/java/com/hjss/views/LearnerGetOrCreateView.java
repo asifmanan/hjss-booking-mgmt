@@ -27,8 +27,17 @@ public class LearnerGetOrCreateView {
         this.learnerListView = new LearnerListView(learnerController);
         updateLearnerList();
     }
-    private Learner getSelectedLearner(){
+    public Learner getAndSelectLearnerIfNotPresent(){
+        selectLearnerIfNotPresent();
+        return getSelectedLearner();
+    }
+    public Learner getSelectedLearner(){
         return this.selectedLearner;
+    }
+    public void selectLearnerIfNotPresent(){
+        if(getSelectedLearner()==null){
+            updateSelectedLearner();
+        }
     }
     private void updateLearnerList(){
         learnerList = learnerController.getAllObjects();
@@ -51,7 +60,7 @@ public class LearnerGetOrCreateView {
             e.printStackTrace();
         }
     }
-    public void selectLearner(){
+    public void updateSelectedLearner(){
         updateLearnerList();
         Learner learner = null;
         List<String> learnerIds = learnerList.stream().map(Learner::getId).toList();
@@ -94,7 +103,7 @@ public class LearnerGetOrCreateView {
             e.printStackTrace();
         }
     }
-    public Pair<Learner, Boolean> fetchLearner(Terminal terminal, LineReader lineReader){
+    private Pair<Learner, Boolean> fetchLearner(Terminal terminal, LineReader lineReader){
         updateLearnerList();
         learnerListView.printLearnerList();
         HelpText helpText = new HelpText(leftMargin + "TYPE [LEARNER ID] and ENTER to SELECT a LEARNER" +
