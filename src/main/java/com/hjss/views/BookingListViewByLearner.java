@@ -2,31 +2,35 @@ package com.hjss.views;
 
 import com.hjss.controllers.BookingController;
 import com.hjss.models.Booking;
-import com.hjss.models.Lesson;
 import com.hjss.utilities.TablePrinter;
 
 import java.util.*;
 
-public class BookingListView {
+public class BookingListViewByLearner {
     private BookingController bookingController;
     private List<Booking> bookingList;
     private TablePrinter tablePrinter;
     private List<String> headers;
     private Map<String, Integer> columnWidths = new HashMap<>();
-    public BookingListView(BookingController bookingController){
+    public BookingListViewByLearner(BookingController bookingController){
         this.bookingController = bookingController;
         this.bookingList = bookingController.getAllObjects();
-        this.headers = Arrays.asList("Id","Date","Status","Learner","Grade");
+        this.headers = Arrays.asList(   "BookingId",
+                                        "Status",
+                                        "LessonDate",
+                                        "StartTime","EndTime",
+                                        "LessonGrade");
         setColumnWidths(this.headers);
         this.tablePrinter = new TablePrinter(this.headers,this.columnWidths);
     }
     private void setColumnWidths(List<String> headers) {
         this.columnWidths = Map.of(
-                "Id",11,
-                "Date",13,
-                "Status",13,
-                "Learner",20,
-                "Grade",6
+                "BookingId",10,
+                "Status",12,
+                "LessonDate",12,
+                "StartTime",12,
+                "EndTime",12,
+                "LessonGrade",12
 //                "End",9,
 //                "Grade",7,
 //                "Coach",12
@@ -39,9 +43,10 @@ public class BookingListView {
         List<String> bookingData = new ArrayList<>();
 
         bookingData.add(booking.getId());
-        bookingData.add(booking.getLesson().getLessonDate().toString());
         bookingData.add(booking.getBookingStatus().toString());
-        bookingData.add(booking.getLearner().getId());
+        bookingData.add(booking.getLesson().getLessonDate().toString());
+        bookingData.add(booking.getLesson().getStartTime().toString());
+        bookingData.add(booking.getLesson().getEndTime().toString());
         bookingData.add(booking.getLesson().getGrade().toString());
 
         return bookingData;

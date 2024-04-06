@@ -19,7 +19,7 @@ public class EntryView {
     private LearnerListView learnerListView;
     private LessonListView lessonListViewByWeek, lessonListViewByDay;
     private BookingCreateView bookingCreateView;
-    private BookingListView bookingListView;
+    private BookingListViewByLearner bookingListViewByLearner;
 
 
     public EntryView() {
@@ -50,7 +50,7 @@ public class EntryView {
                                                         learnerGetOrCreateView
                                                         );
 
-        this.bookingListView = new BookingListView(bookingController);
+        this.bookingListViewByLearner = new BookingListViewByLearner(bookingController);
 
 
     }
@@ -80,7 +80,7 @@ public class EntryView {
         bookingMenu.addMenuItem("Day", bookingCreateView::bookLessonByDay, "to VIEW LESSONS by DAY");
         bookingMenu.addMenuItem("Grade", bookingCreateView::bookLessonByGrade, "to VIEW LESSONS by GRADE");
         bookingMenu.addMenuItem("Coach", bookingCreateView::bookLessonByCoach, "to VIEW LESSONS by COACH");
-        bookingMenu.addMenuItem("ViewBookings", bookingListView::printList, "to VIEW BOOKINGS");
+        bookingMenu.addMenuItem("ViewBookings", bookingListViewByLearner::printList, "to VIEW BOOKINGS");
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();
