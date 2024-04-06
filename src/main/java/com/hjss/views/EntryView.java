@@ -13,6 +13,7 @@ public class EntryView {
     private LearnerController learnerController;
     private CoachController coachController;
     private LearnerCreateView learnerCreateView;
+    private LearnerGetOrCreateView learnerGetOrCreateView;
     private LessonController lessonController;
     private BookingController bookingController;
     private LearnerListView learnerListView;
@@ -32,6 +33,8 @@ public class EntryView {
 
         this.learnerCreateView = new LearnerCreateView(learnerController);
         this.learnerListView = new LearnerListView(learnerController);
+        this.learnerGetOrCreateView = new LearnerGetOrCreateView(learnerController);
+
 
         this.lessonListViewByWeek = new LessonListViewByWeek(lessonController);
         this.lessonListViewByDay = new LessonListViewByDay(lessonController);
@@ -49,9 +52,16 @@ public class EntryView {
         Menu mainMenu = new Menu("Main");
         Menu learnerMenu = new Menu("Learner",mainMenu);
         Menu bookingMenu = new Menu("Booking",mainMenu);
+        Menu getLearnerMenu = new Menu("GetLearner",mainMenu);
+
+
 
         mainMenu.addSubMenu(learnerMenu, "to manage LEARNERS");
         mainMenu.addSubMenu(bookingMenu, "to manage BOOKINGS");
+        mainMenu.addSubMenu(getLearnerMenu, "to SELECT or CREATE LEARNER");
+
+        getLearnerMenu.addMenuItem("SelectExisting", learnerGetOrCreateView::selectLearner,"to SELECT an Existing Learner");
+        getLearnerMenu.addMenuItem("New", learnerGetOrCreateView::createLearner,"to CREATE a NEW LEARNER");
 
         learnerMenu.addMenuItem("CreateLearner", learnerCreateView::createLearner,"to create a new LEARNER");
         learnerMenu.addMenuItem("ListLearners", learnerListView::printLearnerList,"to view all LEARNERS");
