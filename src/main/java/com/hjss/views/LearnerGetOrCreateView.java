@@ -43,7 +43,7 @@ public class LearnerGetOrCreateView {
         learnerList = learnerController.getAllObjects();
     }
 
-    public void createLearner(){
+    public void createAndSelectLearner(){
         Learner learner = learnerCreateView.createLearner();
         TerminalManager.disableAutocomplete();
         try{
@@ -54,7 +54,8 @@ public class LearnerGetOrCreateView {
                 terminal.writer().println(leftMargin+"Operation Aborted! Learner Not Selected");
             } else {
                 this.selectedLearner=learner;
-//                terminal.writer().println(leftMargin+"Selected Learner ID: " + selectedLearner.getId());
+                terminal.writer().println(leftMargin+"Registration Successful.");
+                terminal.writer().println(leftMargin+learner.getFormattedFullName()+" Registered as a new grade " +learner.getGradeLevel()+ " Learner");
             }
         } catch (IOException e){
             e.printStackTrace();
@@ -108,7 +109,7 @@ public class LearnerGetOrCreateView {
         learnerListView.printLearnerList();
         HelpText helpText = new HelpText(leftMargin + "TYPE [LEARNER ID] and ENTER to SELECT a LEARNER" +
                                             "\n"+leftMargin + "TYPE new to CREATE a NEW LEARNER",
-                                    leftMargin + "TYPE :c and ENTER to CANCEL\n","");
+                                    "\n"+leftMargin + "TYPE :c and ENTER to CANCEL\n","");
 
         String learnerPrompt = "LEARNER ID: ";
         String input = InputValidator.inputGetter(terminal, lineReader, learnerPrompt, helpText);

@@ -121,11 +121,11 @@ public class LearnerCreateView {
                                                                 dateOfBirth, grade, contactNumber);
             String learnerId = learnerController.addObject(learner);
 
-            System.out.println("Learner created with ID: "+ learnerId);
+            System.out.println("   Learner created with ID: "+ learnerId);
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Failed to create learner.");
+            System.out.println("   Failed to create learner.");
         }
         return learner;
     }

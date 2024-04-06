@@ -2,22 +2,18 @@ package com.hjss.views;
 
 import com.hjss.controllers.BookingController;
 import com.hjss.models.Booking;
-import com.hjss.models.Learner;
 import com.hjss.utilities.TablePrinter;
 
 import java.util.*;
 
-public class BookingListViewByLearner {
+public class BookingListView {
     private BookingController bookingController;
-    private LearnerGetOrCreateView learnerGetOrCreateView;
     private List<Booking> bookingList;
     private TablePrinter tablePrinter;
     private List<String> headers;
     private Map<String, Integer> columnWidths = new HashMap<>();
-    private Learner learner;
-    public BookingListViewByLearner(BookingController bookingController, Learner learner){
+    public BookingListView(BookingController bookingController){
         this.bookingController = bookingController;
-        this.learner = learner;
         this.bookingList = bookingController.getAllObjects();
         this.headers = Arrays.asList(   "BookingId",
                                         "Status",
@@ -55,8 +51,8 @@ public class BookingListViewByLearner {
 
         return bookingData;
     }
-    public void printBookingList(){
-        this.bookingList = bookingController.getBookingsByLearner(learner);
+    public void printList(){
+        this.bookingList = bookingController.getAllObjects();
         printHeader();
         for(Booking booking : this.bookingList){
             List<String> bookingData = getBookingData(booking);

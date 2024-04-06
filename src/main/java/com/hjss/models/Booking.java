@@ -44,6 +44,12 @@ public class Booking implements Identifiable {
     public BookingStatus getBookingStatus(){
         return this.bookingStatus;
     }
+    public void cancelBooking(){
+        this.bookingStatus = BookingStatus.Cancelled;
+    }
+    public void attendBooking(){
+        this.bookingStatus = BookingStatus.Attended;
+    }
     public Lesson getLesson() {
         return this.lesson;
     }

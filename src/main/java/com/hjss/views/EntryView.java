@@ -19,6 +19,7 @@ public class EntryView {
     private LearnerListView learnerListView;
     private LessonListView lessonListViewByWeek, lessonListViewByDay;
     private BookingCreateView bookingCreateView;
+    private BookingManagementView bookingManagementView;
     private BookingListViewByLearner bookingListViewByLearner;
 
 
@@ -38,6 +39,7 @@ public class EntryView {
 
         this.lessonListViewByWeek = new LessonListViewByWeek(lessonController);
         this.lessonListViewByDay = new LessonListViewByDay(lessonController);
+        this.bookingManagementView = new BookingManagementView(bookingController, learnerGetOrCreateView);
 
 //        this.bookingCreateView = new BookingCreateView(bookingController,
 //                                                        lessonController,
@@ -50,37 +52,24 @@ public class EntryView {
                                                         learnerGetOrCreateView
                                                         );
 
-        this.bookingListViewByLearner = new BookingListViewByLearner(bookingController);
+//        this.bookingListViewByLearner = new BookingListViewByLearner(bookingController, learnerGetOrCreateView);
 
 
     }
 
     public void initializeMenu() {
         Menu mainMenu = new Menu("Main");
-        Menu learnerMenu = new Menu("Learner",mainMenu);
-        Menu bookingMenu = new Menu("Booking",mainMenu);
-        Menu getLearnerMenu = new Menu("GetLearner",mainMenu);
 
+        Menu bookingMenu = new Menu("Book",mainMenu);
 
+        mainMenu.addMenuItem("Attend",null,"to ATTEND a Swimming Lesson");;
+        mainMenu.addMenuItem("Register",learnerGetOrCreateView::createAndSelectLearner,"to REGISTER a New Learner");;
+        mainMenu.addMenuItem("Manage",bookingManagementView::manageBooking,"to CANCEL/CHANGE an existing BOOKING");;
 
-        mainMenu.addSubMenu(learnerMenu, "to manage LEARNERS");
-        mainMenu.addSubMenu(bookingMenu, "to manage BOOKINGS");
-        mainMenu.addSubMenu(getLearnerMenu, "to SELECT or CREATE LEARNER");
-
-        getLearnerMenu.addMenuItem("SelectExisting", learnerGetOrCreateView::updateSelectedLearner,"to SELECT an Existing Learner");
-        getLearnerMenu.addMenuItem("New", learnerGetOrCreateView::createLearner,"to CREATE a NEW LEARNER");
-
-        learnerMenu.addMenuItem("CreateLearner", learnerCreateView::createLearner,"to create a new LEARNER");
-        learnerMenu.addMenuItem("ListLearners", learnerListView::printLearnerList,"to view all LEARNERS");
-
-//        bookingMenu.addMenuItem("BookByDay",);
-
-//        bookingMenu.addMenuItem("BookLesson",bookingCreateView);
-        bookingMenu.addMenuItem("Week", lessonListViewByWeek::getLessonFromPaginatedList, "to VIEW LESSONS by WEEK");
+        mainMenu.addSubMenu(bookingMenu, "to BOOK a Swimming Lesson");
         bookingMenu.addMenuItem("Day", bookingCreateView::bookLessonByDay, "to VIEW LESSONS by DAY");
         bookingMenu.addMenuItem("Grade", bookingCreateView::bookLessonByGrade, "to VIEW LESSONS by GRADE");
         bookingMenu.addMenuItem("Coach", bookingCreateView::bookLessonByCoach, "to VIEW LESSONS by COACH");
-        bookingMenu.addMenuItem("ViewBookings", bookingListViewByLearner::printList, "to VIEW BOOKINGS");
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();
