@@ -6,6 +6,8 @@ import org.threeten.extra.YearWeek;
 
 import javax.swing.text.Utilities;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 import static com.hjss.utilities.DateUtil.getYearWeekForDate;
 
@@ -14,18 +16,18 @@ public class Booking implements Identifiable {
     private Learner learner;
     private Lesson lesson;
     private BookingStatus bookingStatus;
-    private LocalDate createdOn;
-    private LocalDate updatedOn;
+    private LocalDateTime createdOn;
+    private LocalDateTime updatedOn;
     public Booking(Learner learner, Lesson lesson){
         this.learner = learner;
         this.lesson = lesson;
         this.bookingStatus = BookingStatus.Active;
-        this.createdOn = LocalDate.now();
-        this.updatedOn = LocalDate.now();
+        this.createdOn = LocalDateTime.now();
+
         this.generateId();
     }
     private void generateId(){
-        YearWeek yearWeek = getYearWeekForDate(this.createdOn);
+        YearWeek yearWeek = getYearWeekForDate(this.createdOn.toLocalDate());
         int week = yearWeek.getWeek();
         String formatWeek = String.format("%02d",week);
 
@@ -46,9 +48,11 @@ public class Booking implements Identifiable {
     }
     public void cancelBooking(){
         this.bookingStatus = BookingStatus.Cancelled;
+        this.updatedOn = LocalDateTime.now();
     }
     public void attendBooking(){
         this.bookingStatus = BookingStatus.Attended;
+        this.updatedOn = LocalDateTime.now();
     }
     public Lesson getLesson() {
         return this.lesson;

@@ -55,8 +55,13 @@ public class BookingListViewByLearner {
 
         return bookingData;
     }
+    public boolean isBookingListEmpty(){
+        this.bookingList = bookingController.getBookingsByLearner(learner);
+        return this.bookingList.isEmpty();
+    }
     public void printBookingList(){
         this.bookingList = bookingController.getBookingsByLearner(learner);
+
         printHeader();
         for(Booking booking : this.bookingList){
             List<String> bookingData = getBookingData(booking);

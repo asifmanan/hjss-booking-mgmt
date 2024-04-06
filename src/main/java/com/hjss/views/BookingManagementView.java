@@ -23,8 +23,16 @@ public class BookingManagementView {
         this.learnerGetOrCreateView = learnerGetOrCreateView;
     }
 
-    public void manageBooking(){
-        Booking booking = getValidBooking();
+    public void cancelOrChangeBooking(){
+        Learner learner = learnerGetOrCreateView.getAndSelectLearnerIfNotPresent();
+        BookingListViewByLearner bookingListView = new BookingListViewByLearner(bookingController, learner);
+        if(bookingListView.isBookingListEmpty()){
+            System.out.println(leftMargin+learner.getFormattedFullName()+", does not have any swimming lessons booked.\n");
+            return;
+        }
+        bookingListView.printBookingList();
+
+        Booking booking = getAndValidateBooking();
         if(booking!=null){
             try{
                 Terminal terminal = TerminalManager.getTerminal();
@@ -34,23 +42,26 @@ public class BookingManagementView {
                         "\n"+leftMargin+"TYPE Change if you want to CHANGE the Selected Booking");
                 String prompt = "Cancel/Change: ";
                 terminal.writer().print("\n\n");
+
                 String input = InputValidator.inputGetter(terminal, lineReader, prompt, helpText);
+                if(input==null) return;
                 if(input.equalsIgnoreCase("cancel")){
                     booking.cancelBooking();
                 }
+
             } catch (IOException e){
                 e.printStackTrace();
             }
         }
     }
 
-    public Booking getValidBooking(){
+    public Booking getAndValidateBooking(){
         Booking booking;
         try{
             Terminal terminal = TerminalManager.getTerminal();
             LineReader lineReader = TerminalManager.getLineReader();
             while(true){
-                Pair<Booking, Boolean> bookingBooleanPair = fetchBooking(terminal, lineReader);
+                Pair<Booking, Boolean> bookingBooleanPair = fetchBookingById(terminal, lineReader);
                 if(bookingBooleanPair==null) {
                     terminal.puts(InfoCmp.Capability.clear_screen);
                     terminal.writer().println(leftMargin+"Operation Aborted! Learner Not Selected");
@@ -81,12 +92,7 @@ public class BookingManagementView {
         }
         return null;
     }
-    public Pair<Booking, Boolean> fetchBooking(Terminal terminal, LineReader lineReader){
-        Learner learner = learnerGetOrCreateView.getAndSelectLearnerIfNotPresent();
-        BookingListViewByLearner bookingListView = new BookingListViewByLearner(bookingController, learner);
-
-        bookingListView.printBookingList();
-
+    public Pair<Booking, Boolean> fetchBookingById(Terminal terminal, LineReader lineReader){
         HelpText helpText = new HelpText(leftMargin + "TYPE [BOOKING ID] and ENTER to SELECT a BOOKING",
                 "\n"+leftMargin + "TYPE :c and ENTER to GO BACK\n","");
 
@@ -103,7 +109,6 @@ public class BookingManagementView {
                     bookingBooleanPair.setInvalidFlag(true);
                 }
             }
-
         }
         bookingBooleanPair.setObject(booking);
         return bookingBooleanPair;

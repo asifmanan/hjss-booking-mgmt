@@ -64,7 +64,7 @@ public class EntryView {
 
         mainMenu.addMenuItem("Attend",null,"to ATTEND a Swimming Lesson");;
         mainMenu.addMenuItem("Register",learnerGetOrCreateView::createAndSelectLearner,"to REGISTER a New Learner");;
-        mainMenu.addMenuItem("Manage",bookingManagementView::manageBooking,"to CANCEL/CHANGE an existing BOOKING");;
+        mainMenu.addMenuItem("Manage",bookingManagementView::cancelOrChangeBooking,"to CANCEL/CHANGE an existing BOOKING");;
 
         mainMenu.addSubMenu(bookingMenu, "to BOOK a Swimming Lesson");
         bookingMenu.addMenuItem("Day", bookingCreateView::bookLessonByDay, "to VIEW LESSONS by DAY");
