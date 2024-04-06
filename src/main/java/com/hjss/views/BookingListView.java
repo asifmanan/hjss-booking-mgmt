@@ -16,7 +16,7 @@ public class BookingListView {
     public BookingListView(BookingController bookingController){
         this.bookingController = bookingController;
         this.bookingList = bookingController.getAllObjects();
-        this.headers = Arrays.asList("Id","Date","Status","LearnerID","LessonID");
+        this.headers = Arrays.asList("Id","Date","Status","Learner","Grade");
         setColumnWidths(this.headers);
         this.tablePrinter = new TablePrinter(this.headers,this.columnWidths);
     }
@@ -25,8 +25,8 @@ public class BookingListView {
                 "Id",11,
                 "Date",13,
                 "Status",13,
-                "LearnerID",11,
-                "LessonID",9
+                "Learner",20,
+                "Grade",6
 //                "End",9,
 //                "Grade",7,
 //                "Coach",12
@@ -42,7 +42,7 @@ public class BookingListView {
         bookingData.add(booking.getLesson().getLessonDate().toString());
         bookingData.add(booking.getBookingStatus().toString());
         bookingData.add(booking.getLearner().getId());
-        bookingData.add(booking.getLesson().getId());
+        bookingData.add(booking.getLesson().getGrade().toString());
 
         return bookingData;
     }

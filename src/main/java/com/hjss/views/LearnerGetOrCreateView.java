@@ -54,7 +54,7 @@ public class LearnerGetOrCreateView {
                 terminal.writer().println(leftMargin+"Operation Aborted! Learner Not Selected");
             } else {
                 this.selectedLearner=learner;
-                terminal.writer().println(leftMargin+"Selected Learner ID: " + selectedLearner.getId());
+//                terminal.writer().println(leftMargin+"Selected Learner ID: " + selectedLearner.getId());
             }
         } catch (IOException e){
             e.printStackTrace();
@@ -94,7 +94,7 @@ public class LearnerGetOrCreateView {
                     } else {
                         terminal.puts(InfoCmp.Capability.clear_screen);
                         this.selectedLearner=learner;
-                        terminal.writer().println(leftMargin+"Selected Learner ID: " + selectedLearner.getId());
+//                        terminal.writer().println(leftMargin+"Selected Learner ID: " + selectedLearner.getId());
                         break;
                     }
                 }
@@ -107,8 +107,8 @@ public class LearnerGetOrCreateView {
         updateLearnerList();
         learnerListView.printLearnerList();
         HelpText helpText = new HelpText(leftMargin + "TYPE [LEARNER ID] and ENTER to SELECT a LEARNER" +
-                "                           \n"+leftMargin+ "TYPE new to CREATE a NEW LEARNER",
-                leftMargin+"\nTYPE :c and ENTER to CANCEL\n","");
+                                            "\n"+leftMargin + "TYPE new to CREATE a NEW LEARNER",
+                                    leftMargin + "TYPE :c and ENTER to CANCEL\n","");
 
         String learnerPrompt = "LEARNER ID: ";
         String input = InputValidator.inputGetter(terminal, lineReader, learnerPrompt, helpText);

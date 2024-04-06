@@ -39,10 +39,17 @@ public class EntryView {
         this.lessonListViewByWeek = new LessonListViewByWeek(lessonController);
         this.lessonListViewByDay = new LessonListViewByDay(lessonController);
 
+//        this.bookingCreateView = new BookingCreateView(bookingController,
+//                                                        lessonController,
+//                                                        coachController,
+//                                                        learnerController
+//                                                        );
         this.bookingCreateView = new BookingCreateView(bookingController,
                                                         lessonController,
-                                                        learnerController,
-                                                        coachController);
+                                                        coachController,
+                                                        learnerGetOrCreateView
+                                                        );
+
         this.bookingListView = new BookingListView(bookingController);
 
 

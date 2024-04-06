@@ -25,6 +25,9 @@ public class BookingController implements ModelController<Booking> {
         Booking booking = createObject(learner, lesson);
         return addObject(booking);
     }
+    public Booking getBookingById(String bookingId){
+        return bookingRegister.get(bookingId);
+    }
 
     @Override
     public List<Booking> getAllObjects() {
