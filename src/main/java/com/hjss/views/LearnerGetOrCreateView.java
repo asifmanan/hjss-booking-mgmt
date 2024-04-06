@@ -1,9 +1,7 @@
 package com.hjss.views;
 
 import com.hjss.controllers.LearnerController;
-import com.hjss.models.Coach;
 import com.hjss.models.Learner;
-import com.hjss.models.Lesson;
 import com.hjss.utilities.HelpText;
 import com.hjss.utilities.InputValidator;
 import com.hjss.utilities.Pair;
@@ -15,7 +13,6 @@ import org.jline.utils.InfoCmp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class LearnerGetOrCreateView {
     private LearnerController learnerController;
@@ -29,6 +26,9 @@ public class LearnerGetOrCreateView {
         this.learnerCreateView = new LearnerCreateView(learnerController);
         this.learnerListView = new LearnerListView(learnerController);
         updateLearnerList();
+    }
+    private Learner getSelectedLearner(){
+        return this.selectedLearner;
     }
     private void updateLearnerList(){
         learnerList = learnerController.getAllObjects();
@@ -62,7 +62,7 @@ public class LearnerGetOrCreateView {
             Terminal terminal = TerminalManager.getTerminal();
             LineReader lineReader = TerminalManager.getLineReader();
             while(true){
-                Pair<Learner, Boolean> learnerBooleanPair = getLearner(terminal, lineReader);
+                Pair<Learner, Boolean> learnerBooleanPair = fetchLearner(terminal, lineReader);
                 if(learnerBooleanPair == null) {
                     terminal.puts(InfoCmp.Capability.clear_screen);
                     terminal.writer().println(leftMargin+"Operation Aborted! Learner Not Selected");
@@ -94,7 +94,7 @@ public class LearnerGetOrCreateView {
             e.printStackTrace();
         }
     }
-    public Pair<Learner, Boolean> getLearner(Terminal terminal, LineReader lineReader){
+    public Pair<Learner, Boolean> fetchLearner(Terminal terminal, LineReader lineReader){
         updateLearnerList();
         learnerListView.printLearnerList();
         HelpText helpText = new HelpText(leftMargin + "TYPE [LEARNER ID] and ENTER to SELECT a LEARNER" +
