@@ -46,9 +46,15 @@ public class Booking implements Identifiable {
     public BookingStatus getBookingStatus(){
         return this.bookingStatus;
     }
-    public void cancelBooking(){
-        this.bookingStatus = BookingStatus.Cancelled;
-        this.updatedOn = LocalDateTime.now();
+    public Boolean cancelBooking(){
+        if(this.bookingStatus == BookingStatus.Active){
+            this.bookingStatus = BookingStatus.Cancelled;
+            this.updatedOn = LocalDateTime.now();
+            return true;
+        } else if (this.bookingStatus == BookingStatus.Attended) {
+            return false;
+        }
+        return null;
     }
     public void updateBooking(Lesson lesson){
         this.bookingStatus = BookingStatus.Active;

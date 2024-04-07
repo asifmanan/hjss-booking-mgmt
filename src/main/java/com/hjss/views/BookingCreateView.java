@@ -20,7 +20,7 @@ public class BookingCreateView {
     private LessonController lessonController;
     private CoachController coachController;
     private LearnerGetOrCreateView learnerGetOrCreateView;
-    private LessonListView lessonListView, lessonListViewByWeek, lessonListViewByDay, lessonListViewByGrade;
+    private LessonListView lessonListView;
 
 
     public BookingCreateView(BookingController bookingController, LessonController lessonController, CoachController coachController, LearnerGetOrCreateView learnerGetOrCreateView){
@@ -99,7 +99,10 @@ public class BookingCreateView {
         LessonGetView lessonGetView = new LessonGetView(lessonController, coachController);
         Lesson newLesson = lessonGetView.getLessonsByChoice();
         if(newLesson==null) return null;
-        booking.updateBooking(newLesson);
+        Lesson verifiedLesson = verifyLessonConstraints(newLesson, learner);
+        if(verifiedLesson==null) return null;
+        booking.updateBooking(verifiedLesson);
+        System.out.println(booking.getLesson().getId());
         return booking;
     }
     private Lesson verifyLessonConstraints(Lesson lesson, Learner learner){

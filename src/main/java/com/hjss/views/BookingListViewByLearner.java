@@ -68,6 +68,9 @@ public class BookingListViewByLearner {
             tablePrinter.printRow(bookingData);
         }
     }
+    public List<Booking> getBookingList(){
+        return this.bookingList;
+    }
     private void printPaginatedBookingList(){
 
     }

@@ -21,6 +21,7 @@ public class BookingController implements ModelController<Booking> {
     public String addObject(Booking object) {
         return bookingRegister.add(object);
     }
+
     public String createAndAddObject(Learner learner, Lesson lesson){
         Booking booking = createObject(learner, lesson);
         return addObject(booking);

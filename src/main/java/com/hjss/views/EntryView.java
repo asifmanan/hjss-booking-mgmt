@@ -50,7 +50,7 @@ public class EntryView {
                                                         coachController,
                                                         learnerGetOrCreateView
                                                         );
-        this.bookingManagementView = new BookingManagementView(bookingCreateView);
+        this.bookingManagementView = new BookingManagementView(bookingCreateView,learnerGetOrCreateView);
 
 //        this.bookingListViewByLearner = new BookingListViewByLearner(bookingController, learnerGetOrCreateView);
 
