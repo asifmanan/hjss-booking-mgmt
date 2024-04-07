@@ -50,6 +50,10 @@ public class Booking implements Identifiable {
         this.bookingStatus = BookingStatus.Cancelled;
         this.updatedOn = LocalDateTime.now();
     }
+    public void updateBooking(Lesson lesson){
+        this.bookingStatus = BookingStatus.Active;
+        this.lesson = lesson;
+    }
     public void attendBooking(){
         this.bookingStatus = BookingStatus.Attended;
         this.updatedOn = LocalDateTime.now();

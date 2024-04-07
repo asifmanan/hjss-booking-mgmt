@@ -8,7 +8,6 @@ import com.hjss.models.Booking;
 import com.hjss.models.Learner;
 import com.hjss.models.Lesson;
 import io.consolemenu.TerminalManager;
-import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
@@ -36,7 +35,6 @@ public class BookingCreateView {
         this.learnerController = learnerController;
         this.coachController = coachController;
     }
-
     private Optional<Learner> getLearner() {
         LearnerCreateView learnerCreateView = new LearnerCreateView(learnerController);
         return learnerCreateView.getOrCreateLearner();
@@ -53,17 +51,17 @@ public class BookingCreateView {
     }
     public void bookLessonByGrade(){
         this.lessonListView = new LessonListViewByGrade(lessonController);
-        bookLesson();
+        createBooking();
     }
     public void bookLessonByDay(){
         this.lessonListView = new LessonListViewByDay(lessonController);
-        bookLesson();
+        createBooking();
     }
     public void bookLessonByCoach(){
         this.lessonListView = new LessonListViewByCoach(lessonController, coachController);
-        bookLesson();
+        createBooking();
     }
-    public void bookLesson() {
+    public void createBooking() {
         Optional<Learner> optionalLearner = getSelectedLearner();
 
         if (!optionalLearner.isPresent()) {
@@ -80,26 +78,8 @@ public class BookingCreateView {
             // get lesson from the list
             Lesson lesson = lessonListView.getLessonFromPaginatedList();
 
-
-            if (lesson == null) {
-                System.out.println("   No lesson selected.\n");
-                return;  // Exit if no lesson is selected (Cancelled Operation)
-            } else {
-                terminal.puts(InfoCmp.Capability.clear_screen);
-                System.out.println("Booking for "+learner.getFormattedFullName()+", LearnerID: "+ learner.getId()+"\n");
-            }
-
-            // Check if the lesson is already booked by the learner
-            if (bookingController.isAlreadyBookedByLearner(learner, lesson)) {
-                System.out.println("Booking Unsuccessful, Lesson already booked by the same Learner.");
-                return;
-            }
-
-            // Check if the lesson is fully booked (Max is 4)
-            if (bookingController.isFullyBooked(lesson)) {
-                System.out.println("Booking Unsuccessful, This lesson is fully booked!");
-                return;
-            }
+            lesson = verifyLessonConstraints(lesson, learner);
+            if(lesson == null) return;
 
             // If all checks pass, create the booking :)
             String bookingId = bookingController.createAndAddObject(learner, lesson);
@@ -113,5 +93,44 @@ public class BookingCreateView {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+    public Booking updateBooking(Booking booking){
+        Learner learner = booking.getLearner();
+        LessonGetView lessonGetView = new LessonGetView(lessonController, coachController);
+        Lesson newLesson = lessonGetView.getLessonsByChoice();
+        if(newLesson==null) return null;
+        booking.updateBooking(newLesson);
+        return booking;
+    }
+    private Lesson verifyLessonConstraints(Lesson lesson, Learner learner){
+        try{
+            Terminal terminal = TerminalManager.getTerminal();
+            if (lesson == null) {
+                System.out.println("   No lesson selected.\n");
+                return null;  // Exit if no lesson is selected (Cancelled Operation)
+            } else {
+                terminal.puts(InfoCmp.Capability.clear_screen);
+                System.out.println("Booking for "+learner.getFormattedFullName()+", LearnerID: "+ learner.getId()+"\n");
+            }
+
+            // Check if the lesson is already booked by the learner
+            if (bookingController.isAlreadyBookedByLearner(learner, lesson)) {
+                System.out.println("Booking Unsuccessful, Lesson already booked by the same Learner.");
+                return null;
+            }
+
+            // Check if the lesson is fully booked (Max is 4)
+            if (bookingController.isFullyBooked(lesson)) {
+                System.out.println("Booking Unsuccessful, This lesson is fully booked!");
+                return null;
+            }
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return lesson;
+    }
+    public BookingController getBookingController(){
+        return this.bookingController;
     }
 }
