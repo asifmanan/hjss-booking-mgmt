@@ -62,7 +62,7 @@ public class EntryView {
 
         Menu bookingMenu = new Menu("Book",mainMenu);
 
-        mainMenu.addMenuItem("Attend",null,"to ATTEND a Swimming Lesson");;
+        mainMenu.addMenuItem("Attend",bookingManagementView::attendBooking,"to ATTEND a Swimming Lesson");;
         mainMenu.addMenuItem("Register",learnerGetOrCreateView::createAndSelectLearner,"to REGISTER a New Learner");;
         mainMenu.addMenuItem("Manage",bookingManagementView::cancelOrChangeBooking,"to CANCEL/CHANGE an existing BOOKING");;
 

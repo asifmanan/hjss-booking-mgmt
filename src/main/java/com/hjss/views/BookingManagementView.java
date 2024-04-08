@@ -32,6 +32,24 @@ public class BookingManagementView {
         this.bookingController = bookingCreateView.getBookingController();
     }
 
+    public void attendBooking(){
+        while(true){
+            Booking booking = getAndValidateBooking();
+            if(booking==null){
+                return;
+            }
+            try{
+                Terminal terminal = TerminalManager.getTerminal();
+                if(booking.getBookingStatus()==BookingStatus.Active){
+                    booking.attendBooking();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            System.out.println("Booking Selected: "+booking.getId());
+        }
+    }
+
     public void cancelOrChangeBooking(){
 //        Learner learner = learnerGetOrCreateView.getAndSelectLearnerIfNotPresent();
 //        BookingListViewByLearner bookingListView = new BookingListViewByLearner(bookingController, learner);
