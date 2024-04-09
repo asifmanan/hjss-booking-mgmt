@@ -35,10 +35,7 @@ public class BookingCreateView {
         this.learnerController = learnerController;
         this.coachController = coachController;
     }
-    private Optional<Learner> getLearner() {
-        LearnerCreateView learnerCreateView = new LearnerCreateView(learnerController);
-        return learnerCreateView.getOrCreateLearner();
-    }
+
     public Optional<Learner> getSelectedLearner() {
         Learner learner = learnerGetOrCreateView.getSelectedLearner();
         if(learner!=null) return Optional.of(learner);
