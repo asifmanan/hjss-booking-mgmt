@@ -25,54 +25,6 @@ public class LearnerCreateView {
         learnerList = learnerController.getAllObjects();
     }
 
-    private Pair<String, Boolean> getAndValidateInput(){
-        String input = null;
-        Pair<String, Boolean> valuePair = null;
-        String prompt = "LEARNER>>";
-        HelpText helpText = new HelpText();
-        helpText.setText("SELECT Learner by entering LEARNER ID\nOR TYPE new TO CREATE A NEW LEARNER\n");
-//        helpText.setAppend("");
-        try{
-            List<String> learnerIds = learnerList.stream().map(Learner::getId).toList();
-            TerminalManager.updateCompleter(learnerIds);
-            Terminal terminal = TerminalManager.getTerminal();
-            LineReader lineReader = TerminalManager.getLineReader();
-            valuePair = InputValidator.getAndValidateStringSingleRun(terminal, lineReader, prompt,"(?i)(LR\\d{6}|new)", helpText);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        return valuePair;
-    }
-
-    public Optional<Learner> getOrCreateLearner(){
-        updateLearnerList();
-        LearnerListView learnerListView = new LearnerListView(learnerController);
-        while (true) {
-            learnerListView.printLearnerList();
-            Pair<String, Boolean> inputPair = getAndValidateInput();
-
-            if (inputPair == null) {
-                return Optional.empty(); // Signal cancellation
-            }
-
-            if (inputPair.getObj().matches("^\\d{8}$")) {
-                String inputValue = inputPair.getObj();
-                Learner learner = learnerController.getLearnerById(inputValue);
-                if (learner != null) {
-                    return Optional.of(learner);
-                }
-                System.out.println("Learner not found. Please try again or enter :c to cancel.");
-            } else if (inputPair.getObj().trim().equalsIgnoreCase("new")) {
-                Learner learner = createLearner();
-                if (learner != null) {
-                    return Optional.of(learner);
-                }
-                // Handle case where learner creation fails
-            } else {
-                System.out.println("Invalid input. Please enter a valid learner ID, 'new' to create a learner, or ':c' to cancel.");
-            }
-        }
-    }
     public Learner createLearner() {
         Learner learner = null;
         try {
