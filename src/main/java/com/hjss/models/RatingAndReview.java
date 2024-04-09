@@ -1,14 +1,12 @@
 package com.hjss.models;
 
-import com.hjss.utilities.HelpText;
 import com.hjss.utilities.Rating;
-import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
 public class RatingAndReview {
-    private final int maxReviewLength = 150;
+    private final static int maxReviewLength = 250;
     private Rating rating;
     private String review;
     public RatingAndReview(){
@@ -44,46 +42,63 @@ public class RatingAndReview {
         return this.rating;
     }
     public boolean setReview(String reviewString){
-        if(!reviewString.isEmpty() && reviewString.length() < 151){
+        boolean response = validateReview(reviewString);
+        if (response) {
             this.review = reviewString;
-            return true;
-        } else {
-            return false;
         }
+        return response;
     }
     public String getReview(){
         return this.review;
     }
-    public static Rating validateRating(String ratingString){
+    public static Rating getValidatedRating(String ratingString){
         try{
-            Rating rating = Rating.fromString(ratingString);
-            return rating;
+            return Rating.fromString(ratingString);
         } catch (IllegalArgumentException e){
             return null;
         }
     }
-    public void getAndSetRating(Terminal terminal, LineReader lineReader, String message){
+    public static boolean validateReview(String reviewString){
+        return !reviewString.isEmpty() && reviewString.length() <= maxReviewLength;
+    }
+    public static Rating getRatingInput(Terminal terminal, LineReader lineReader, String message){
         String leftMargin = " ".repeat(3);
 
         String helpText = leftMargin+ message+
-                                        "\n"+leftMargin+"Please provide your feedback,"+
-                                        "\n"+leftMargin+"1 for Very Dissatisfied"+
-                                        "\n"+leftMargin+"2 for Very Dissatisfied"+
-                                        "\n"+leftMargin+"3 for Very Dissatisfied"+
-                                        "\n"+leftMargin+"4 for Very Dissatisfied"+
-                                        "\n"+leftMargin+"5 for Very Dissatisfied"+
-                                        "\n\n";
+                "\n"+leftMargin+"Please provide your feedback,"+
+                "\n"+leftMargin.repeat(2)+"1 for Very Dissatisfied"+
+                "\n"+leftMargin.repeat(2)+"2 for Dissatisfied"+
+                "\n"+leftMargin.repeat(2)+"3 for Ok"+
+                "\n"+leftMargin.repeat(2)+"4 for Satisfied"+
+                "\n"+leftMargin.repeat(2)+"5 for Very Satisfied"+
+                "\n\n";
 
-        String ratingPrompt = "Enter Rating: ";
+        String ratingPrompt = "Give Rating: ";
         while (true){
             terminal.puts(InfoCmp.Capability.clear_screen);
             terminal.writer().print(helpText);
             String input = lineReader.readLine(ratingPrompt);
-            if(this.setRating(input)){
-                break;
+            Rating rating = getValidatedRating(input);
+            if (rating!=null){
+                return rating;
             }
         }
-//        String reviewPrompt = String.format("Provide Review (Max %s characters): ",maxReviewLength);
-//        String review = lineReader.readLine(reviewPrompt);
+    }
+    public static String getReviewInput(Terminal terminal, LineReader lineReader){
+        String leftMargin = " ".repeat(3);
+        String helpText =
+                "\n"+leftMargin+"Please share your thoughts about your experience\n";
+        String reviewPrompt = leftMargin+"Write a Review (Max 250 Characters): ";
+        while (true){
+            terminal.puts(InfoCmp.Capability.clear_screen);
+            terminal.writer().println(helpText);
+            String input = lineReader.readLine(reviewPrompt);
+            if(validateReview(input)){
+                terminal.puts(InfoCmp.Capability.clear_screen);
+                terminal.writer().print(leftMargin+"Thank you for your feedback.\n");
+                return input;
+            }
+        }
+
     }
 }

@@ -40,8 +40,10 @@ public class BookingManagementView {
             }
             try{
                 Terminal terminal = TerminalManager.getTerminal();
+                LineReader lineReader = TerminalManager.getLineReader();
                 if(booking.getBookingStatus()==BookingStatus.Active){
-                    booking.attendBooking();
+                    booking.attendAndRate(terminal, lineReader);
+                    return;
                 }
             } catch (IOException e){
                 e.printStackTrace();

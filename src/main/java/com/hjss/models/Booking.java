@@ -3,6 +3,8 @@ package com.hjss.models;
 import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.IdGenerator;
 import com.hjss.utilities.Rating;
+import org.jline.reader.LineReader;
+import org.jline.terminal.Terminal;
 import org.threeten.extra.YearWeek;
 
 import javax.swing.text.Utilities;
@@ -24,6 +26,7 @@ public class Booking implements Identifiable {
         this.learner = learner;
         this.lesson = lesson;
         this.bookingStatus = BookingStatus.Active;
+        this.ratingAndReview = new RatingAndReview();
         this.createdOn = LocalDateTime.now();
 
         this.generateId();
@@ -66,11 +69,14 @@ public class Booking implements Identifiable {
         this.bookingStatus = BookingStatus.Attended;
         this.updatedOn = LocalDateTime.now();
     }
-    public void attendAndReview(){
-        attendBooking();
+    public void attendAndRate(Terminal terminal, LineReader lineReader){
         String leftMargin = " ".repeat(3);
         String message = String.format("Thank you %s, for attending the lesson", this.learner.getFirstName() );
-
+        attendBooking();
+        Rating rating = RatingAndReview.getRatingInput(terminal, lineReader, message);
+        this.ratingAndReview.setRating(rating);
+        String review = RatingAndReview.getReviewInput(terminal, lineReader);
+        this.ratingAndReview.setReview(review);
     }
     public Lesson getLesson() {
         return this.lesson;
