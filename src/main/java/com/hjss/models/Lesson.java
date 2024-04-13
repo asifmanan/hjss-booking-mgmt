@@ -41,6 +41,10 @@ public class Lesson implements Identifiable {
           return (  learner.getGradeLevel() == this.getGradeInt()
                   || learner.getGradeLevel() + 1 == this.getGradeInt() );
      }
+     public int getMinLearnerGradeRequired(){
+          int gradeLevel = this.getGradeInt();
+          return gradeLevel-1;
+     }
 
      public WeekDayTimeSlot getWeekDayTimeSlot(){
           return this.weekDayTimeSlot;

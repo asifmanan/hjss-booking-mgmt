@@ -71,9 +71,9 @@ public class LearnerCreateView {
 
             learner = learnerController.createObject(firstName, lastName, gender,
                                                                 dateOfBirth, grade, contactNumber);
-            String learnerId = learnerController.addObject(learner);
+//            String learnerId = learnerController.addObject(learner);
 
-            System.out.println("   Learner created with ID: "+ learnerId);
+//            System.out.println("   Learner created with ID: "+ learnerId);
         }
         catch (Exception e) {
             e.printStackTrace();

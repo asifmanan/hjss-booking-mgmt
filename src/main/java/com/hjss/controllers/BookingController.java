@@ -7,7 +7,6 @@ import com.hjss.models.Lesson;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BookingController implements ModelController<Booking> {
     private final ModelRegister<Booking> bookingRegister;
@@ -72,6 +71,9 @@ public class BookingController implements ModelController<Booking> {
     }
     public boolean isFullyBooked(Lesson lesson){
         int bookingCount = getBookingByLessonCount(lesson);
-        return bookingCount > 3;
+        return bookingCount >= lesson.getMaxCapacity();
+    }
+    public boolean isGradeCriteriaValid(Learner learner, Lesson lesson){
+        return learner.getGradeLevel() >= lesson.getMinLearnerGradeRequired();
     }
 }

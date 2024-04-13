@@ -1,6 +1,7 @@
 package com.hjss.models;
 
 import com.hjss.utilities.BookingStatus;
+import com.hjss.utilities.HelpText;
 import com.hjss.utilities.IdGenerator;
 import com.hjss.utilities.Rating;
 import org.jline.reader.LineReader;
@@ -67,13 +68,18 @@ public class Booking implements Identifiable {
     }
     public void attendBooking(){
         this.bookingStatus = BookingStatus.Attended;
+        this.learner.gradeLevelUp();
         this.updatedOn = LocalDateTime.now();
     }
     public void attendAndRate(Terminal terminal, LineReader lineReader){
         String leftMargin = " ".repeat(3);
-        String message = String.format("Thank you %s, for attending the lesson", this.learner.getFirstName() );
         attendBooking();
-        Rating rating = RatingAndReview.getRatingInput(terminal, lineReader, message);
+        HelpText helpText = new HelpText();
+        String congratulatoryNote = String.format("Congratulations %s, you have advanced to grade level %s",this.learner.getFirstName(), this.learner.getGradeLevel());
+        helpText.setPrepend(congratulatoryNote);
+        helpText.setText("Thank you for attending the lesson");
+
+        Rating rating = RatingAndReview.getRatingInput(terminal, lineReader, helpText);
         this.ratingAndReview.setRating(rating);
         String review = RatingAndReview.getReviewInput(terminal, lineReader);
         this.ratingAndReview.setReview(review);

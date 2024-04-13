@@ -108,12 +108,16 @@ public class BookingCreateView {
             if (lesson == null) {
                 System.out.println("   No lesson selected.\n");
                 return null;  // Exit if no lesson is selected (Cancelled Operation)
-            } else {
-                terminal.puts(InfoCmp.Capability.clear_screen);
-                System.out.println("Booking for "+learner.getFormattedFullName()+", LearnerID: "+ learner.getId()+"\n");
             }
 
+            terminal.puts(InfoCmp.Capability.clear_screen);
+            System.out.println("Booking for "+learner.getFormattedFullName()+", LearnerID: "+ learner.getId()+"\n");
+
             // Check if the lesson is already booked by the learner
+            if(!bookingController.isGradeCriteriaValid(learner, lesson)){
+                System.out.println("Booking Unsuccessful, minimum required grade for this lesson is "+lesson.getMinLearnerGradeRequired());
+                return null;
+            }
             if (bookingController.isAlreadyBookedByLearner(learner, lesson)) {
                 System.out.println("Booking Unsuccessful, Lesson already booked by the same Learner.");
                 return null;
