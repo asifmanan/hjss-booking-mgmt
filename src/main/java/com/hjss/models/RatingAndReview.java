@@ -1,5 +1,6 @@
 package com.hjss.models;
 
+import com.hjss.utilities.HelpText;
 import com.hjss.utilities.Rating;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
@@ -61,11 +62,13 @@ public class RatingAndReview {
     public static boolean validateReview(String reviewString){
         return !reviewString.isEmpty() && reviewString.length() <= maxReviewLength;
     }
-    public static Rating getRatingInput(Terminal terminal, LineReader lineReader, String message){
+    public static Rating getRatingInput(Terminal terminal, LineReader lineReader, HelpText helpText){
         String leftMargin = " ".repeat(3);
 
-        String helpText = leftMargin+ message+
-                "\n"+leftMargin+"Please provide your feedback,"+
+        String message = leftMargin+ helpText.getPrepend()+
+                "\n"+leftMargin+helpText.getText()+
+                "\n"+leftMargin+"Could you please rate your experience with us? We'd love your feedback!"+
+                "\n\n"+leftMargin+"Rate your experience from 1 - 5"+
                 "\n"+leftMargin.repeat(2)+"1 for Very Dissatisfied"+
                 "\n"+leftMargin.repeat(2)+"2 for Dissatisfied"+
                 "\n"+leftMargin.repeat(2)+"3 for Ok"+
@@ -73,10 +76,10 @@ public class RatingAndReview {
                 "\n"+leftMargin.repeat(2)+"5 for Very Satisfied"+
                 "\n\n";
 
-        String ratingPrompt = "Give Rating: ";
+        String ratingPrompt = "Rating: ";
         while (true){
             terminal.puts(InfoCmp.Capability.clear_screen);
-            terminal.writer().print(helpText);
+            terminal.writer().print(message);
             String input = lineReader.readLine(ratingPrompt);
             Rating rating = getValidatedRating(input);
             if (rating!=null){
