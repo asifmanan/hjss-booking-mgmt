@@ -3,15 +3,11 @@ package com.hjss.controllers;
 import com.hjss.modelrepository.ModelRegister;
 import com.hjss.models.Coach;
 import com.hjss.models.Lesson;
-import com.hjss.models.TimeSlot;
 import com.hjss.models.WeekDayTimeSlot;
 import com.hjss.utilities.Grade;
-import org.threeten.extra.YearWeek;
 
-import javax.swing.text.Utilities;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LessonController implements ModelController<Lesson> {
     private final ModelRegister<Lesson> lessonRegister;
@@ -38,7 +34,7 @@ public class LessonController implements ModelController<Lesson> {
     public List<Lesson> filterByGrade(int grade) {
         List<Lesson> allLessons = getAllObjects();
         return allLessons.stream()
-                .filter(lesson -> lesson.getGradeInt() == grade).toList();
+                .filter(lesson -> lesson.getGradeLevel() == grade).toList();
     }
     public int filterByGradeCount(int grade) {
         return filterByGrade(grade).size();

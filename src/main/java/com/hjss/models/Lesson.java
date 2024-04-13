@@ -39,11 +39,11 @@ public class Lesson implements Identifiable {
 
 
      public boolean isGradeValid(Learner learner){
-          return (  learner.getGradeLevel() == this.getGradeInt()
-                  || learner.getGradeLevel() + 1 == this.getGradeInt() );
+          return (  learner.getGradeLevel() == this.getGradeLevel()
+                  || learner.getGradeLevel() + 1 == this.getGradeLevel() );
      }
      public int getMinLearnerGradeRequired(){
-          int gradeLevel = this.getGradeInt();
+          int gradeLevel = this.getGradeLevel();
           return gradeLevel-1;
      }
 
@@ -62,7 +62,7 @@ public class Lesson implements Identifiable {
      public LocalTime getEndTime(){
           return this.weekDayTimeSlot.getEndTime();
      }
-     public Integer getGradeInt(){
+     public Integer getGradeLevel(){
           return this.gradeLevel.getValue();
      }
      public Grade getGrade(){
