@@ -98,7 +98,7 @@ public class BookingCreateView {
         if(newLesson==null) return null;
         Lesson verifiedLesson = verifyLessonConstraints(newLesson, learner);
         if(verifiedLesson==null) return null;
-        booking.updateBooking(verifiedLesson);
+        booking.updateLesson(verifiedLesson);
         System.out.println(booking.getLesson().getId());
         return booking;
     }

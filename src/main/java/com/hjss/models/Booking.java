@@ -8,10 +8,7 @@ import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
 import org.threeten.extra.YearWeek;
 
-import javax.swing.text.Utilities;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.TimeZone;
 
 import static com.hjss.utilities.DateUtil.getYearWeekForDate;
 
@@ -62,7 +59,7 @@ public class Booking implements Identifiable {
         }
         return null;
     }
-    public void updateBooking(Lesson lesson){
+    public void updateLesson(Lesson lesson){
         this.bookingStatus = BookingStatus.Active;
         this.lesson = lesson;
     }
