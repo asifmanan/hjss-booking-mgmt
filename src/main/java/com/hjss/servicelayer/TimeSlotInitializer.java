@@ -19,7 +19,7 @@ public class TimeSlotInitializer {
         this.currentYearWeek = YearWeek.from(LocalDate.now());
     }
     public void populateTimeSlots(){
-        populateTimeSlots(-8,24);
+        populateTimeSlots(-4,24);
     }
     public void populateTimeSlots(int startWeeks, int endWeeks){
         List<DayTimeSlot> dayTimeSlots = this.weeklySchedule.getSchedule();

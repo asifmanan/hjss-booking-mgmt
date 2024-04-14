@@ -18,6 +18,7 @@ public class BookingInitializer {
     private List<List<Lesson>> gradedLessonList;
     private List<List<Learner>> gradedLearnerList;
     private static final Random random = new Random();
+    private static final Random randomRating = new Random();
 
 
     public BookingInitializer(BookingController bookingController, LessonController lessonController, LearnerController learnerController) {
@@ -62,16 +63,21 @@ public class BookingInitializer {
             }
         }
     }
-    private boolean toBeOrNotToBe(){
+    private boolean toAttendOrCancel(){
         int chance = random.nextInt(100);
-        return chance < 80;
+        return chance < 75;
     }
     private void randomAttendanceAndCancellation(Booking booking){
-        boolean attendBooking = toBeOrNotToBe();
+        boolean attendBooking = toAttendOrCancel();
         if(attendBooking){
-            booking.attendBooking();
+            int rating = getRandomRating();
+            booking.attendAndRate(rating);
         } else {
             booking.cancelBooking();
         }
+    }
+    private int getRandomRating() {
+        int[] ratings = { 1, 2, 3, 4, 5, 3, 4, 5, 3, 4, 5}; // More entries for 3, 4, 5
+        return ratings[randomRating.nextInt(ratings.length)];
     }
 }

@@ -71,6 +71,17 @@ public class Booking implements Identifiable {
         }
         this.updatedOn = LocalDateTime.now();
     }
+    public void attendAndRate(int ratingInt){
+        attendBooking();
+        try{
+            Rating rating = Rating.fromInt(ratingInt);
+            this.setRating(rating);
+        } catch (IllegalArgumentException e){
+            Rating rating = Rating.Ok;
+            this.setRating(rating);
+        }
+
+    }
     public void attendAndRate(Terminal terminal, LineReader lineReader){
         String leftMargin = " ".repeat(3);
         attendBooking();
@@ -80,7 +91,7 @@ public class Booking implements Identifiable {
         helpText.setText("Thank you for attending the lesson");
 
         Rating rating = RatingAndReview.getRatingInput(terminal, lineReader, helpText);
-        this.ratingAndReview.setRating(rating);
+        this.setRating(rating);
         String review = RatingAndReview.getReviewInput(terminal, lineReader);
         this.ratingAndReview.setReview(review);
     }
@@ -89,6 +100,9 @@ public class Booking implements Identifiable {
     }
     public Learner getLearner() {
         return this.learner;
+    }
+    public void setRating(Rating rating){
+        this.ratingAndReview.setRating(rating);
     }
     public Rating getRating(){
         return this.ratingAndReview.getRating();
