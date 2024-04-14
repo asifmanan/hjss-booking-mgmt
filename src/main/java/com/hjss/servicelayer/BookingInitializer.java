@@ -10,6 +10,8 @@ import com.hjss.utilities.Grade;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class BookingInitializer {
     private final BookingController bookingController;
@@ -41,58 +43,48 @@ public class BookingInitializer {
     public List<Lesson> getGradedLessonListByGrade(int grade){
         return this.gradedLessonList.get(grade);
     }
+
     private void initializePastBookings() {
+        temporalBookingInitializer(
+                date -> date.isBefore(LocalDate.now()),
+                this::randomAttendanceAndCancellation
+        );
+    }
+
+    private void initializeFutureBookings() {
+        temporalBookingInitializer(
+                date -> date.isAfter(LocalDate.now()),
+                booking -> {} // No attend or cancel for future booking
+        );
+    }
+
+    private void temporalBookingInitializer(Predicate<LocalDate> dateFilter, Consumer<Booking> postBookingAction) {
         for (int i = 0; i <= Grade.getMaxGrade(); i++) {
-            if (learnerController.filterByGrade(i).isEmpty()) {
-                continue;
-            }
+            if (learnerController.filterByGrade(i).isEmpty()) continue;
+
             for (Lesson lesson : lessonController.filterByGrade(i)) {
-                if(lesson.getWeekDayTimeSlot().getDate().isAfter(LocalDate.now())) continue;
-                List<Learner> learnersList;
-                if(i==0){
-                    learnersList = new ArrayList<>(learnerController.filterByEligibleGrade(i));
-                } else{
-                    learnersList = new ArrayList<>(learnerController.filterByGrade(i));
-                }
-                if(learnersList.isEmpty()) continue;
+                if (!dateFilter.test(lesson.getWeekDayTimeSlot().getDate())) continue;
+
+                List<Learner> learnersList = new ArrayList<>(i == 0
+                        ? learnerController.filterByEligibleGrade(i)
+                        : learnerController.filterByGrade(i));
+                if (learnersList.isEmpty()) continue;
+
                 Collections.shuffle(learnersList);
                 lesson = lessonController.getLesson(lesson.getId());
-                for(Learner learner : learnersList){
-                    if(bookingController.isFullyBooked(lesson)) break;
-                    if(!toBookOrNotToBook()) break;
+
+                for (Learner learner : learnersList) {
+                    if (bookingController.isFullyBooked(lesson) || !toBookOrNotToBook()) break;
                     learner = learnerController.getLearnerById(learner.getId());
                     String bookingId = bookingController.createAndAddObject(learner, lesson);
                     Booking booking = bookingController.getBookingById(bookingId);
-                    randomAttendanceAndCancellation(booking);
+                    postBookingAction.accept(booking);
                 }
             }
         }
     }
-    private void initializeFutureBookings(){
-        for (int i = 0; i <= Grade.getMaxGrade(); i++) {
-            if (learnerController.filterByGrade(i).isEmpty()) {
-                continue;
-            }
-            for (Lesson lesson : lessonController.filterByGrade(i)) {
-                if(lesson.getWeekDayTimeSlot().getDate().isBefore(LocalDate.now())) continue;
-                List<Learner> learnersList;
-                if(i==0){
-                    learnersList = new ArrayList<>(learnerController.filterByEligibleGrade(i));
-                } else{
-                    learnersList = new ArrayList<>(learnerController.filterByGrade(i));
-                }
-                if(learnersList.isEmpty()) continue;
-                Collections.shuffle(learnersList);
-                lesson = lessonController.getLesson(lesson.getId());
-                for(Learner learner : learnersList){
-                    if(bookingController.isFullyBooked(lesson)) break;
-                    if(!toBookOrNotToBook()) break;
-                    learner = learnerController.getLearnerById(learner.getId());
-                    bookingController.createAndAddObject(learner, lesson);
-                }
-            }
-        }
-    }
+
+
     public void initializeBookings(){
         initializePastBookings();
         initializeFutureBookings();
