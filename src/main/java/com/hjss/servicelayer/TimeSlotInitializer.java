@@ -19,11 +19,11 @@ public class TimeSlotInitializer {
         this.currentYearWeek = YearWeek.from(LocalDate.now());
     }
     public void populateTimeSlots(){
-        populateTimeSlots(12);
+        populateTimeSlots(-8,24);
     }
-    public void populateTimeSlots(int weeks){
+    public void populateTimeSlots(int startWeeks, int endWeeks){
         List<DayTimeSlot> dayTimeSlots = this.weeklySchedule.getSchedule();
-        for(int i=0; i <= weeks; i++){
+        for(int i=startWeeks; i <= endWeeks; i++){
             YearWeek yearWeek = currentYearWeek.plusWeeks(i);
             createWeekDayTimeSlotCollection(yearWeek, dayTimeSlots);
         }

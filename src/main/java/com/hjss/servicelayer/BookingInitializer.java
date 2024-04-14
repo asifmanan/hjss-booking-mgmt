@@ -8,6 +8,7 @@ import com.hjss.models.Learner;
 import com.hjss.models.Lesson;
 import com.hjss.utilities.Grade;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class BookingInitializer {
@@ -41,7 +42,7 @@ public class BookingInitializer {
     }
     public void initializeBookings(){
         for(int i = 0; i<= Grade.getMaxGrade(); i++){
-            if(learnerController.filterByGrade(i).isEmpty() || lessonController.filterByGrade(i).isEmpty()){
+            if(learnerController.filterByGrade(i).isEmpty()){
                 continue;
             }
             for(Lesson lesson : lessonController.filterByGrade(i)){
@@ -54,7 +55,9 @@ public class BookingInitializer {
                     learner = learnerController.getLearnerById(learner.getId());
                     String bookingId = bookingController.createAndAddObject(learner, lesson);
                     Booking booking = bookingController.getBookingById(bookingId);
-                    randomAttendanceAndCancellation(booking);
+                    if(lesson.getWeekDayTimeSlot().getDate().isBefore(LocalDate.now())){
+                        randomAttendanceAndCancellation(booking);
+                    }
                 }
             }
         }
