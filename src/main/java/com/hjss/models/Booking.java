@@ -65,7 +65,10 @@ public class Booking implements Identifiable {
     }
     public void attendBooking(){
         this.bookingStatus = BookingStatus.Attended;
-        this.learner.gradeLevelUp();
+        if(learner.getGradeLevel() >= lesson.getMinLearnerGradeRequired()
+                && learner.getGradeLevel() <= lesson.getGradeLevel()){
+            this.learner.gradeLevelUp();
+        }
         this.updatedOn = LocalDateTime.now();
     }
     public void attendAndRate(Terminal terminal, LineReader lineReader){

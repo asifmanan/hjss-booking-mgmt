@@ -142,7 +142,7 @@ public class BookingManagementView {
                         continue;
                     } else {
                         terminal.puts(InfoCmp.Capability.clear_screen);
-                        terminal.writer().println(leftMargin+"Cancelled or Attended Bookings cannot be Changed.");
+                        terminal.writer().println(leftMargin+"Cancelled or Attended Bookings cannot be Attended/Changed.");
                         continue;
                     }
                 }

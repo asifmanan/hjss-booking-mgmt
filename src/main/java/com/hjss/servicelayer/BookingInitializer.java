@@ -8,10 +8,7 @@ import com.hjss.models.Learner;
 import com.hjss.models.Lesson;
 import com.hjss.utilities.Grade;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class BookingInitializer {
     private final BookingController bookingController;
@@ -19,6 +16,7 @@ public class BookingInitializer {
     private final LearnerController learnerController;
     private List<List<Lesson>> gradedLessonList;
     private List<List<Learner>> gradedLearnerList;
+    private static final Random random = new Random();
 
 
     public BookingInitializer(BookingController bookingController, LessonController lessonController, LearnerController learnerController) {
@@ -43,11 +41,11 @@ public class BookingInitializer {
     }
     public void initializeBookings(){
         for(int i = 0; i<= Grade.getMaxGrade(); i++){
-            if(getGradedLearnerListByGrade(i).isEmpty() || getGradedLessonListByGrade(i).isEmpty()){
+            if(learnerController.filterByGrade(i).isEmpty() || lessonController.filterByGrade(i).isEmpty()){
                 continue;
             }
-            for(Lesson lesson : getGradedLessonListByGrade(i)){
-                List<Learner> learnersList = getGradedLearnerListByGrade(i);
+            for(Lesson lesson : lessonController.filterByGrade(i)){
+                List<Learner> learnersList = new ArrayList<>(learnerController.filterByGrade(i));
                 if(learnersList.isEmpty()) continue;
                 Collections.shuffle(learnersList);
                 lesson = lessonController.getLesson(lesson.getId());
@@ -56,9 +54,21 @@ public class BookingInitializer {
                     learner = learnerController.getLearnerById(learner.getId());
                     String bookingId = bookingController.createAndAddObject(learner, lesson);
                     Booking booking = bookingController.getBookingById(bookingId);
-                    booking.attendBooking();
+                    randomAttendanceAndCancellation(booking);
                 }
             }
+        }
+    }
+    private boolean toBeOrNotToBe(){
+        int chance = random.nextInt(100);
+        return chance < 80;
+    }
+    private void randomAttendanceAndCancellation(Booking booking){
+        boolean attendBooking = toBeOrNotToBe();
+        if(attendBooking){
+            booking.attendBooking();
+        } else {
+            booking.cancelBooking();
         }
     }
 }
