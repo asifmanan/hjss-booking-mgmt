@@ -50,8 +50,10 @@ public class BookingInitializer {
                 List<Learner> learnersList = getGradedLearnerListByGrade(i);
                 if(learnersList.isEmpty()) continue;
                 Collections.shuffle(learnersList);
+                lesson = lessonController.getLesson(lesson.getId());
                 for(Learner learner : learnersList){
                     if(bookingController.isFullyBooked(lesson)) break;
+                    learner = learnerController.getLearnerById(learner.getId());
                     String bookingId = bookingController.createAndAddObject(learner, lesson);
                     Booking booking = bookingController.getBookingById(bookingId);
                     booking.attendBooking();

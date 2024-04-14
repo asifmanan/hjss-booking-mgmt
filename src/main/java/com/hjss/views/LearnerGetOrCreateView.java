@@ -39,6 +39,15 @@ public class LearnerGetOrCreateView {
             updateSelectedLearner();
         }
     }
+    public void logoutLearner(){
+        if(this.selectedLearner==null){
+            System.out.println("   No learner Selected");
+        } else {
+            System.out.println("   "+this.selectedLearner.getFormattedFullName()+
+                    " has been logged out");
+            this.selectedLearner = null;
+        }
+    }
     private void updateLearnerList(){
         learnerList = learnerController.getAllObjects();
     }

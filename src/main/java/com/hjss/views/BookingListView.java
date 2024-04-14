@@ -31,8 +31,6 @@ public class BookingListView {
                 "StartTime",12,
                 "EndTime",12,
                 "LessonGrade",12
-//                "End",9,
-//                "Grade",7,
 //                "Coach",12
         );
     }

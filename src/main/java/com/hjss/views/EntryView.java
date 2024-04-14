@@ -60,16 +60,17 @@ public class EntryView {
     public void initializeMenu() {
         Menu mainMenu = new Menu("Main");
 
-        Menu bookingMenu = new Menu("Book",mainMenu);
+        Menu bookingMenu = new Menu("book",mainMenu);
 
-        mainMenu.addMenuItem("Attend",bookingManagementView::attendBooking,"to ATTEND a Swimming Lesson");;
-        mainMenu.addMenuItem("Register",learnerGetOrCreateView::createAndSelectLearner,"to REGISTER a New Learner");;
-        mainMenu.addMenuItem("Manage",bookingManagementView::cancelOrChangeBooking,"to CANCEL/CHANGE an existing BOOKING");;
+        mainMenu.addMenuItem("attend",bookingManagementView::attendBooking,"to ATTEND a Swimming Lesson");;
+        mainMenu.addMenuItem("register",learnerGetOrCreateView::createAndSelectLearner,"to REGISTER a New Learner");;
+        mainMenu.addMenuItem("manage",bookingManagementView::cancelOrChangeBooking,"to CANCEL/CHANGE an existing BOOKING");;
+        mainMenu.addMenuItem("logout",learnerGetOrCreateView::logoutLearner, "to LOGOUT the current selected LEARNER");
 
         mainMenu.addSubMenu(bookingMenu, "to BOOK a Swimming Lesson");
-        bookingMenu.addMenuItem("Day", bookingCreateView::bookLessonByDay, "to VIEW LESSONS by DAY");
-        bookingMenu.addMenuItem("Grade", bookingCreateView::bookLessonByGrade, "to VIEW LESSONS by GRADE");
-        bookingMenu.addMenuItem("Coach", bookingCreateView::bookLessonByCoach, "to VIEW LESSONS by COACH");
+        bookingMenu.addMenuItem("day", bookingCreateView::bookLessonByDay, "to VIEW LESSONS by DAY");
+        bookingMenu.addMenuItem("grade", bookingCreateView::bookLessonByGrade, "to VIEW LESSONS by GRADE");
+        bookingMenu.addMenuItem("coach", bookingCreateView::bookLessonByCoach, "to VIEW LESSONS by COACH");
 
         ConsoleMenu consoleMenu = new ConsoleMenu(mainMenu);
         consoleMenu.initialize();
