@@ -110,6 +110,7 @@ public class BookingManagementView {
 
     public Booking getAndValidateBooking(){
         Learner learner = learnerGetOrCreateView.getAndSelectLearnerIfNotPresent();
+        if(learner==null) return null;
         BookingListViewByLearner bookingListView = new BookingListViewByLearner(bookingController, learner);
         if(bookingListView.isBookingListEmpty()){
             System.out.println(leftMargin+learner.getFormattedFullName()+", does not have any swimming lessons booked.\n");
