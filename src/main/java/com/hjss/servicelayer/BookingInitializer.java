@@ -41,13 +41,13 @@ public class BookingInitializer {
     public List<Lesson> getGradedLessonListByGrade(int grade){
         return this.gradedLessonList.get(grade);
     }
-
-    public void initializeBookings(){
-        for(int i = 0; i<= Grade.getMaxGrade(); i++){
-            if(learnerController.filterByGrade(i).isEmpty()){
+    private void initializePastBookings() {
+        for (int i = 0; i <= Grade.getMaxGrade(); i++) {
+            if (learnerController.filterByGrade(i).isEmpty()) {
                 continue;
             }
-            for(Lesson lesson : lessonController.filterByGrade(i)){
+            for (Lesson lesson : lessonController.filterByGrade(i)) {
+                if(lesson.getWeekDayTimeSlot().getDate().isAfter(LocalDate.now())) continue;
                 List<Learner> learnersList;
                 if(i==0){
                     learnersList = new ArrayList<>(learnerController.filterByEligibleGrade(i));
@@ -63,12 +63,39 @@ public class BookingInitializer {
                     learner = learnerController.getLearnerById(learner.getId());
                     String bookingId = bookingController.createAndAddObject(learner, lesson);
                     Booking booking = bookingController.getBookingById(bookingId);
-                    if(lesson.getWeekDayTimeSlot().getDate().isBefore(LocalDate.now())){
-                        randomAttendanceAndCancellation(booking);
-                    }
+                    randomAttendanceAndCancellation(booking);
                 }
             }
         }
+    }
+    private void initializeFutureBookings(){
+        for (int i = 0; i <= Grade.getMaxGrade(); i++) {
+            if (learnerController.filterByGrade(i).isEmpty()) {
+                continue;
+            }
+            for (Lesson lesson : lessonController.filterByGrade(i)) {
+                if(lesson.getWeekDayTimeSlot().getDate().isBefore(LocalDate.now())) continue;
+                List<Learner> learnersList;
+                if(i==0){
+                    learnersList = new ArrayList<>(learnerController.filterByEligibleGrade(i));
+                } else{
+                    learnersList = new ArrayList<>(learnerController.filterByGrade(i));
+                }
+                if(learnersList.isEmpty()) continue;
+                Collections.shuffle(learnersList);
+                lesson = lessonController.getLesson(lesson.getId());
+                for(Learner learner : learnersList){
+                    if(bookingController.isFullyBooked(lesson)) break;
+                    if(!toBookOrNotToBook()) break;
+                    learner = learnerController.getLearnerById(learner.getId());
+                    bookingController.createAndAddObject(learner, lesson);
+                }
+            }
+        }
+    }
+    public void initializeBookings(){
+        initializePastBookings();
+        initializeFutureBookings();
     }
     private boolean toBookOrNotToBook(){
         int chance = random.nextInt(100);
