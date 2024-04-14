@@ -41,18 +41,25 @@ public class BookingInitializer {
     public List<Lesson> getGradedLessonListByGrade(int grade){
         return this.gradedLessonList.get(grade);
     }
+
     public void initializeBookings(){
         for(int i = 0; i<= Grade.getMaxGrade(); i++){
             if(learnerController.filterByGrade(i).isEmpty()){
                 continue;
             }
             for(Lesson lesson : lessonController.filterByGrade(i)){
-                List<Learner> learnersList = new ArrayList<>(learnerController.filterByEligibleGrade(i));
+                List<Learner> learnersList;
+                if(i==0){
+                    learnersList = new ArrayList<>(learnerController.filterByEligibleGrade(i));
+                } else{
+                    learnersList = new ArrayList<>(learnerController.filterByGrade(i));
+                }
                 if(learnersList.isEmpty()) continue;
                 Collections.shuffle(learnersList);
                 lesson = lessonController.getLesson(lesson.getId());
                 for(Learner learner : learnersList){
                     if(bookingController.isFullyBooked(lesson)) break;
+                    if(!toBookOrNotToBook()) break;
                     learner = learnerController.getLearnerById(learner.getId());
                     String bookingId = bookingController.createAndAddObject(learner, lesson);
                     Booking booking = bookingController.getBookingById(bookingId);
@@ -62,6 +69,10 @@ public class BookingInitializer {
                 }
             }
         }
+    }
+    private boolean toBookOrNotToBook(){
+        int chance = random.nextInt(100);
+        return chance < 70;
     }
     private boolean toAttendOrCancel(){
         int chance = random.nextInt(100);
