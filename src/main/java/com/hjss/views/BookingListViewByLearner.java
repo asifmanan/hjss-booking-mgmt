@@ -3,6 +3,7 @@ package com.hjss.views;
 import com.hjss.controllers.BookingController;
 import com.hjss.models.Booking;
 import com.hjss.models.Learner;
+import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.TablePrinter;
 
 import java.util.*;
@@ -15,10 +16,12 @@ public class BookingListViewByLearner {
     private List<String> headers;
     private Map<String, Integer> columnWidths = new HashMap<>();
     private Learner learner;
+    private BookingStatus bookingStatus;
+
     public BookingListViewByLearner(BookingController bookingController, Learner learner){
         this.bookingController = bookingController;
         this.learner = learner;
-        this.bookingList = bookingController.getAllObjects();
+        updateBookingList();
         this.headers = Arrays.asList(   "BookingId",
                                         "Status",
                                         "LessonDate",
@@ -26,6 +29,14 @@ public class BookingListViewByLearner {
                                         "LessonGrade");
         setColumnWidths(this.headers);
         this.tablePrinter = new TablePrinter(this.headers,this.columnWidths);
+    }
+    public BookingListViewByLearner(BookingController bookingController, Learner learner, BookingStatus bookingStatus){
+        this(bookingController, learner);
+        this.bookingStatus = bookingStatus;
+        if(this.bookingStatus!=null){
+            updateBookingList();
+        }
+
     }
     private void setColumnWidths(List<String> headers) {
         this.columnWidths = Map.of(
@@ -55,15 +66,24 @@ public class BookingListViewByLearner {
 
         return bookingData;
     }
+    private void updateBookingList(){
+        List<Booking> bookingsByLearner = bookingController.getBookingsByLearner(learner);
+        if(bookingStatus!=null){
+            this.bookingList = bookingsByLearner.stream().
+                    filter(booking -> booking.getBookingStatus() == this.bookingStatus).toList();
+        } else {
+            this.bookingList = bookingsByLearner;
+        }
+    }
     public boolean isBookingListEmpty(){
-        this.bookingList = bookingController.getBookingsByLearner(learner);
+        updateBookingList();
         return this.bookingList.isEmpty();
     }
-    public void printBookingList(){
-        this.bookingList = bookingController.getBookingsByLearner(learner);
 
+    public void printBookingList(){
+        updateBookingList();
         printHeader();
-        for(Booking booking : this.bookingList){
+        for(Booking booking : bookingList){
             List<String> bookingData = getBookingData(booking);
             tablePrinter.printRow(bookingData);
         }

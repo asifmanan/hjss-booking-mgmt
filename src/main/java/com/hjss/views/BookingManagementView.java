@@ -34,7 +34,7 @@ public class BookingManagementView {
 
     public void attendBooking(){
         while(true){
-            Booking booking = getAndValidateBooking();
+            Booking booking = getAndValidateBooking(BookingStatus.Active);
             if(booking==null){
                 return;
             }
@@ -61,7 +61,7 @@ public class BookingManagementView {
 //        }
 //        bookingListView.printBookingList();
         while (true){
-            Booking booking = getAndValidateBooking();
+            Booking booking = getAndValidateBooking(BookingStatus.Active);
             if(booking==null){
                 return;
             }
@@ -109,11 +109,14 @@ public class BookingManagementView {
     }
 
     public Booking getAndValidateBooking(){
+        return getAndValidateBooking(null);
+    }
+    public Booking getAndValidateBooking(BookingStatus bookingStatus){
         Learner learner = learnerGetOrCreateView.getAndSelectLearnerIfNotPresent();
         if(learner==null) return null;
-        BookingListViewByLearner bookingListView = new BookingListViewByLearner(bookingController, learner);
+        BookingListViewByLearner bookingListView = new BookingListViewByLearner(bookingController, learner, bookingStatus);
         if(bookingListView.isBookingListEmpty()){
-            System.out.println(leftMargin+learner.getFormattedFullName()+", does not have any swimming lessons booked.\n");
+            System.out.println(leftMargin+learner.getFormattedFullName()+", does not have any Active swimming lessons.\n");
             return null;
         }
         Booking booking;
