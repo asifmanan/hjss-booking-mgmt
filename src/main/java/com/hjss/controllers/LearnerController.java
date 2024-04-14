@@ -59,6 +59,15 @@ public class LearnerController implements ModelController<Learner> {
         return allLearners.stream()
                 .filter(learner -> learner.getGradeLevel() == grade).toList();
     }
+    public List<Learner> filterByEligibleGrade(int grade){
+        List<Learner> allLearners = getAllObjects();
+        if(grade-1>=0){
+            return allLearners.stream()
+                    .filter(learner -> learner.getGradeLevel()==grade
+                            || learner.getGradeLevel()==(grade-1)).toList();
+        }
+        return filterByGrade(grade);
+    }
     public List<List<Learner>> getGradedLearners(){
         return Grade.categorizeByGrade(this.getAllObjects(), Learner::getGradeLevel);
     }

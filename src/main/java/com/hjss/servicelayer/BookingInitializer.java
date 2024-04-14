@@ -46,7 +46,7 @@ public class BookingInitializer {
                 continue;
             }
             for(Lesson lesson : lessonController.filterByGrade(i)){
-                List<Learner> learnersList = new ArrayList<>(learnerController.filterByGrade(i));
+                List<Learner> learnersList = new ArrayList<>(learnerController.filterByEligibleGrade(i));
                 if(learnersList.isEmpty()) continue;
                 Collections.shuffle(learnersList);
                 lesson = lessonController.getLesson(lesson.getId());
