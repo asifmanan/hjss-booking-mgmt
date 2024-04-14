@@ -18,11 +18,13 @@ public class ServiceManager {
     private CoachInitializer coachInitializer;
     private TimeSlotInitializer timeSlotInitializer;
     private LessonInitializer lessonInitializer;
+    private BookingInitializer bookingInitializer;
     public ServiceManager(){
         learnerInitializer = new LearnerInitializer(learnerController);
         coachInitializer = new CoachInitializer(coachController);
         timeSlotInitializer = new TimeSlotInitializer(timeSlotController);
         lessonInitializer = new LessonInitializer(lessonController, timeSlotController, coachController);
+        bookingInitializer = new BookingInitializer(bookingController, lessonController, learnerController);
 
         startServices();
     }
@@ -32,6 +34,7 @@ public class ServiceManager {
         timeSlotInitializer.populateTimeSlots();
 
         lessonInitializer.initializeLessons();
+        bookingInitializer.initializeBookings();
 
 
     }
