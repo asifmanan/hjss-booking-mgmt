@@ -2,6 +2,7 @@ package com.hjss.controllers;
 
 import com.hjss.modelrepository.ModelRegister;
 import com.hjss.models.Coach;
+import com.hjss.models.Learner;
 import com.hjss.models.Lesson;
 import com.hjss.models.WeekDayTimeSlot;
 import com.hjss.utilities.Grade;
@@ -38,5 +39,9 @@ public class LessonController implements ModelController<Lesson> {
     }
     public int filterByGradeCount(int grade) {
         return filterByGrade(grade).size();
+    }
+
+    public List<List<Lesson>> getGradedLessons(){
+        return Grade.categorizeByGrade(this.getAllObjects(), Lesson::getGradeLevel);
     }
 }

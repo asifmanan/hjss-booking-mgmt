@@ -13,8 +13,8 @@ public class BookingInitializer {
     private final BookingController bookingController;
     private final LessonController lessonController;
     private final LearnerController learnerController;
-    private List<Lesson> lessonList;
-    private List<Learner> learnerList;
+    private List<List<Lesson>> gradedLessonList;
+    private List<List<Learner>> gradedLearnerList;
 
 
     public BookingInitializer(BookingController bookingController, LessonController lessonController, LearnerController learnerController) {
@@ -22,10 +22,14 @@ public class BookingInitializer {
         this.lessonController = lessonController;
         this.learnerController = learnerController;
     }
-    private void getLessons(){
-        this.lessonList = lessonController.getAllObjects();
+    private void populateGradedLessons(){
+        this.gradedLessonList = lessonController.getGradedLessons();
     }
-    private void getLearners(){
-        this.learnerList = learnerController.getAllObjects();
+    private void populateGradedLearners(){
+        this.gradedLearnerList = learnerController.getGradedLearners();
+    }
+
+    public List<List<Learner>> getGradedLearnerList() {
+        return gradedLearnerList;
     }
 }

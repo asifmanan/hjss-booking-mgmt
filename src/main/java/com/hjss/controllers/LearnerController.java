@@ -1,8 +1,11 @@
 package com.hjss.controllers;
 
 import com.hjss.modelrepository.ModelRegister;
+import com.hjss.models.Graded;
 import com.hjss.models.Learner;
+import com.hjss.models.Lesson;
 import com.hjss.utilities.Gender;
+import com.hjss.utilities.Grade;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -50,5 +53,8 @@ public class LearnerController implements ModelController<Learner> {
     public String createAndAddObject(String[] values){
         Learner learner = createObject(values);
         return addObject(learner);
+    }
+    public List<List<Learner>> getGradedLearners(){
+        return Grade.categorizeByGrade(this.getAllObjects(), Learner::getGradeLevel);
     }
 }

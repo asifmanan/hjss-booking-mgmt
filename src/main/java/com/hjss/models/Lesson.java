@@ -9,7 +9,6 @@ import java.time.LocalTime;
 
 public class Lesson implements Identifiable {
      private final int maxCapacity;
-     private static int maxGrade;
      String lessonId;
      WeekDayTimeSlot weekDayTimeSlot;
      Grade gradeLevel;
@@ -79,11 +78,5 @@ public class Lesson implements Identifiable {
      }
      public int getMaxCapacity(){
           return this.maxCapacity;
-     }
-     public static int getMaxGrade(){
-          return maxGrade;
-     }
-     static {
-          maxGrade = 5;
      }
 }
