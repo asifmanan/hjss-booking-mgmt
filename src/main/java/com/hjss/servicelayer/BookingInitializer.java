@@ -75,13 +75,24 @@ public class BookingInitializer {
 
                 for (Learner learner : learnersList) {
                     if (bookingController.isFullyBooked(lesson) || !toBookOrNotToBook()) break;
+                    if (lesson.getWeekDayTimeSlot().getDate().isBefore(LocalDate.now()) && !toBookOrNotToBook()) break;
                     learner = learnerController.getLearnerById(learner.getId());
+
+                    if(LearnerHasBookingWithGrade(learner, i)) continue;
+
                     String bookingId = bookingController.createAndAddObject(learner, lesson);
                     Booking booking = bookingController.getBookingById(bookingId);
                     postBookingAction.accept(booking);
                 }
             }
         }
+    }
+    public boolean LearnerHasBookingWithGrade(Learner learner, int gradeLevel) {
+        List<Booking> bookingList = bookingController.getBookingsByLearner(learner);
+        Optional<Booking> booking = bookingList.stream()
+           .filter(b -> b.getLearner().getGradeLevel() == gradeLevel).findFirst();
+        // Return true if a booking with the specified grade level is found
+        return booking.isPresent();
     }
 
 
