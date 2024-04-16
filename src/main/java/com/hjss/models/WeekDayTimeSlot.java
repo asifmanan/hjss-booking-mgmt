@@ -72,6 +72,9 @@ public class WeekDayTimeSlot implements Identifiable {
     public int getYear(){
         return this.yearWeek.getYear();
     }
+    public int getMonth(){
+        return this.getDate().getMonthValue();
+    }
     public int getWeek(){
         return this.yearWeek.getWeek();
     }
