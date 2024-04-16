@@ -115,7 +115,7 @@ public class BookingCreateView {
 
             // Check if the lesson is already booked by the learner
             if(!bookingController.isGradeCriteriaValid(learner, lesson)){
-                System.out.println("Booking Unsuccessful, minimum required grade for this lesson is "+lesson.getMinLearnerGradeRequired());
+                System.out.println("Booking Unsuccessful, the required grade for this lesson is either "+lesson.getMinLearnerGradeRequired()+" or "+lesson.getGradeLevel());
                 return null;
             }
             if (bookingController.isAlreadyBookedByLearner(learner, lesson)) {
