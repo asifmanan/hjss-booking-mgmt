@@ -65,9 +65,12 @@ public class BookingInitializer {
             for (Lesson lesson : lessonController.filterByGrade(i)) {
                 if (!dateFilter.test(lesson.getWeekDayTimeSlot().getDate())) continue;
 
-                List<Learner> learnersList = new ArrayList<>(i == 0
-                        ? learnerController.filterByEligibleGrade(i)
-                        : learnerController.filterByGrade(i));
+//                List<Learner> learnersList = new ArrayList<>(i == 0
+//                        ? learnerController.filterByEligibleGrade(i)
+//                        : learnerController.filterByGrade(i));
+
+                List<Learner> learnersList = new ArrayList<>(learnerController.filterByEligibleGrade(i));
+
                 if (learnersList.isEmpty()) continue;
 
                 Collections.shuffle(learnersList);
@@ -89,10 +92,10 @@ public class BookingInitializer {
     }
     public boolean LearnerHasBookingWithGrade(Learner learner, int gradeLevel) {
         List<Booking> bookingList = bookingController.getBookingsByLearner(learner);
-        Optional<Booking> booking = bookingList.stream()
-           .filter(b -> b.getLearner().getGradeLevel() == gradeLevel).findFirst();
+        Optional<Booking> bookingWithGrade = bookingList.stream()
+           .filter(booking -> booking.getLesson().getGradeLevel() == gradeLevel).findFirst();
         // Return true if a booking with the specified grade level is found
-        return booking.isPresent();
+        return bookingWithGrade.isPresent();
     }
 
 
@@ -102,7 +105,7 @@ public class BookingInitializer {
     }
     private boolean toBookOrNotToBook(){
         int chance = random.nextInt(100);
-        return chance < 70;
+        return chance < 60;
     }
     private boolean toAttendOrCancel(){
         int chance = random.nextInt(100);
