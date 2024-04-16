@@ -20,6 +20,7 @@ public class EntryView {
     private LessonListView lessonListViewByWeek, lessonListViewByDay;
     private BookingCreateView bookingCreateView;
     private BookingManagementView bookingManagementView;
+    private MonthlyLearnerReportView monthlyLearnerReportView;
     private BookingListViewByLearner bookingListViewByLearner;
 
 
@@ -51,6 +52,7 @@ public class EntryView {
                                                         learnerGetOrCreateView
                                                         );
         this.bookingManagementView = new BookingManagementView(bookingCreateView,learnerGetOrCreateView);
+        this.monthlyLearnerReportView = new MonthlyLearnerReportView(bookingController, learnerController);
 
 //        this.bookingListViewByLearner = new BookingListViewByLearner(bookingController, learnerGetOrCreateView);
 
@@ -66,6 +68,7 @@ public class EntryView {
         mainMenu.addMenuItem("register",learnerGetOrCreateView::createAndSelectLearner,"to REGISTER a New Learner");;
         mainMenu.addMenuItem("manage",bookingManagementView::cancelOrChangeBooking,"to CANCEL/CHANGE an existing BOOKING");;
         mainMenu.addMenuItem("logout",learnerGetOrCreateView::logoutLearner, "to LOGOUT the current selected LEARNER");
+        mainMenu.addMenuItem("mlr",monthlyLearnerReportView::printLearnerReport, "to GENERATE the MONTHLY LEARNER REPORT");
 
         mainMenu.addSubMenu(bookingMenu, "to BOOK a Swimming Lesson");
         bookingMenu.addMenuItem("day", bookingCreateView::bookLessonByDay, "to VIEW LESSONS by DAY");
