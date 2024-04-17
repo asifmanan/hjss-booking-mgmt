@@ -38,10 +38,6 @@ public abstract class Person {
         return lastName;
     }
 
-    public String getFullName() {
-        return this.firstName+" "+this.lastName;
-    }
-
     public void setLastName(String lastName) {
         this.lastName = lastName.trim().toLowerCase();
     }
@@ -67,6 +63,20 @@ public abstract class Person {
      */
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getFullName(){
+        return getFirstName() +" "+ getLastName();
+    }
+    public String getFormattedFullName(){
+        String formattedFirstName = Character.toUpperCase(getFirstName().charAt(0)) + getFirstName().substring(1);
+        String formattedLastName = Character.toUpperCase(getLastName().charAt(0)) + getLastName().substring(1);
+        return formattedFirstName +" "+ formattedLastName;
+    }
+    public String getInitialLastName(){
+        Character initial = Character.toUpperCase(getFirstName().charAt(0));
+        String formattedLastName = Character.toUpperCase(getLastName().charAt(0)) + getLastName().substring(1);
+        return initial +". " + formattedLastName;
     }
 
 //  Static Methods

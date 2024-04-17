@@ -26,7 +26,7 @@ public class TablePrinter {
             if (width == null) {
                 width = 10;
             }
-            System.out.printf("%-" + width + "s", truncateString(header, width));
+            System.out.printf("   %-" + width + "s", truncateString(header, width));
         }
         System.out.println();
     }
@@ -43,7 +43,7 @@ public class TablePrinter {
             if (width == null) {
                 width = 10;
             }
-            System.out.printf("%-" + width + "s", truncateString(data, width));
+            System.out.printf("   %-" + width + "s", truncateString(data, width));
         }
         System.out.println();
     }

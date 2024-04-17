@@ -1,5 +1,10 @@
 package com.hjss.utilities;
 
+import com.hjss.models.Graded;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Grade {
     ZERO(0),
     ONE(1),
@@ -9,9 +14,18 @@ public enum Grade {
     FIVE(5);
 
     private final int value;
+    private static final int maxGrade;
+
+    static {
+        maxGrade = 5;
+    }
 
     Grade(int value) {
         this.value = value;
+    }
+
+    public static int getMaxGrade(){
+        return maxGrade;
     }
 
     public int getValue() {
@@ -35,6 +49,7 @@ public enum Grade {
         }
         throw new IllegalArgumentException("Invalid value: " + i);
     }
+
     public static Grade fromString(String s){
         int i = Integer.parseInt(s);
         return fromInt(i);
@@ -42,5 +57,23 @@ public enum Grade {
     public Grade getNext() {
         int nextOrdinal = (this.ordinal() + 1) % Grade.values().length;
         return Grade.values()[nextOrdinal];
+    }
+
+    public static <T> List<List<T>> categorizeByGrade(List<T> items, Graded<T> graded) {
+        int maxGrade = Grade.getMaxGrade();
+        List<List<T>> itemsByGrade = new ArrayList<>(maxGrade + 1);
+        for (int i = 0; i <= maxGrade; i++) {
+            itemsByGrade.add(new ArrayList<>());
+        }
+
+        for (T item : items) {
+            int gradeIndex = graded.getGrade(item); // Using Graded to get the grade
+            if (gradeIndex >= 0 && gradeIndex <= maxGrade) {
+                itemsByGrade.get(gradeIndex).add(item);
+            } else {
+                System.out.println("Item with out of range grade found: " + graded.getGrade(item));
+            }
+        }
+        return itemsByGrade;
     }
 }

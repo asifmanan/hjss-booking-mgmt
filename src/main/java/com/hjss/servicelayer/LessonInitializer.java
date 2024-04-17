@@ -5,6 +5,7 @@ import com.hjss.controllers.LessonController;
 import com.hjss.controllers.TimeSlotController;
 import com.hjss.models.Coach;
 import com.hjss.models.Lesson;
+import com.hjss.models.TimeSlot;
 import com.hjss.models.WeekDayTimeSlot;
 import com.hjss.utilities.Grade;
 
@@ -25,15 +26,15 @@ public class LessonInitializer {
     private List<Coach> getCoaches(){
         return coachController.getAllObjects();
     }
-    private Lesson createLesson(Grade grade, Coach coach, String timeSlotId){
-        return lessonController.createObject(grade, coach, timeSlotId);
+    private Lesson createLesson(Grade grade, Coach coach, WeekDayTimeSlot timeSlot){
+        return lessonController.createObject(grade, coach, timeSlot);
     }
     public void initializeLessons(){
         Grade grade = Grade.ONE;
         Coach coach = coachController.getAndRotate();
         WeekDayTimeSlot weekDayTimeSlot = timeSlotController.getAndIncrement();
         while(weekDayTimeSlot!=null){
-            Lesson lesson = createLesson(grade, coach, weekDayTimeSlot.getId());
+            Lesson lesson = createLesson(grade, coach, weekDayTimeSlot);
             String lessonId = lessonController.addObject(lesson);
 //            System.out.println("Lesson Created with id: " + lessonId);
             coach = coachController.getAndRotate();

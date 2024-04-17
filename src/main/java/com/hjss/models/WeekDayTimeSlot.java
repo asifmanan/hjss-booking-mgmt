@@ -2,7 +2,9 @@ package com.hjss.models;
 
 import org.threeten.extra.YearWeek;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class WeekDayTimeSlot implements Identifiable {
@@ -55,8 +57,23 @@ public class WeekDayTimeSlot implements Identifiable {
         }
         return null;
     }
+    public DayOfWeek getDayOfWeek(){
+        if(dayTimeSlot != null){
+            return dayTimeSlot.getDayOfWeek();
+        }
+        return null;
+    }
+    public LocalTime getStartTime(){
+        return this.dayTimeSlot.getTimeSlot().getStartTime();
+    }
+    public LocalTime getEndTime(){
+        return this.dayTimeSlot.getTimeSlot().getEndTime();
+    }
     public int getYear(){
         return this.yearWeek.getYear();
+    }
+    public int getMonth(){
+        return this.getDate().getMonthValue();
     }
     public int getWeek(){
         return this.yearWeek.getWeek();

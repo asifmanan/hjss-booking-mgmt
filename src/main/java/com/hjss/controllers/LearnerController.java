@@ -1,8 +1,11 @@
 package com.hjss.controllers;
 
 import com.hjss.modelrepository.ModelRegister;
+import com.hjss.models.Graded;
 import com.hjss.models.Learner;
+import com.hjss.models.Lesson;
 import com.hjss.utilities.Gender;
+import com.hjss.utilities.Grade;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +17,9 @@ public class LearnerController implements ModelController<Learner> {
     private final ModelRegister<Learner> learnerRegister;
     public LearnerController(){
         this.learnerRegister = new ModelRegister<>();
+    }
+    public Learner getLearnerById(String id){
+        return learnerRegister.get(id.toUpperCase());
     }
     @Override
     public String addObject(Learner learner){
@@ -47,5 +53,22 @@ public class LearnerController implements ModelController<Learner> {
     public String createAndAddObject(String[] values){
         Learner learner = createObject(values);
         return addObject(learner);
+    }
+    public List<Learner> filterByGrade(int grade){
+        List<Learner> allLearners = getAllObjects();
+        return allLearners.stream()
+                .filter(learner -> learner.getGradeLevel() == grade).toList();
+    }
+    public List<Learner> filterByEligibleGrade(int grade){
+        List<Learner> allLearners = getAllObjects();
+        if(grade-1>=0){
+            return allLearners.stream()
+                    .filter(learner -> learner.getGradeLevel()==grade
+                            || learner.getGradeLevel()==(grade-1)).toList();
+        }
+        return filterByGrade(grade);
+    }
+    public List<List<Learner>> getGradedLearners(){
+        return Grade.categorizeByGrade(this.getAllObjects(), Learner::getGradeLevel);
     }
 }

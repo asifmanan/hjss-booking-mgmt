@@ -33,6 +33,16 @@ public class Learner extends Person implements Identifiable {
         this(firstName, lastName, gender, dateOfBirth, 0,emergencyContactNumber);
     }
 
+    private void generateId(){
+        int currentYear = Year.now().getValue() % 100;
+        int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
+        if(sequenceNumber>=100){
+            IdGenerator.resetSequenceForClass(this.getClass());
+            sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
+        }
+        String randomSequence = IdGenerator.generateRandomSequence(2);
+        this.learnerId = "11" + randomSequence + String.format("%02d%02d", currentYear, sequenceNumber);
+    }
     public boolean isAgeValid(){
         int age = calculateAge(this.getDateOfBirth());
         if(age >= 4 && age <=11){
@@ -49,11 +59,6 @@ public class Learner extends Person implements Identifiable {
     }
     public void gradeLevelUp(){
         this.grade = this.grade.increment();
-    }
-    private void generateId(){
-        int currentYear = Year.now().getValue() % 100;
-        int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
-        this.learnerId = "LR" + String.format("%02d%04d", currentYear, sequenceNumber);
     }
 
     @Override

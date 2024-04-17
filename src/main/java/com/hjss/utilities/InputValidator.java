@@ -9,27 +9,68 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class InputValidator {
+    public static String inputGetter(Terminal terminal, LineReader lineReader, String prompt, HelpText helpText){
+        String input;
+        if(helpText!=null){
+            terminal.writer().println(helpText.getHelpText());
+        }
+        //        This provides graceful exit when user presses ctrl+c
+        try {
+            input = lineReader.readLine("   "+prompt);
+        } catch (RuntimeException re){
+            terminal.writer().println("Operation Interrupted by User.");
+            return null;
+        }
+
+        if (":c".equalsIgnoreCase(input.trim())) {
+            clearScreen();
+            terminal.writer().println("   Operation canceled by user.");
+            return null; // User canceled the operation
+        }
+        return input.trim();
+    }
     public static String getAndValidateString(Terminal terminal, LineReader lineReader, String prompt, String regex, HelpText helpText){
         String input;
 
         while (true) {
             if(helpText!=null){
-                System.out.println(helpText.getHelpText());
+                terminal.writer().println(helpText.getHelpText());
             }
-            input = lineReader.readLine("    "+prompt);
+            input = lineReader.readLine("   "+prompt);
             if (":c".equalsIgnoreCase(input.trim())) {
                 clearScreen();
-                System.out.println("Operation canceled by user.");
+                terminal.writer().println("   Operation canceled by user.");
                 return null; // User canceled the operation
             }
             if (input.trim().matches(regex)) {
+                input = input.trim();
                 break;
             } else {
-                System.out.println("Invalid input. Please try again.");
+                clearScreen();
+                terminal.writer().println("   Invalid input. Please try again.\n");
             }
         }
         clearScreen();
         return input;
+    }
+    public static Pair<String,Boolean> getAndValidateStringSingleRun(Terminal terminal, LineReader lineReader, String prompt, String regex, HelpText helpText){
+        String input;
+        if(helpText!=null){
+            terminal.writer().println(helpText.getHelpText());
+        }
+        input = lineReader.readLine("   "+prompt);
+        if (":c".equalsIgnoreCase(input.trim())) {
+            clearScreen();
+            terminal.writer().println("   Operation canceled by user.");
+            return null; // User canceled the operation
+        }
+        if (input.trim().matches(regex)) {
+            clearScreen();
+            return new Pair<>(input.trim(),false);
+        }
+        clearScreen();
+//        true in the pair is to identify invalid input
+        return new Pair<>(input.trim(), true);
     }
     public static String getAndValidateString(Terminal terminal, LineReader lineReader, String prompt, String regex) {
         return getAndValidateString(terminal, lineReader, prompt,regex,null);
