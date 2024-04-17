@@ -107,12 +107,12 @@ public class MonthlyLearnerReportView {
         String leftMargin = " ".repeat(3);
         try {
             Terminal terminal = TerminalManager.getTerminal();
-            LineReader lineReader = TerminalManager.getLineReader();
             String prompt = "Month: ";
             String regex = "^(1[0-2]|[1-9])$";
             terminal.writer().println(leftMargin+"Enter Month (Number) to view Monthly Report");
             List<String> monthList = IntStream.rangeClosed(1,12).mapToObj(String::valueOf).toList();
             TerminalManager.updateCompleter(monthList);
+            LineReader lineReader = TerminalManager.getLineReader();
             String month = InputValidator.getAndValidateString(terminal,lineReader,prompt,regex);
             if(month == null) return null;
             return Integer.parseInt(month);
@@ -122,7 +122,10 @@ public class MonthlyLearnerReportView {
     }
     public void printLearnerReport(){
         updateLearnerList();
-        int month = getMonthFromInput();
+        Integer month = getMonthFromInput();
+        if(month==null){
+            return;
+        }
         List<Booking> bookingListByMonth = bookingController.getAllObjects().stream().
                 filter(booking -> booking.getLesson().getWeekDayTimeSlot().getMonth()==month).toList();
 
