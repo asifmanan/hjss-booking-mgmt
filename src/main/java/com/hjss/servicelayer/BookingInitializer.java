@@ -81,7 +81,8 @@ public class BookingInitializer {
                     if (lesson.getWeekDayTimeSlot().getDate().isBefore(LocalDate.now()) && !toBookOrNotToBook()) break;
                     learner = learnerController.getLearnerById(learner.getId());
 
-                    if(LearnerHasBookingWithGrade(learner, i)) continue;
+                    if(LearnerHasBookingWithGrade(learner, i)
+                            || (!verifyBookingConstraints(lesson, learner))) continue;
 
                     String bookingId = bookingController.createAndAddObject(learner, lesson);
                     Booking booking = bookingController.getBookingById(bookingId);
@@ -89,6 +90,20 @@ public class BookingInitializer {
                 }
             }
         }
+    }
+    private boolean verifyBookingConstraints(Lesson lesson, Learner learner){
+        if(!bookingController.isGradeCriteriaValid(learner, lesson)){
+            return false;
+        }
+        if (bookingController.isAlreadyBookedByLearner(learner, lesson)) {
+            return false;
+        }
+
+        // Check if the lesson is fully booked (Max is 4)
+        if (bookingController.isFullyBooked(lesson)) {
+            return false;
+        }
+        return true;
     }
     public boolean LearnerHasBookingWithGrade(Learner learner, int gradeLevel) {
         List<Booking> bookingList = bookingController.getBookingsByLearner(learner);
@@ -105,7 +120,7 @@ public class BookingInitializer {
     }
     private boolean toBookOrNotToBook(){
         int chance = random.nextInt(100);
-        return chance < 60;
+        return chance < 80;
     }
     private boolean toAttendOrCancel(){
         int chance = random.nextInt(100);
