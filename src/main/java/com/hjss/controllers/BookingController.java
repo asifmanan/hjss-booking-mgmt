@@ -2,6 +2,7 @@ package com.hjss.controllers;
 
 import com.hjss.modelrepository.ModelRegister;
 import com.hjss.models.Booking;
+import com.hjss.models.Coach;
 import com.hjss.models.Learner;
 import com.hjss.models.Lesson;
 
@@ -45,6 +46,12 @@ public class BookingController implements ModelController<Booking> {
         List<Booking> lessonBookings = getBookingsByLesson(lesson);
         return lessonBookings.size();
     }
+    public List<Booking> getLessonsByMonth(int month){
+        return getAllObjects().stream().filter
+                (booking -> booking.getLesson().getWeekDayTimeSlot()
+                        .getMonth()==month).toList();
+    }
+
     public List<Booking> getBookingsByLearner(Learner learner){
         List<Booking> allBookings = getAllObjects();
         List<Booking> bookingsFilteredByLearner = allBookings.stream()

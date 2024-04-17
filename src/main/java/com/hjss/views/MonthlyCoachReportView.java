@@ -70,64 +70,39 @@ public class MonthlyCoachReportView {
             return null;
         }
     }
-    private void generateCoachReport(){
+    public void generateCoachReport(){
         Integer month = getMonthFromInput();
         if (month == null) {
             System.out.println("Operation Cancelled!");
             return;
         }
         List<Coach> coachList = coachController.getAllObjects();
-        List<Booking> bookingListByMonth = bookingController.getAllObjects().stream().
-                filter(booking -> booking.getLesson().getWeekDayTimeSlot().getMonth()==month).toList();
-        if(bookingListByMonth.isEmpty()){
-            System.out.println(" ".repeat(3) + "No data exists for the selected Month");
-            return;
-        }
+        List<Booking> bookingListByMonth = bookingController.getLessonsByMonth(month);
         try {
             Terminal terminal = TerminalManager.getTerminal();
             terminal.puts(InfoCmp.Capability.clear_screen);
         } catch (IOException e){
             return;
         }
-        System.out.println(" ".repeat(3) + "=".repeat(tableWidth));
-        System.out.println(" ".repeat(3) + "COACH REPORT");
-        System.out.println(" ".repeat(3) + "=".repeat(tableWidth)+"\n");
+
+        System.out.println(" ".repeat(3) + "MONTHLY COACH REPORT"+"\n");
+        System.out.println(" ".repeat(3) + "-".repeat(tableWidth));
+        tablePrinter.printHeader();
+        System.out.println(" ".repeat(3) + "-".repeat(tableWidth));
         for(Coach coach : coachList){
+            List<String> coachData = getCoachData(coach, bookingListByMonth);
+            tablePrinter.printRow(coachData);
+        }
+        System.out.println(" ".repeat(3) + "-".repeat(tableWidth)+"\n");
+    }
 
-        }
-    }
-    private Integer getAvgCoachRating(Coach coach, List<Booking> bookingListByMonth){
-        int rating = 0;
-        List<Booking> bookingListByMonthAndCoach = bookingListByMonth.stream().
-                filter(booking -> booking.getLesson().getCoach()==coach
-                        && booking.getBookingStatus()== BookingStatus.Attended).toList();
-        if(bookingListByMonthAndCoach.isEmpty()){
-            return null;
-        }
-        else{
-            return calculateCoachAvgRating(bookingListByMonthAndCoach);
-        }
-    }
-    private Integer calculateCoachAvgRating(List<Booking> bookingListByMonthAndCoach){
-        int rating = 0;
-        for(Booking booking : bookingListByMonthAndCoach){
-            rating += booking.getRating().getValue();
-        }
-        return rating / bookingListByMonthAndCoach.size();
-    }
-    private void printCoachDetail(){
-
-    }
-    private void printCoachRating(Coach coach){
-        System.out.print("\n");
-        List<String> coachData = getCoachData(coach);
-    }
-    private List<String> getCoachData(Coach coach){
+    private List<String> getCoachData(Coach coach, List<Booking> monthlyBookingList){
         List<String> coachData = new ArrayList<>();
         coachData.add(coach.getId());
         coachData.add(coach.getFirstName());
         coachData.add(coach.getLastName());
-//        coachData.add(coach.)
+        Integer coachRating = coach.getMonthlyCoachRating(monthlyBookingList);
+        coachData.add(coachRating == null ? "<Unrated>" : coachRating.toString());
         return coachData;
     }
 
