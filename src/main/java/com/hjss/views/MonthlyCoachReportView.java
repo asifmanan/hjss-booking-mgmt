@@ -4,6 +4,7 @@ import com.hjss.controllers.BookingController;
 import com.hjss.controllers.CoachController;
 import com.hjss.models.Booking;
 import com.hjss.models.Coach;
+import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.InputValidator;
 import com.hjss.utilities.TablePrinter;
 import io.consolemenu.TerminalManager;
@@ -12,10 +13,7 @@ import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class MonthlyCoachReportView {
@@ -72,7 +70,7 @@ public class MonthlyCoachReportView {
             return null;
         }
     }
-    private void printCoachReport(){
+    private void generateCoachReport(){
         Integer month = getMonthFromInput();
         if (month == null) {
             System.out.println("Operation Cancelled!");
@@ -92,20 +90,45 @@ public class MonthlyCoachReportView {
             return;
         }
         System.out.println(" ".repeat(3) + "=".repeat(tableWidth));
-        System.out.println(" ".repeat(3) + "LEARNER REPORT");
+        System.out.println(" ".repeat(3) + "COACH REPORT");
         System.out.println(" ".repeat(3) + "=".repeat(tableWidth)+"\n");
         for(Coach coach : coachList){
 
         }
     }
-    private int getAvgCoachRating(Coach coach, List<Booking> bookingList){
+    private Integer getAvgCoachRating(Coach coach, List<Booking> bookingListByMonth){
         int rating = 0;
-        
+        List<Booking> bookingListByMonthAndCoach = bookingListByMonth.stream().
+                filter(booking -> booking.getLesson().getCoach()==coach
+                        && booking.getBookingStatus()== BookingStatus.Attended).toList();
+        if(bookingListByMonthAndCoach.isEmpty()){
+            return null;
+        }
+        else{
+            return calculateCoachAvgRating(bookingListByMonthAndCoach);
+        }
+    }
+    private Integer calculateCoachAvgRating(List<Booking> bookingListByMonthAndCoach){
+        int rating = 0;
+        for(Booking booking : bookingListByMonthAndCoach){
+            rating += booking.getRating().getValue();
+        }
+        return rating / bookingListByMonthAndCoach.size();
+    }
+    private void printCoachDetail(){
 
-        return rating;
     }
     private void printCoachRating(Coach coach){
-
+        System.out.print("\n");
+        List<String> coachData = getCoachData(coach);
+    }
+    private List<String> getCoachData(Coach coach){
+        List<String> coachData = new ArrayList<>();
+        coachData.add(coach.getId());
+        coachData.add(coach.getFirstName());
+        coachData.add(coach.getLastName());
+//        coachData.add(coach.)
+        return coachData;
     }
 
 
