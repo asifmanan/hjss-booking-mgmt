@@ -167,7 +167,7 @@ public class MonthlyLearnerReportView {
             Terminal terminal = TerminalManager.getTerminal();
             LineReader lineReader = TerminalManager.getLineReader();
             String learnerInfo =leftMargin + "Learner Name: "+learner.getFormattedFullName()
-                    + " ".repeat(5) + "Learner ID: "+learner.getId();
+                    + " ".repeat(5) + "Learner ID: "+learner.getId() + "Learner Grade: "+learner.getGradeLevel();
             terminal.writer().println(leftMargin + "-".repeat(tableWidth));
             terminal.writer().println(learnerInfo);
             terminal.writer().println(leftMargin + "-".repeat(tableWidth));
