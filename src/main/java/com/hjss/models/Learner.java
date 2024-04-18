@@ -37,12 +37,12 @@ public class Learner extends Person implements Identifiable {
     private void generateId(){
         int currentYear = Year.now().getValue() % 100;
         int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
-        if(sequenceNumber>=100){
+        if(sequenceNumber>=1000){
             IdGenerator.resetSequenceForClass(this.getClass());
             sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
         }
-        String randomSequence = IdGenerator.generateRandomSequence(2);
-        this.learnerId = "11" + randomSequence + String.format("%02d%02d", currentYear, sequenceNumber);
+        String randomSequence = IdGenerator.generateRandomSequence(3);
+        this.learnerId = randomSequence + String.format("%03d%02d", sequenceNumber, currentYear);
     }
     public boolean isAgeValid(){
         int age = calculateAge(this.getDateOfBirth());

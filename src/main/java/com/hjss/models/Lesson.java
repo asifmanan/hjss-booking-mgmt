@@ -32,8 +32,8 @@ public class Lesson implements Identifiable {
                IdGenerator.resetSequenceForClass(this.getClass());
                sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
           }
-          String randomSequence = IdGenerator.generateRandomSequence(3);
-          this.lessonId = "21" + randomSequence + String.format("%01d%02d", gradeLevel, sequenceNumber);
+          String randomSequence = IdGenerator.generateRandomSequence(5);
+          this.lessonId = randomSequence + String.format("%01d%02d", gradeLevel, sequenceNumber);
      }
 
 
