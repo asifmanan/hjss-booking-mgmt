@@ -75,7 +75,7 @@ public class LearnerGetOrCreateView {
         Learner learner = null;
         List<String> learnerIds = learnerList.stream().map(Learner::getId).toList();
         List<String> learnerIdsNew = new ArrayList<>(learnerIds);
-        learnerIdsNew.add("New");
+        learnerIdsNew.add("new");
         TerminalManager.updateCompleter(learnerIdsNew);
         try{
             Terminal terminal = TerminalManager.getTerminal();
@@ -95,7 +95,7 @@ public class LearnerGetOrCreateView {
                 learner = learnerBooleanPair.getObj();
                 if (learner == null) {
                     terminal.puts(InfoCmp.Capability.clear_screen);
-                    terminal.writer().println(leftMargin+"Learner Not Found!");
+                    terminal.writer().println(leftMargin+"Operation Cancelled!");
                 }
                 else {
                     if(!learner.isAgeValid()){
@@ -118,7 +118,9 @@ public class LearnerGetOrCreateView {
         learnerListView.printLearnerList();
         HelpText helpText = new HelpText(leftMargin + "TYPE [LEARNER ID] and ENTER to SELECT a LEARNER" +
                                             "\n"+leftMargin + "TYPE new to CREATE a NEW LEARNER",
-                                    "\n"+leftMargin + "TYPE :c and ENTER to CANCEL\n","");
+                                    "\n"+leftMargin+"TYPE :c and ENTER to cancel\n\n"+leftMargin+"Press TAB to activate AUTOCOMPLETE\n",
+
+                                    "");
 
         String learnerPrompt = "LEARNER ID: ";
         String input = InputValidator.inputGetter(terminal, lineReader, learnerPrompt, helpText);

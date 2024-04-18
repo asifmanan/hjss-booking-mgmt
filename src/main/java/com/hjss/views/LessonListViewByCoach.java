@@ -71,7 +71,7 @@ public class LessonListViewByCoach extends LessonListView {
 
         coachListView.printCoachList();
         HelpText helpText = new HelpText(leftMargin + "TYPE [COACH NAME] and ENTER to VIEW LESSONS by COACH\n",
-                leftMargin+"TYPE :c and ENTER to cancel\n",
+                leftMargin+"TYPE :c and ENTER to cancel\n\n"+leftMargin+"Press TAB to activate AUTOCOMPLETE\n",
                 leftMargin+"COACH ID or COACH FIRSTNAME\n");
 
         String coachPrompt = "Coach [ID or FIRSTNAME]: ";

@@ -164,10 +164,12 @@ public abstract class LessonListView {
         StringBuilder output = new StringBuilder();
         output.append("\n\n");
 
-        output.append(leftMargin).append("TYPE :c to CANCEL and EXIT\n");
+        output.append(leftMargin).append("TYPE :c to CANCEL and GO BACK\n");
         output.append(leftMargin).append("TYPE n for NEXT PAGE\n");
         output.append(leftMargin).append("TYPE p for PREVIOUS PAGE\n");
-        output.append(leftMargin).append("TYPE [LESSON ID] to BOOK a LESSON\n");
+        output.append(leftMargin).append("TYPE [LESSON ID] to BOOK a LESSON\n\n");
+
+        output.append(leftMargin).append("Press TAB to activate AUTOCOMPLETE\n");
         output.append(leftMargin).append("\n");
 
         terminal.writer().print(output);
