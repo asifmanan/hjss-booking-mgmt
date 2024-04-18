@@ -6,7 +6,7 @@ import com.hjss.models.Booking;
 import com.hjss.models.Learner;
 import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.InputValidator;
-import com.hjss.utilities.Pair;
+
 import com.hjss.utilities.TablePrinter;
 import io.consolemenu.FontStyles;
 import io.consolemenu.TerminalManager;
@@ -15,7 +15,6 @@ import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
-import java.time.Month;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -26,7 +25,6 @@ public class MonthlyLearnerReportView {
     private TablePrinter tablePrinter;
     private int tableWidth;
     private List<String> lessonListHeader;
-    private List<String> bookingSummaryHeader;
     private Map<String, Integer> lessonListColWidth = new HashMap<>();
     public MonthlyLearnerReportView(BookingController bookingController, LearnerController learnerController){
         this.bookingController = bookingController;
@@ -39,10 +37,7 @@ public class MonthlyLearnerReportView {
                                                 "LessonGrade",
                                                 "Coach"
                                                 );
-        this.bookingSummaryHeader = Arrays.asList(  "Booked Lessons",
-                                                    "Cancelled Lessons",
-                                                    "Attended Lessons"
-                                                    );
+
         setLessonListColWidth();
         updateTableWidth();
         this.tablePrinter = new TablePrinter(this.lessonListHeader,this.lessonListColWidth);
@@ -172,8 +167,6 @@ public class MonthlyLearnerReportView {
 
             String rowHeading = FontStyles.boldStart()+leftMargin+"Learner Summary  ->  "+FontStyles.boldEnd();
 
-//            String learnerInfo =leftMargin+rowHeading+"Name: "+learner.getFormattedFullName()
-//                    + " ".repeat(5) + " ID: "+learner.getId() +" ".repeat(5)+ " Grade: "+learner.getGradeLevel();
             String learnerInfo = String.format("%-24.24s   %-14.14s      %-14.14s",
                     "Name: " + learner.getFormattedFullName(),
                     "ID: " + learner.getId(),
