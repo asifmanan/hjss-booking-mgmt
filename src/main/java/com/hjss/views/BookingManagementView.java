@@ -70,6 +70,9 @@ public class BookingManagementView {
                 Terminal terminal = TerminalManager.getTerminal();
                 LineReader lineReader = TerminalManager.getLineReader();
                 HelpText helpText = new HelpText();
+
+//                terminal.puts(InfoCmp.Capability.clear_screen);
+
                 helpText.setText(leftMargin+"TYPE Cancel if you want to CANCEL the Selected Booking"+
                         "\n"+leftMargin+"TYPE Change if you want to CHANGE the Selected Booking");
                 String prompt = "Cancel/Change: ";
@@ -78,6 +81,7 @@ public class BookingManagementView {
                 String input = InputValidator.inputGetter(terminal, lineReader, prompt, helpText);
                 if(input==null) return;
                 if(input.equalsIgnoreCase("cancel")){
+                    terminal.puts(InfoCmp.Capability.clear_screen);
                     Boolean status = booking.cancelBooking();
                     if(status==null){
                         terminal.puts(InfoCmp.Capability.clear_screen);
@@ -94,6 +98,7 @@ public class BookingManagementView {
                     }
                 }
                 if(input.equalsIgnoreCase("change")){
+                    terminal.puts(InfoCmp.Capability.clear_screen);
                     terminal.writer().println("Select a New Lesson");
                     Booking newBooking = bookingCreateView.updateBooking(booking);
                     if(newBooking!=null){
@@ -128,7 +133,7 @@ public class BookingManagementView {
 
             while(true){
 
-                terminal.writer().println(leftMargin+"Showing Booking for "+learner.getFormattedFullName()+ ", LearnerID: "+learner.getId());
+                learner.printLearnerInfo();
                 terminal.writer().print("\n");
                 bookingListView.printBookingList();
                 terminal.writer().print("\n\n");

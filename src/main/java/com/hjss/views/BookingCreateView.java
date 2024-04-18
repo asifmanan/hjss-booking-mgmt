@@ -71,9 +71,9 @@ public class BookingCreateView {
         try {
             Terminal terminal = TerminalManager.getTerminal();
 
-            System.out.println("   Creating Booking for "+learner.getFormattedFullName()+", LearnerID: "+ learner.getId()+"\n");
+            learner.printLearnerInfo();
             // get lesson from the list
-            Lesson lesson = lessonListView.getLessonFromPaginatedList();
+            Lesson lesson = lessonListView.getLessonFromPaginatedList(learner);
 
             lesson = verifyLessonConstraints(lesson, learner);
             if(lesson == null) return;
@@ -94,7 +94,7 @@ public class BookingCreateView {
     public Booking updateBooking(Booking booking){
         Learner learner = booking.getLearner();
         LessonGetView lessonGetView = new LessonGetView(lessonController, coachController);
-        Lesson newLesson = lessonGetView.getLessonsByChoice();
+        Lesson newLesson = lessonGetView.getLessonsByChoice(learner);
         if(newLesson==null) return null;
         Lesson verifiedLesson = verifyLessonConstraints(newLesson, learner);
         if(verifiedLesson==null) return null;
@@ -111,7 +111,7 @@ public class BookingCreateView {
             }
 
             terminal.puts(InfoCmp.Capability.clear_screen);
-            System.out.println("Booking for "+learner.getFormattedFullName()+", LearnerID: "+ learner.getId()+"\n");
+            learner.printLearnerInfo();
 
             // Check if the lesson is already booked by the learner
             if(!bookingController.isGradeCriteriaValid(learner, lesson)){
@@ -119,7 +119,7 @@ public class BookingCreateView {
                 return null;
             }
             if (bookingController.isAlreadyBookedByLearner(learner, lesson)) {
-                System.out.println("Booking Unsuccessful, Lesson already booked by the same Learner.");
+                System.out.println("Booking Unsuccessful, Lesson actively booked or Attended by the same Learner.");
                 return null;
             }
 

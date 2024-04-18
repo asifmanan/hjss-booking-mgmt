@@ -2,6 +2,7 @@ package com.hjss.views;
 
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Coach;
+import com.hjss.models.Learner;
 import com.hjss.models.Lesson;
 import com.hjss.utilities.Grade;
 import com.hjss.utilities.TablePrinter;
@@ -21,6 +22,7 @@ public abstract class LessonListView {
     private List<Lesson> lessonList;
     private TablePrinter tablePrinter;
     private List<String> headers;
+    protected Learner selectedLearner;
     private Map<String, Integer> columnWidths = new HashMap<>();
     protected String leftMargin = " ".repeat(3);
 
@@ -55,7 +57,10 @@ public abstract class LessonListView {
         }
     }
 
-    public Lesson getLessonFromPaginatedList() {
+    public Lesson getLessonFromPaginatedList(){
+        return getLessonFromPaginatedList(null);
+    }
+    public Lesson getLessonFromPaginatedList(Learner learner) {
         try {
 
             Terminal terminal = TerminalManager.getTerminal();
@@ -75,13 +80,15 @@ public abstract class LessonListView {
 
             do {
                 terminal.puts(InfoCmp.Capability.clear_screen);
-                printHeader();
-
                 lessonIds.clear();
 
                 int start = currentPage * pageSize;
                 int end = Math.min(start + pageSize, lessonCount);
 
+                if(learner!=null){
+                    learner.printLearnerInfo();
+                }
+                printHeader();
                 for (int i = start; i < end; i++) {
                     Lesson lesson = lessons.get(i);
                     lessonIds.add(lesson.getId());
