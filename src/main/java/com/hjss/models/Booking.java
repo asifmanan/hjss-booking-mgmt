@@ -87,7 +87,7 @@ public class Booking implements Identifiable {
         }
 
     }
-    public void attendAndRate(Terminal terminal, LineReader lineReader){
+    public void attendAndRate(){
         String leftMargin = " ".repeat(3);
         boolean gradeLevelUp = attendBooking();
         HelpText helpText = new HelpText();
@@ -97,9 +97,9 @@ public class Booking implements Identifiable {
         }
         helpText.setText("Thank you for attending the lesson");
 
-        Rating rating = RatingAndReview.getRatingInput(terminal, lineReader, helpText);
+        Rating rating = RatingAndReview.getRatingInput(helpText);
         this.setRating(rating);
-        String review = RatingAndReview.getReviewInput(terminal, lineReader);
+        String review = RatingAndReview.getReviewInput();
         this.ratingAndReview.setReview(review);
     }
     public Lesson getLesson() {

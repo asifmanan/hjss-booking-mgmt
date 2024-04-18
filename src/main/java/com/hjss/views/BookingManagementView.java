@@ -38,28 +38,16 @@ public class BookingManagementView {
             if(booking==null){
                 return;
             }
-            try{
-                Terminal terminal = TerminalManager.getTerminal();
-                LineReader lineReader = TerminalManager.getLineReader();
-                if(booking.getBookingStatus()==BookingStatus.Active){
-                    booking.attendAndRate(terminal, lineReader);
-                    return;
-                }
-            } catch (IOException e){
-                e.printStackTrace();
+
+            if(booking.getBookingStatus()==BookingStatus.Active){
+                booking.attendAndRate();
+                return;
             }
             System.out.println("Booking Selected: "+booking.getId());
         }
     }
 
     public void cancelOrChangeBooking(){
-//        Learner learner = learnerGetOrCreateView.getAndSelectLearnerIfNotPresent();
-//        BookingListViewByLearner bookingListView = new BookingListViewByLearner(bookingController, learner);
-//        if(bookingListView.isBookingListEmpty()){
-//            System.out.println(leftMargin+learner.getFormattedFullName()+", does not have any swimming lessons booked.\n");
-//            return;
-//        }
-//        bookingListView.printBookingList();
         while (true){
             Booking booking = getAndValidateBooking(BookingStatus.Active);
             if(booking==null){
