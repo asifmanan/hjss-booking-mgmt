@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class LessonListViewByCoach extends LessonListView {
     CoachController coachController;
@@ -30,7 +31,8 @@ public class LessonListViewByCoach extends LessonListView {
 
     @Override
     protected List<Lesson> fetchLessons(Terminal terminal, LineReader lineReader) {
-        List<String> coachIds = coachList.stream().map(Coach::getId).toList();
+        List<String> coachIds = coachList.stream()
+                .flatMap(coach -> Stream.of(coach.getId(), coach.getFirstName())).toList();
         TerminalManager.updateCompleter(coachIds);
         try{
             terminal = TerminalManager.getTerminal();
