@@ -2,6 +2,7 @@ package com.hjss.views;
 
 import com.hjss.controllers.LearnerController;
 import com.hjss.models.Learner;
+import com.hjss.models.Person;
 import com.hjss.utilities.*;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
@@ -9,6 +10,7 @@ import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,12 +56,23 @@ public class LearnerCreateView {
             lineReader = TerminalManager.getLineReader();
 
             String dateOfBirth = null;
+            boolean isDateOfBirthValid;
             do {
                 helpText.setText("Format (YYYY MM DD / YYYY-MM-DD / YYYY/MM/DD)");
                 dateOfBirth = InputValidator.getAndValidateString(terminal, lineReader, "Date of Birth: ",DateUtil.getDateFormatRegex(),helpText);
                 if (dateOfBirth == null) return null;
                 dateOfBirth = DateUtil.convertToHyphenFormat(dateOfBirth);
-            } while(!DateUtil.isDateValid(dateOfBirth));
+                isDateOfBirthValid = DateUtil.isDateValid(dateOfBirth);
+                if(isDateOfBirthValid){
+                    if(isLearnerAgeValid(LocalDate.parse(dateOfBirth))){
+                        break;
+                    }
+                    else {
+                        String confirmationInput = dobRetryConfirmation(terminal, lineReader);
+                        if(confirmationInput == null || confirmationInput.equalsIgnoreCase("n")) return null;
+                    }
+                }
+            } while(true);
 
             helpText.setText("Valid input (0-5), 0 for Beginners");
             String grade = InputValidator.getAndValidateString(terminal, lineReader, "Grade (0-5) or (): ", "^([0-5])?$",helpText);
@@ -80,5 +93,23 @@ public class LearnerCreateView {
             System.out.println("   Failed to create learner.");
         }
         return learner;
+    }
+    private boolean isLearnerAgeValid(LocalDate dateOfBirth){
+        int age = Person.calculateAge(dateOfBirth);
+        if(age >= 4 && age <=11){
+            return true;
+        }
+        return false;
+    }
+    private String dobRetryConfirmation(Terminal terminal, LineReader lineReader){
+        String leftMargin = " ".repeat(3);
+        String textPrepend = "\n"+leftMargin+"Registration requires the learner to be between 4 and 11 years old.";
+        String text = "\n"+leftMargin+"Registration process halted!\n";
+        String textAppend = "\n"+leftMargin+"If there was a mistake, enter (y) to try again or (n) to cancel registration"+
+                            "\n"+leftMargin+"Enter :c to cancel\n";
+        HelpText confirmationHelpText = new HelpText(text,textAppend,textPrepend);
+        String regex = "^[yYnN]$";
+        String prompt = "ConfirmRetry(y/n) > ";
+        return InputValidator.getAndValidateString(terminal, lineReader,prompt,regex,confirmationHelpText);
     }
 }
