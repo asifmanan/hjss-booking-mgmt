@@ -86,7 +86,7 @@ public abstract class LessonListView {
                 int end = Math.min(start + pageSize, lessonCount);
 
                 if(learner!=null){
-                    learner.printLearnerInfo();
+                    terminal.writer().println(leftMargin + learner.getFormattedLearnerInfo()+"\n");
                 }
                 printHeader();
                 for (int i = start; i < end; i++) {

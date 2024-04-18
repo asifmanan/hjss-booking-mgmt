@@ -81,16 +81,14 @@ public class Learner extends Person implements Identifiable {
     public void setEmergencyContactNumber(String emergencyContactNumber) {
         this.emergencyContactNumber = emergencyContactNumber.trim();
     }
-    public void printLearnerInfo(){
+    public String getFormattedLearnerInfo(){
         String margin = " ".repeat(3);
-        System.out.println(
-                        FontStyles.boldStart() + "Learner Info"
-                        + margin +">" + margin + FontStyles.boldEnd()
-                        + FontStyles.boldStart() + "Name : "+ FontStyles.boldEnd() + this.getFormattedFullName()
-                        + margin +"|" + margin
-                        + FontStyles.boldStart() + "ID : " + FontStyles.boldEnd() + this.getId()
-                        + margin +"|" + margin
-                        + FontStyles.boldStart() + "Grade : " + FontStyles.boldEnd() + this.getGradeLevel()
-                        +"\n");
+        return FontStyles.boldStart() + "Learner Info"
+               + margin +">" + margin + FontStyles.boldEnd()
+               + FontStyles.boldStart() + "Name : "+ FontStyles.boldEnd() + this.getFormattedFullName()
+               + margin +"|" + margin
+               + FontStyles.boldStart() + "ID : " + FontStyles.boldEnd() + this.getId()
+               + margin +"|" + margin
+               + FontStyles.boldStart() + "Grade : " + FontStyles.boldEnd() + this.getGradeLevel();
     }
 }

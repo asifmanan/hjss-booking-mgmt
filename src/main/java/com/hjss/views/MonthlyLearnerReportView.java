@@ -163,20 +163,9 @@ public class MonthlyLearnerReportView {
         String leftMargin = " ".repeat(3);
         try{
             Terminal terminal = TerminalManager.getTerminal();
-            LineReader lineReader = TerminalManager.getLineReader();
-
-            String rowHeading = FontStyles.boldStart()+leftMargin+"Learner Summary  ->  "+FontStyles.boldEnd();
-
-            String learnerInfo = String.format("%-24.24s   %-14.14s      %-14.14s",
-                    "Name: " + learner.getFormattedFullName(),
-                    "ID: " + learner.getId(),
-                    "Grade: " + learner.getGradeLevel());
-
             terminal.writer().println(leftMargin + "-".repeat(tableWidth));
-            terminal.writer().print(rowHeading);
-            terminal.writer().print(learnerInfo+"\n");
+            terminal.writer().println(leftMargin+learner.getFormattedLearnerInfo());
             terminal.writer().println(leftMargin + "-".repeat(tableWidth));
-
         } catch (IOException e){
             return;
         }

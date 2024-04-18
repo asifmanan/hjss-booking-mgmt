@@ -1,12 +1,8 @@
 package com.hjss.views;
 
 import com.hjss.controllers.BookingController;
-import com.hjss.controllers.CoachController;
-import com.hjss.controllers.LearnerController;
-import com.hjss.controllers.LessonController;
 import com.hjss.models.Booking;
 import com.hjss.models.Learner;
-import com.hjss.models.Lesson;
 import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.HelpText;
 import com.hjss.utilities.InputValidator;
@@ -91,7 +87,7 @@ public class BookingManagementView {
                     Booking newBooking = bookingCreateView.updateBooking(booking);
                     if(newBooking!=null){
                         terminal.puts(InfoCmp.Capability.clear_screen);
-                        terminal.writer().println(leftMargin+"Booking updated Successfully.");
+                        terminal.writer().println(leftMargin+"Booking updated Successfully.\n");
                     }
                 }
 
@@ -120,8 +116,7 @@ public class BookingManagementView {
             LineReader lineReader = TerminalManager.getLineReader();
 
             while(true){
-
-                learner.printLearnerInfo();
+                terminal.writer().println(leftMargin+learner.getFormattedLearnerInfo());
                 terminal.writer().print("\n");
                 bookingListView.printBookingList();
                 terminal.writer().print("\n\n");

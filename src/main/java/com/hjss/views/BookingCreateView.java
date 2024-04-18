@@ -21,6 +21,7 @@ public class BookingCreateView {
     private CoachController coachController;
     private LearnerGetOrCreateView learnerGetOrCreateView;
     private LessonListView lessonListView;
+    private String leftMargin = " ".repeat(3);
 
 
     public BookingCreateView(BookingController bookingController, LessonController lessonController, CoachController coachController, LearnerGetOrCreateView learnerGetOrCreateView){
@@ -71,7 +72,8 @@ public class BookingCreateView {
         try {
             Terminal terminal = TerminalManager.getTerminal();
 
-            learner.printLearnerInfo();
+            terminal.writer().println(" ".repeat(3) + learner.getFormattedLearnerInfo()+"\n");
+
             // get lesson from the list
             Lesson lesson = lessonListView.getLessonFromPaginatedList(learner);
 
@@ -81,7 +83,7 @@ public class BookingCreateView {
             // If all checks pass, create the booking :)
             String bookingId = bookingController.createAndAddObject(learner, lesson);
 
-            System.out.println("Booking successful.");
+            System.out.println(leftMargin + "Booking successful.");
             Booking booking = bookingController.getBookingById(bookingId);
             BookingDetailView bookingDetailView = new BookingDetailView(booking);
             bookingDetailView.printBookingDetails();
@@ -106,26 +108,27 @@ public class BookingCreateView {
         try{
             Terminal terminal = TerminalManager.getTerminal();
             if (lesson == null) {
-                System.out.println("   No lesson selected.\n");
+                System.out.println(leftMargin + "No lesson selected.\n");
                 return null;  // Exit if no lesson is selected (Cancelled Operation)
             }
 
             terminal.puts(InfoCmp.Capability.clear_screen);
-            learner.printLearnerInfo();
+
+            terminal.writer().println(" ".repeat(3) + learner.getFormattedLearnerInfo()+"\n");
 
             // Check if the lesson is already booked by the learner
             if(!bookingController.isGradeCriteriaValid(learner, lesson)){
-                System.out.println("Booking Unsuccessful, the required grade for this lesson is either "+lesson.getMinLearnerGradeRequired()+" or "+lesson.getGradeLevel());
+                System.out.println(leftMargin + "Booking Unsuccessful, the required grade for this lesson is either "+lesson.getMinLearnerGradeRequired()+" or "+lesson.getGradeLevel());
                 return null;
             }
             if (bookingController.isAlreadyBookedByLearner(learner, lesson)) {
-                System.out.println("Booking Unsuccessful, Lesson actively booked or Attended by the same Learner.");
+                System.out.println(leftMargin + "Booking Unsuccessful, Lesson actively booked or Attended by the same Learner.");
                 return null;
             }
 
             // Check if the lesson is fully booked (Max is 4)
             if (bookingController.isFullyBooked(lesson)) {
-                System.out.println("Booking Unsuccessful, This lesson is fully booked!");
+                System.out.println(leftMargin + "Booking Unsuccessful, This lesson is fully booked!");
                 return null;
             }
 

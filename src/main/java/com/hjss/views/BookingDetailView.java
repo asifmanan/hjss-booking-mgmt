@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class BookingDetailView {
     private Booking booking;
-    private String leftMargin = " ".repeat(5);
+    private String leftMargin = " ".repeat(6);
     public BookingDetailView(Booking booking){
         this.booking = booking;
     }
@@ -17,10 +17,13 @@ public class BookingDetailView {
             Terminal terminal = TerminalManager.getTerminal();
             terminal.writer().print("\n");
             terminal.writer().println(leftMargin+ "Booking details for "+booking.getLearner().getFormattedFullName()+"\n");
-            terminal.writer().println(leftMargin+ "BookingID     "+booking.getId());
-            terminal.writer().println(leftMargin+ "Lesson Date   "+booking.getLesson().getLessonDate());
-            terminal.writer().println(leftMargin+ "Grade Level   "+booking.getLesson().getGrade());
-            terminal.writer().println(leftMargin+ "Coach Name    "+booking.getLesson().getCoach().getFormattedFullName());
+            terminal.writer().println(leftMargin+ "BookingID    |  "+booking.getId());
+            terminal.writer().println(leftMargin+ "Lesson Date  |  "+booking.getLesson().getLessonDate());
+            terminal.writer().println(leftMargin+ "Lesson Day   |  "+booking.getLesson().getLessonDay());
+            terminal.writer().println(leftMargin+ "Start Time   |  "+booking.getLesson().getWeekDayTimeSlot().getStartTime());
+            terminal.writer().println(leftMargin+ "End Time     |  "+booking.getLesson().getWeekDayTimeSlot().getEndTime());
+            terminal.writer().println(leftMargin+ "Grade Level  |  "+booking.getLesson().getGrade());
+            terminal.writer().println(leftMargin+ "Coach Name   |  "+booking.getLesson().getCoach().getFormattedFullName());
 
         } catch (IOException e){
             e.printStackTrace();
