@@ -3,6 +3,7 @@ package com.hjss.models;
 import com.hjss.utilities.Gender;
 import com.hjss.utilities.Grade;
 import com.hjss.utilities.IdGenerator;
+import io.consolemenu.FontStyles;
 
 import java.time.LocalDate;
 import java.time.Year;
@@ -36,12 +37,12 @@ public class Learner extends Person implements Identifiable {
     private void generateId(){
         int currentYear = Year.now().getValue() % 100;
         int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
-        if(sequenceNumber>=100){
+        if(sequenceNumber>=1000){
             IdGenerator.resetSequenceForClass(this.getClass());
             sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
         }
-        String randomSequence = IdGenerator.generateRandomSequence(2);
-        this.learnerId = "11" + randomSequence + String.format("%02d%02d", currentYear, sequenceNumber);
+        String randomSequence = IdGenerator.generateRandomSequence(3);
+        this.learnerId = randomSequence + String.format("%03d%02d", sequenceNumber, currentYear);
     }
     public boolean isAgeValid(){
         int age = calculateAge(this.getDateOfBirth());
@@ -79,5 +80,17 @@ public class Learner extends Person implements Identifiable {
 
     public void setEmergencyContactNumber(String emergencyContactNumber) {
         this.emergencyContactNumber = emergencyContactNumber.trim();
+    }
+    public void printLearnerInfo(){
+        String margin = " ".repeat(3);
+        System.out.println(
+                        FontStyles.boldStart() + "Learner Info"
+                        + margin +">" + margin + FontStyles.boldEnd()
+                        + FontStyles.boldStart() + "Name : "+ FontStyles.boldEnd() + this.getFormattedFullName()
+                        + margin +"|" + margin
+                        + FontStyles.boldStart() + "ID : " + FontStyles.boldEnd() + this.getId()
+                        + margin +"|" + margin
+                        + FontStyles.boldStart() + "Grade : " + FontStyles.boldEnd() + this.getGradeLevel()
+                        +"\n");
     }
 }

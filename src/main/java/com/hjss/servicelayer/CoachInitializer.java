@@ -9,7 +9,7 @@ public class CoachInitializer {
         this.coachController = coachController;
     }
     private final String[][] coachDetails = {
-            {"Emily", "Watson", "Female"},
+//            {"Emily", "Watson", "Female"},
             {"Ethan", "Brown", "Male"},
             {"James", "Wilson", "Male"},
             {"Kate", "Russel", "Female"},

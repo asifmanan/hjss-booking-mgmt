@@ -23,7 +23,8 @@ public class LessonListViewByGrade extends LessonListView{
     @Override
     protected List<Lesson> fetchLessons(Terminal terminal, LineReader lineReader) {
         List<String> gradeCompleter = Arrays.stream(Grade.values())
-                        .map(Enum::toString).toList();
+                        .filter(Grade -> Grade.getValue()!=0)
+                        .map(Grade -> Integer.toString(Grade.getValue())).toList();
         TerminalManager.updateCompleter(gradeCompleter);
         try{
             terminal = TerminalManager.getTerminal();
@@ -47,7 +48,7 @@ public class LessonListViewByGrade extends LessonListView{
 
     private String getGrade(Terminal terminal, LineReader lineReader) {
         HelpText helpText = new HelpText(leftMargin + "TYPE [GRADE LEVEL] and ENTER to VIEW LESSONS\n",
-                leftMargin+"TYPE :c and ENTER to cancel\n",
+                leftMargin+"TYPE :c and ENTER to cancel\n\n"+leftMargin+"Press TAB to activate AUTOCOMPLETE\n",
                 leftMargin+"GRADE LEVELS: 1 | 2 | 3 | 4 | 5 \n");
         String gradePrompt = "GradeLevel: ";
         String regex = "[12345]";

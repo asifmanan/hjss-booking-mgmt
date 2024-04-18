@@ -1,10 +1,13 @@
 package com.hjss.models;
 
+import com.hjss.controllers.BookingController;
+import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.Gender;
 import com.hjss.utilities.IdGenerator;
 
 import java.time.LocalDate;
 import java.time.Year;
+import java.util.List;
 
 public class Coach extends Person implements Identifiable {
     String coachId;
@@ -26,13 +29,25 @@ public class Coach extends Person implements Identifiable {
             IdGenerator.resetSequenceForClass(this.getClass());
             sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
         }
-        String randomString = IdGenerator.generateRandomSequence(2);
+        String randomString = IdGenerator.generateRandomSequence(4);
         this.randomIdentifier = sequenceNumber;
-        this.coachId = "12" + randomString + String.format("%02d", sequenceNumber);
+        this.coachId = randomString + String.format("%02d", sequenceNumber);
     }
 
     public String getId() {
         return this.coachId;
+    }
+
+    public Integer getMonthlyCoachRating(List<Booking> bookingListByMonth){
+        List<Booking> attendedBookingList = bookingListByMonth.stream().
+                filter(booking -> booking.getLesson().getCoach()==this
+                && booking.getBookingStatus()== BookingStatus.Attended).toList();
+        if(attendedBookingList.isEmpty()) return null;
+        int rating = 0;
+        for(Booking booking : attendedBookingList){
+            rating += booking.getRating().getValue();
+        }
+        return rating / attendedBookingList.size();
     }
 
     public int getRandomIdentifier(){

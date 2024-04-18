@@ -26,6 +26,9 @@ public class LessonGetView {
         this.coachController = coachController;
     }
     public Lesson getLessonsByChoice(){
+        return getLessonsByChoice(null);
+    }
+    public Lesson getLessonsByChoice(Learner learner){
         String userChoice = getViewLessonChoice();
         if (userChoice==null) return null;
 
@@ -38,6 +41,7 @@ public class LessonGetView {
         if(userChoice.equalsIgnoreCase("coach")){
             lessonListView = new LessonListViewByCoach(lessonController, coachController);
         }
+        if(learner!=null) return lessonListView.getLessonFromPaginatedList(learner);
         return lessonListView.getLessonFromPaginatedList();
     }
 

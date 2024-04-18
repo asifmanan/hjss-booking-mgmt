@@ -23,7 +23,7 @@ public class LessonListViewByDay extends LessonListView{
     @Override
     protected List<Lesson> fetchLessons(Terminal terminal, LineReader lineReader){
         List<String> daysOfWeekCompleter = Arrays.stream(DayOfWeek.values())
-                .map(Enum::name).collect(Collectors.toList());
+                .map(day -> day.name().toLowerCase()).collect(Collectors.toList());
         TerminalManager.updateCompleter(daysOfWeekCompleter);
         try {
             terminal = TerminalManager.getTerminal();
@@ -46,7 +46,7 @@ public class LessonListViewByDay extends LessonListView{
 
     private DayOfWeek getDayOfWeek(Terminal terminal, LineReader lineReader){
         HelpText helpText = new HelpText(leftMargin + "TYPE [DAY] and ENTER to VIEW LESSONS\n",
-                leftMargin+"TYPE :c and ENTER to cancel\n",
+                leftMargin+"TYPE :c and ENTER to cancel\n\n"+leftMargin+"Press TAB to activate AUTOCOMPLETE\n",
                 leftMargin+"DAYS OF WEEK: Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday\n");
         String dayPrompt = "DayOfWeek: ";
         String regex = "(?i)^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$";

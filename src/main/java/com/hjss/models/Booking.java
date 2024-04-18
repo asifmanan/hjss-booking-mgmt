@@ -63,13 +63,18 @@ public class Booking implements Identifiable {
         this.bookingStatus = BookingStatus.Active;
         this.lesson = lesson;
     }
-    public void attendBooking(){
+    public boolean attendBooking(){
         this.bookingStatus = BookingStatus.Attended;
-        if(learner.getGradeLevel() >= lesson.getMinLearnerGradeRequired()
-                && learner.getGradeLevel() <= lesson.getGradeLevel()){
-            this.learner.gradeLevelUp();
+//        if(learner.getGradeLevel() >= lesson.getMinLearnerGradeRequired()
+//                && learner.getGradeLevel() <= lesson.getGradeLevel()){
+//            this.learner.gradeLevelUp();
+//        }
+        if(lesson.getGradeLevel() > learner.getGradeLevel()){
+            learner.gradeLevelUp();
+            this.updatedOn = LocalDateTime.now();
+            return true;
         }
-        this.updatedOn = LocalDateTime.now();
+        return false;
     }
     public void attendAndRate(int ratingInt){
         attendBooking();
@@ -82,17 +87,19 @@ public class Booking implements Identifiable {
         }
 
     }
-    public void attendAndRate(Terminal terminal, LineReader lineReader){
+    public void attendAndRate(){
         String leftMargin = " ".repeat(3);
-        attendBooking();
+        boolean gradeLevelUp = attendBooking();
         HelpText helpText = new HelpText();
-        String congratulatoryNote = String.format("Congratulations %s, you have advanced to grade level %s",this.learner.getFirstName(), this.learner.getGradeLevel());
-        helpText.setPrepend(congratulatoryNote);
+        if(gradeLevelUp) {
+            String congratulatoryNote = String.format("Congratulations %s, you have advanced to grade level %s", this.learner.getFirstName(), this.learner.getGradeLevel());
+            helpText.setPrepend(congratulatoryNote);
+        }
         helpText.setText("Thank you for attending the lesson");
 
-        Rating rating = RatingAndReview.getRatingInput(terminal, lineReader, helpText);
+        Rating rating = RatingAndReview.getRatingInput(helpText);
         this.setRating(rating);
-        String review = RatingAndReview.getReviewInput(terminal, lineReader);
+        String review = RatingAndReview.getReviewInput();
         this.ratingAndReview.setReview(review);
     }
     public Lesson getLesson() {

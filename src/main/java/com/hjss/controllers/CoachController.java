@@ -1,7 +1,9 @@
 package com.hjss.controllers;
 
 import com.hjss.modelrepository.ModelRegister;
+import com.hjss.models.Booking;
 import com.hjss.models.Coach;
+import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.Gender;
 
 import java.util.ArrayList;
@@ -40,5 +42,12 @@ public class CoachController implements ModelController<Coach>{
     }
     public Coach getAndRotate(){
         return coachRegister.getAndRotate();
+    }
+    public List<Booking> getLessonsByMonth(BookingController bookingController, int month){
+        return bookingController.getLessonsByMonth(month);
+    }
+    public List<Booking> filterLessonsByCoach(List<Booking> bookingList, Coach coach){
+        return bookingList.stream().filter(booking -> booking.getLesson()
+                .getCoach()==coach).toList();
     }
 }
