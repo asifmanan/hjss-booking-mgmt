@@ -7,6 +7,7 @@ import com.hjss.models.Coach;
 import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.InputValidator;
 import com.hjss.utilities.TablePrinter;
+import io.consolemenu.FontStyles;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
@@ -37,10 +38,10 @@ public class MonthlyCoachReportView {
     }
     private void setCoachListColWidth() {
         this.coachListColWidth = Map.of(
-                "CoachId",10,
+                "CoachId",8,
                 "FistName",12,
                 "LastName",12,
-                "Avg. Rating",12
+                "Avg. Rating",11
                 );
     }
     private void updateTableWidth(){
@@ -51,7 +52,9 @@ public class MonthlyCoachReportView {
         tableWidth += coachListColWidth.size()*3;
     }
     private void printTableHeader(){
+        System.out.println(" ".repeat(3) + "-".repeat(tableWidth));
         tablePrinter.printHeader();
+        System.out.println(" ".repeat(3) + "-".repeat(tableWidth));
     }
     private Integer getMonthFromInput(){
         String leftMargin = " ".repeat(3);
@@ -85,10 +88,8 @@ public class MonthlyCoachReportView {
             return;
         }
 
-        System.out.println(" ".repeat(3) + "MONTHLY COACH REPORT"+"\n");
-        System.out.println(" ".repeat(3) + "-".repeat(tableWidth));
-        tablePrinter.printHeader();
-        System.out.println(" ".repeat(3) + "-".repeat(tableWidth));
+        System.out.println(" ".repeat(3) + FontStyles.boldStart()+"MONTHLY COACH REPORT"+FontStyles.boldEnd());
+        printTableHeader();
         for(Coach coach : coachList){
             List<String> coachData = getCoachData(coach, bookingListByMonth);
             tablePrinter.printRow(coachData);

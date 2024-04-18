@@ -8,6 +8,7 @@ import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.InputValidator;
 import com.hjss.utilities.Pair;
 import com.hjss.utilities.TablePrinter;
+import io.consolemenu.FontStyles;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
@@ -51,13 +52,13 @@ public class MonthlyLearnerReportView {
     }
     private void setLessonListColWidth() {
         this.lessonListColWidth = Map.of(
-                "LessonId",10,
-                "LessonDate",12,
-                "Status",10,
-                "StartTime",12,
-                "EndTime",12,
-                "LessonGrade",12,
-                "Coach",15
+                "LessonId",8,
+                "LessonDate",10,
+                "Status",9,
+                "StartTime",9,
+                "EndTime",9,
+                "LessonGrade",11,
+                "Coach",14
                 );
     }
     private void updateTableWidth(){
@@ -157,7 +158,9 @@ public class MonthlyLearnerReportView {
 
         String bookingSummary = String.format("Booked: %d    Active: %d    Cancelled: %d    Attended: %d    ",
                 bookedLessons, activeLessons, cancelledLessons, attendedLessons);
+        System.out.print(FontStyles.boldStart());
         System.out.print(" ".repeat(3)+"Booking Summary  ->  ");
+        System.out.print(FontStyles.boldEnd());
         System.out.println(bookingSummary);
         System.out.println(" ".repeat(3)+"-".repeat(tableWidth));
     }
@@ -166,10 +169,19 @@ public class MonthlyLearnerReportView {
         try{
             Terminal terminal = TerminalManager.getTerminal();
             LineReader lineReader = TerminalManager.getLineReader();
-            String learnerInfo =leftMargin + "Learner Name: "+learner.getFormattedFullName()
-                    + " ".repeat(5) + "Learner ID: "+learner.getId() + "Learner Grade: "+learner.getGradeLevel();
+
+            String rowHeading = FontStyles.boldStart()+leftMargin+"Learner Summary  ->  "+FontStyles.boldEnd();
+
+//            String learnerInfo =leftMargin+rowHeading+"Name: "+learner.getFormattedFullName()
+//                    + " ".repeat(5) + " ID: "+learner.getId() +" ".repeat(5)+ " Grade: "+learner.getGradeLevel();
+            String learnerInfo = String.format("%-24.24s   %-14.14s      %-14.14s",
+                    "Name: " + learner.getFormattedFullName(),
+                    "ID: " + learner.getId(),
+                    "Grade: " + learner.getGradeLevel());
+
             terminal.writer().println(leftMargin + "-".repeat(tableWidth));
-            terminal.writer().println(learnerInfo);
+            terminal.writer().print(rowHeading);
+            terminal.writer().print(learnerInfo+"\n");
             terminal.writer().println(leftMargin + "-".repeat(tableWidth));
 
         } catch (IOException e){

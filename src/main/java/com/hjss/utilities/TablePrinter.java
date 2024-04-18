@@ -1,5 +1,7 @@
 package com.hjss.utilities;
 
+import io.consolemenu.FontStyles;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class TablePrinter {
     }
 
     public void printHeader() {
+        System.out.print(FontStyles.boldStart());
         for (String header : this.headers) {
             Integer width = this.columnWidths.get(header);
             if (width == null) {
@@ -28,6 +31,7 @@ public class TablePrinter {
             }
             System.out.printf("   %-" + width + "s", truncateString(header, width));
         }
+        System.out.print(FontStyles.boldEnd());
         System.out.println();
     }
 
