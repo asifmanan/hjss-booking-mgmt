@@ -21,7 +21,6 @@ public class EntryView {
     private BookingManagementView bookingManagementView;
     private MonthlyLearnerReportView monthlyLearnerReportView;
     private MonthlyCoachReportView monthlyCoachReportView;
-    private BookingListViewByLearner bookingListViewByLearner;
 
     public EntryView() {
         initializeControllers();

@@ -11,7 +11,6 @@ import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

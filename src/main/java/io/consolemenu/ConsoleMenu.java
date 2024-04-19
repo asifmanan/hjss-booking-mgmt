@@ -35,8 +35,6 @@ public class ConsoleMenu {
         terminal.puts(InfoCmp.Capability.clear_screen);
 
         while(!menu.getBreakLoopFlag()){
-
-//            System.out.println(menu.displayMenuOptions());
             menu.displayMenuDescription(terminal);
 
             try {

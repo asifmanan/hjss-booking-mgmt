@@ -5,7 +5,6 @@ import com.hjss.controllers.LessonController;
 import com.hjss.controllers.TimeSlotController;
 import com.hjss.models.Coach;
 import com.hjss.models.Lesson;
-import com.hjss.models.TimeSlot;
 import com.hjss.models.WeekDayTimeSlot;
 import com.hjss.utilities.Grade;
 

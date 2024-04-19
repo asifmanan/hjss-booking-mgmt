@@ -18,10 +18,8 @@ public abstract class Person {
         this.dateOfBirth = dateOfBirth;
     }
     public Person(String firstName, String lastName, Gender gender){
-//        refactored to call overloaded constructor.
         this(firstName, lastName, gender, null);
     }
-// refactored to use calculateAge.
     public int getAge(){
         return calculateAge(this.dateOfBirth);
     }

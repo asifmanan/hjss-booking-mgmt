@@ -9,10 +9,8 @@ import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public class LearnerCreateView {
     private LearnerController learnerController;

@@ -1,9 +1,7 @@
 package com.hjss.controllers;
 
 import com.hjss.modelrepository.ModelRegister;
-import com.hjss.models.Graded;
 import com.hjss.models.Learner;
-import com.hjss.models.Lesson;
 import com.hjss.utilities.Gender;
 import com.hjss.utilities.Grade;
 

@@ -1,12 +1,11 @@
 package com.hjss.models;
 
-import com.hjss.controllers.BookingController;
 import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.Gender;
 import com.hjss.utilities.IdGenerator;
 
 import java.time.LocalDate;
-import java.time.Year;
+
 import java.util.List;
 
 public class Coach extends Person implements Identifiable {

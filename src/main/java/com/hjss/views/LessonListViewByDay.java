@@ -7,7 +7,6 @@ import com.hjss.utilities.InputValidator;
 import io.consolemenu.TerminalManager;
 import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
-import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
 import java.time.DayOfWeek;

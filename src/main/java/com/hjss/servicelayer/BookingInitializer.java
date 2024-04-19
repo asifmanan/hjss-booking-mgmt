@@ -65,10 +65,6 @@ public class BookingInitializer {
             for (Lesson lesson : lessonController.filterByGrade(i)) {
                 if (!dateFilter.test(lesson.getWeekDayTimeSlot().getDate())) continue;
 
-//                List<Learner> learnersList = new ArrayList<>(i == 0
-//                        ? learnerController.filterByEligibleGrade(i)
-//                        : learnerController.filterByGrade(i));
-
                 List<Learner> learnersList = new ArrayList<>(learnerController.filterByEligibleGrade(i));
 
                 if (learnersList.isEmpty()) continue;

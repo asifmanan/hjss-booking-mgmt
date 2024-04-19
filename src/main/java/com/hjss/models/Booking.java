@@ -4,11 +4,9 @@ import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.HelpText;
 import com.hjss.utilities.IdGenerator;
 import com.hjss.utilities.Rating;
-import org.jline.reader.LineReader;
-import org.jline.terminal.Terminal;
+
 import org.threeten.extra.YearWeek;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.hjss.utilities.DateUtil.getYearWeekForDate;

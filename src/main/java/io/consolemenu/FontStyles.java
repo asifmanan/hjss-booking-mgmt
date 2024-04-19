@@ -1,9 +1,5 @@
 package io.consolemenu;
 
-import org.jline.terminal.Terminal;
-import org.jline.terminal.TerminalBuilder;
-import org.jline.utils.InfoCmp;
-
 public class FontStyles {
 
     private static final String BOLD_START = "\u001B[1m";

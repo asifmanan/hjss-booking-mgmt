@@ -1,12 +1,6 @@
 package com.hjss.servicelayer;
 
 import com.hjss.controllers.*;
-import com.hjss.models.Lesson;
-import io.consolemenu.TerminalManager;
-import org.jline.reader.LineReader;
-import org.jline.terminal.Terminal;
-
-import java.io.IOException;
 
 public class ServiceManager {
     private LearnerController learnerController = new LearnerController();
@@ -35,8 +29,6 @@ public class ServiceManager {
 
         lessonInitializer.initializeLessons();
         bookingInitializer.initializeBookings();
-
-
     }
     public LearnerController getLearnerController(){
         return this.learnerController;

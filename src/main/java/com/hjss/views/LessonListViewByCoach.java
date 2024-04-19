@@ -13,9 +13,7 @@ import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public class LessonListViewByCoach extends LessonListView {
@@ -92,8 +90,6 @@ public class LessonListViewByCoach extends LessonListView {
             coach = coachList.stream().filter(ch -> ch.getId().equalsIgnoreCase(coachString)).findFirst().orElse(null);
         }
         coachValuePair.setObject(coach);
-//        if (coach != null) return new Pair<>(coach, false);
-//        return new Pair<>(null, true);
         return coachValuePair;
     }
 }
