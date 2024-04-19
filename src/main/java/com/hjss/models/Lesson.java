@@ -37,9 +37,9 @@ public class Lesson implements Identifiable {
      }
 
 
-     public boolean isGradeValid(Learner learner){
+     public boolean isLearnerGradeValid(Learner learner){
           return (  learner.getGradeLevel() == this.getGradeLevel()
-                  || learner.getGradeLevel() + 1 == this.getGradeLevel() );
+                  || learner.getGradeLevel() == getMinLearnerGradeRequired() );
      }
      public int getMinLearnerGradeRequired(){
           int gradeLevel = this.getGradeLevel();
