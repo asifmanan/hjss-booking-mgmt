@@ -123,7 +123,7 @@ public class BookingManagementView {
                 Pair<Booking, Boolean> bookingBooleanPair = fetchBookingById(terminal, lineReader);
                 if(bookingBooleanPair==null) {
                     terminal.puts(InfoCmp.Capability.clear_screen);
-                    terminal.writer().println(leftMargin+"Operation Aborted! Booking Not Selected");
+//                    terminal.writer().println(leftMargin+"Operation Aborted! Booking Not Selected");
                     return null;
                 }
                 if(bookingBooleanPair.getInvalidFlag()) {

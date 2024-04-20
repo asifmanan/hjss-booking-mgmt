@@ -122,7 +122,11 @@ public class BookingCreateView {
                 return null;
             }
             if (bookingController.isAlreadyBookedByLearner(learner, lesson)) {
-                System.out.println(leftMargin + "Booking Unsuccessful, Lesson actively booked or Attended by the same Learner.");
+                /* need to investigate the behaviour here, although there is clear screen
+                before "if conditions" but somehow its not getting invoked with this condition
+                 so putting extra clear screen here for now. */
+                terminal.puts(InfoCmp.Capability.clear_screen);
+                System.out.println(leftMargin + "Booking Unsuccessful, Lesson actively booked or Attended by the same Learner.\n");
                 return null;
             }
 

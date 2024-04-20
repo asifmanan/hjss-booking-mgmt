@@ -89,8 +89,8 @@ public class BookingController implements ModelController<Booking> {
         return true;
     }
     public boolean isFullyBooked(Lesson lesson){
-        int bookingCount = getBookingByLessonCount(lesson);
-        return bookingCount >= lesson.getMaxCapacity();
+        int bookingCount = countNumberOfActiveBookings(lesson);
+        return !(bookingCount < lesson.getMaxCapacity());
     }
     public boolean isGradeCriteriaValid(Learner learner, Lesson lesson){
         return learner.getGradeLevel() == lesson.getMinLearnerGradeRequired() ||
