@@ -9,10 +9,10 @@ import java.time.LocalTime;
 
 public class Lesson implements Identifiable {
      private final int maxCapacity;
-     String lessonId;
-     WeekDayTimeSlot weekDayTimeSlot;
-     Grade gradeLevel;
-     Coach coach;
+     private String lessonId;
+     private WeekDayTimeSlot weekDayTimeSlot;
+     private Grade gradeLevel;
+     private Coach coach;
 
      public Lesson(Grade gradeLevel, Coach coach, WeekDayTimeSlot weekDayTimeSlot) {
           this.gradeLevel = gradeLevel;
@@ -21,11 +21,11 @@ public class Lesson implements Identifiable {
                throw new IllegalStateException("The DayTimeSlot object is not in a valid state, please ensure the object is properly set with appropriate dates and times.");
           }
           this.weekDayTimeSlot = weekDayTimeSlot;
-          generateLessonId();
+          generateId();
           this.maxCapacity = 4; //setting default maxCapacity to 4
      }
 
-     private void generateLessonId(){
+     private void generateId(){
           int gradeLevel = this.gradeLevel.getValue();
           int sequenceNumber = IdGenerator.generateSequentialId(this.getClass());
           if(sequenceNumber>=100){
@@ -37,7 +37,7 @@ public class Lesson implements Identifiable {
      }
 
 
-     public boolean isLearnerGradeValid(Learner learner){
+     public boolean isLearnerEligible(Learner learner){
           return (  learner.getGradeLevel() == this.getGradeLevel()
                   || learner.getGradeLevel() == getMinLearnerGradeRequired() );
      }

@@ -112,7 +112,7 @@ public class MonthlyLearnerReportView {
             return null;
         }
     }
-    public void printLearnerReport(){
+    public void generateLearnerReport(){
         updateLearnerList();
         Integer month = getMonthFromInput();
         if(month==null){

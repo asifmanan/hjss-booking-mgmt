@@ -9,8 +9,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Coach extends Person implements Identifiable {
-    String coachId;
-    int randomIdentifier;
+    private String coachId;
+    private int randomIdentifier;
     public Coach(String firstName, String lastName, Gender gender, LocalDate dateOfBirth) {
         super(firstName, lastName, gender, dateOfBirth);
         generateId();

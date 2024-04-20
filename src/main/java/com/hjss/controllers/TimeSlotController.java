@@ -3,6 +3,7 @@ package com.hjss.controllers;
 import com.hjss.modelrepository.ModelRegister;
 import com.hjss.models.WeekDayTimeSlot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TimeSlotController implements ModelController<WeekDayTimeSlot> {
@@ -17,7 +18,7 @@ public class TimeSlotController implements ModelController<WeekDayTimeSlot> {
 
     @Override
     public List<WeekDayTimeSlot> getAllObjects() {
-        return null;
+        return new ArrayList<>(timeSlotRegister.getAllObjects());
     }
     public WeekDayTimeSlot getAndIncrement(){
         return timeSlotRegister.getAndIncrement();

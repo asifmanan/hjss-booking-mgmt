@@ -38,9 +38,9 @@ public class LessonTest {
         Learner validLearner2 = new Learner("Learner", "Two", Gender.Male, LocalDate.now().minusYears(10), 2, "1234567890");
         Learner invalidLearner = new Learner("Learner", "Three", Gender.Female, LocalDate.now().minusYears(8), 0, "1234567890");
 
-        assertTrue(lesson.isLearnerGradeValid(validLearner1),"Learner should be valid");
-        assertTrue(lesson.isLearnerGradeValid(validLearner2),"Learner should be valid");
-        assertFalse(lesson.isLearnerGradeValid(invalidLearner),"Learner should not be valid");
+        assertTrue(lesson.isLearnerEligible(validLearner1),"Learner should be valid");
+        assertTrue(lesson.isLearnerEligible(validLearner2),"Learner should be valid");
+        assertFalse(lesson.isLearnerEligible(invalidLearner),"Learner should not be valid");
     }
 
     // Test getters() for time and date related properties
