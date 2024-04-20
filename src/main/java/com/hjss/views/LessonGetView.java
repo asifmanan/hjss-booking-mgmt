@@ -1,5 +1,6 @@
 package com.hjss.views;
 
+import com.hjss.controllers.BookingController;
 import com.hjss.controllers.CoachController;
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Booking;
@@ -20,10 +21,15 @@ public class LessonGetView {
     private LessonController lessonController;
     private CoachController coachController;
     private LessonListView lessonListView;
+    private BookingController bookingController;
     private String leftMargin = " ".repeat(3);
     public LessonGetView(LessonController lessonController, CoachController coachController){
         this.lessonController = lessonController;
         this.coachController = coachController;
+    }
+    public LessonGetView(LessonController lessonController, CoachController coachController, BookingController bookingController){
+        this(lessonController, coachController);
+        this.bookingController = bookingController;
     }
     public Lesson getLessonsByChoice(){
         return getLessonsByChoice(null);
@@ -32,17 +38,43 @@ public class LessonGetView {
         String userChoice = getViewLessonChoice();
         if (userChoice==null) return null;
 
-        if(userChoice.equalsIgnoreCase("day")){
-            lessonListView = new LessonListViewByDay(lessonController);
-        }
-        if(userChoice.equalsIgnoreCase("grade")){
-            lessonListView = new LessonListViewByGrade(lessonController);
-        }
-        if(userChoice.equalsIgnoreCase("coach")){
-            lessonListView = new LessonListViewByCoach(lessonController, coachController);
-        }
+        lessonListView = getLessonListViewByChoice(userChoice);
+
         if(learner!=null) return lessonListView.getLessonFromPaginatedList(learner);
         return lessonListView.getLessonFromPaginatedList();
+    }
+    private LessonListView getLessonListViewByChoice(String userChoice) {
+        return switch (userChoice.toLowerCase()) {
+            case "day" -> createLessonListViewByDay();
+            case "grade" -> createLessonListViewByGrade();
+            case "coach" -> createLessonListViewByCoach();
+//            Although this case is handled by getViewLessonChoice, it only accepts valid strings
+            default -> throw new IllegalArgumentException("Invalid choice: " + userChoice);
+        };
+    }
+
+    private LessonListView createLessonListViewByDay() {
+        if (bookingController != null) {
+            return new LessonListViewByDay(lessonController, bookingController);
+        } else {
+            return new LessonListViewByDay(lessonController);
+        }
+    }
+
+    private LessonListView createLessonListViewByGrade() {
+        if (bookingController != null) {
+            return new LessonListViewByGrade(lessonController, bookingController);
+        } else {
+            return new LessonListViewByGrade(lessonController);
+        }
+    }
+
+    private LessonListView createLessonListViewByCoach() {
+        if (bookingController != null) {
+            return new LessonListViewByCoach(lessonController, coachController, bookingController);
+        } else {
+            return new LessonListViewByCoach(lessonController, coachController);
+        }
     }
 
     private String getViewLessonChoice(){

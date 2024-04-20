@@ -48,15 +48,15 @@ public class BookingCreateView {
         return Optional.empty();
     }
     public void bookLessonByGrade(){
-        this.lessonListView = new LessonListViewByGrade(lessonController);
+        this.lessonListView = new LessonListViewByGrade(lessonController, bookingController);
         createBooking();
     }
     public void bookLessonByDay(){
-        this.lessonListView = new LessonListViewByDay(lessonController);
+        this.lessonListView = new LessonListViewByDay(lessonController, bookingController);
         createBooking();
     }
     public void bookLessonByCoach(){
-        this.lessonListView = new LessonListViewByCoach(lessonController, coachController);
+        this.lessonListView = new LessonListViewByCoach(lessonController, coachController, bookingController);
         createBooking();
     }
     public void createBooking() {
@@ -95,7 +95,7 @@ public class BookingCreateView {
     }
     public Booking updateBooking(Booking booking){
         Learner learner = booking.getLearner();
-        LessonGetView lessonGetView = new LessonGetView(lessonController, coachController);
+        LessonGetView lessonGetView = new LessonGetView(lessonController, coachController, bookingController);
         Lesson newLesson = lessonGetView.getLessonsByChoice(learner);
         if(newLesson==null) return null;
         Lesson verifiedLesson = verifyLessonConstraints(newLesson, learner);

@@ -1,5 +1,6 @@
 package com.hjss.views;
 
+import com.hjss.controllers.BookingController;
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Lesson;
 import com.hjss.utilities.HelpText;
@@ -18,6 +19,10 @@ public class LessonListViewByDay extends LessonListView{
     public LessonListViewByDay(LessonController lessonController) {
         super(lessonController);
     }
+    public LessonListViewByDay(LessonController lessonController, BookingController bookingController) {
+        super(lessonController, bookingController);
+    }
+
 
     @Override
     protected List<Lesson> fetchLessons(Terminal terminal, LineReader lineReader){

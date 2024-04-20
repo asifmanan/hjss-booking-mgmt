@@ -1,5 +1,6 @@
 package com.hjss.views;
 
+import com.hjss.controllers.BookingController;
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Learner;
 import com.hjss.models.Lesson;
@@ -17,6 +18,9 @@ import java.util.List;
 public class LessonListViewByGrade extends LessonListView{
     public LessonListViewByGrade(LessonController lessonController) {
         super(lessonController);
+    }
+    public LessonListViewByGrade(LessonController lessonController, BookingController bookingController) {
+        super(lessonController, bookingController);
     }
 
     @Override
