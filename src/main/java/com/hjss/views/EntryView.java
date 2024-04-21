@@ -21,7 +21,6 @@ public class EntryView {
     private BookingManagementView bookingManagementView;
     private MonthlyLearnerReportView monthlyLearnerReportView;
     private MonthlyCoachReportView monthlyCoachReportView;
-    private BookingListViewByLearner bookingListViewByLearner;
 
     public EntryView() {
         initializeControllers();
@@ -58,7 +57,7 @@ public class EntryView {
         mainMenu.addMenuItem("register",learnerGetOrCreateView::createAndSelectLearner,"to REGISTER a New Learner");;
         mainMenu.addMenuItem("manage",bookingManagementView::cancelOrChangeBooking,"to CANCEL/CHANGE an existing BOOKING");;
         mainMenu.addMenuItem("logout",learnerGetOrCreateView::logoutLearner, "to LOGOUT the current selected LEARNER");
-        mainMenu.addMenuItem("mlr",monthlyLearnerReportView::printLearnerReport, "to GENERATE the MONTHLY LEARNER REPORT");
+        mainMenu.addMenuItem("mlr",monthlyLearnerReportView::generateLearnerReport, "to GENERATE the MONTHLY LEARNER REPORT");
         mainMenu.addMenuItem("mcr",monthlyCoachReportView::generateCoachReport, "to GENERATE the MONTHLY COACH REPORT");
 
         Menu bookingMenu = new Menu("book",mainMenu);

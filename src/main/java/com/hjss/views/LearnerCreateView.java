@@ -9,10 +9,8 @@ import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public class LearnerCreateView {
     private LearnerController learnerController;
@@ -69,7 +67,9 @@ public class LearnerCreateView {
                     }
                     else {
                         String confirmationInput = dobRetryConfirmation(terminal, lineReader);
-                        if(confirmationInput == null || confirmationInput.equalsIgnoreCase("n")) return null;
+                        if(confirmationInput == null
+                                || confirmationInput.equalsIgnoreCase("n"))
+                            return null;
                     }
                 }
             } while(true);
@@ -82,11 +82,9 @@ public class LearnerCreateView {
             String contactNumber = InputValidator.getAndValidateString(terminal, lineReader, "Emergency Contact Number: ", "^\\+[1-9]{1}[0-9]{1,14}$",helpText);
             if (contactNumber == null) return null;
 
-            learner = learnerController.createObject(firstName, lastName, gender,
-                                                                dateOfBirth, grade, contactNumber);
-//            String learnerId = learnerController.addObject(learner);
+            learner = learnerController.createObject(firstName, lastName, gender,                     dateOfBirth, grade, contactNumber);
+            String learnerId = learnerController.addObject(learner);
 
-//            System.out.println("   Learner created with ID: "+ learnerId);
         }
         catch (Exception e) {
             e.printStackTrace();

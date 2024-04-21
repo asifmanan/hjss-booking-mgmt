@@ -18,10 +18,8 @@ public abstract class Person {
         this.dateOfBirth = dateOfBirth;
     }
     public Person(String firstName, String lastName, Gender gender){
-//        refactored to call overloaded constructor.
         this(firstName, lastName, gender, null);
     }
-// refactored to use calculateAge.
     public int getAge(){
         return calculateAge(this.dateOfBirth);
     }
@@ -68,10 +66,14 @@ public abstract class Person {
     public String getFullName(){
         return getFirstName() +" "+ getLastName();
     }
+    public String getFormattedFirstName(){
+        return Character.toUpperCase(getFirstName().charAt(0)) + getFirstName().substring(1);
+    }
+    public String getFormattedLastName(){
+        return Character.toUpperCase(getLastName().charAt(0)) + getLastName().substring(1);
+    }
     public String getFormattedFullName(){
-        String formattedFirstName = Character.toUpperCase(getFirstName().charAt(0)) + getFirstName().substring(1);
-        String formattedLastName = Character.toUpperCase(getLastName().charAt(0)) + getLastName().substring(1);
-        return formattedFirstName +" "+ formattedLastName;
+        return this.getFormattedFirstName() +" "+ this.getFormattedLastName();
     }
     public String getInitialLastName(){
         Character initial = Character.toUpperCase(getFirstName().charAt(0));

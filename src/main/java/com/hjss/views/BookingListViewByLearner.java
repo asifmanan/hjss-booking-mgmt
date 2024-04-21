@@ -10,7 +10,6 @@ import java.util.*;
 
 public class BookingListViewByLearner {
     private BookingController bookingController;
-    private LearnerGetOrCreateView learnerGetOrCreateView;
     private List<Booking> bookingList;
     private TablePrinter tablePrinter;
     private List<String> headers;
@@ -92,6 +91,6 @@ public class BookingListViewByLearner {
         return this.bookingList;
     }
     private void printPaginatedBookingList(){
-
+//        Need to work on this function
     }
 }

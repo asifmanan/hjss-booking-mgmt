@@ -1,6 +1,8 @@
 package com.hjss.views;
 
+import com.hjss.controllers.BookingController;
 import com.hjss.controllers.LessonController;
+import com.hjss.models.Booking;
 import com.hjss.models.Coach;
 import com.hjss.models.Learner;
 import com.hjss.models.Lesson;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 public abstract class LessonListView {
     private LessonController lessonController;
+    private BookingController bookingController;
     private List<Lesson> lessonList;
     private TablePrinter tablePrinter;
     private List<String> headers;
@@ -34,6 +37,15 @@ public abstract class LessonListView {
         setColumnWidths(this.headers);
         this.tablePrinter = new TablePrinter(this.headers, this.columnWidths);
     }
+
+    public LessonListView(LessonController lessonController, BookingController bookingController){
+        this(lessonController);
+        this.headers = Arrays.asList("Id", "Date", "Day", "Start", "End", "Grade", "Coach", "Bookings");
+        setColumnWidthsWithBookings(this.headers);
+        this.tablePrinter = new TablePrinter(this.headers, this.columnWidths);
+        this.bookingController = bookingController;
+    }
+
     private void setColumnWidths(List<String> headers) {
         this.columnWidths = Map.of(
                 "Id",11,
@@ -45,6 +57,20 @@ public abstract class LessonListView {
                 "Coach",12
         );
     }
+
+    private void setColumnWidthsWithBookings(List<String> headers) {
+        this.columnWidths = Map.of(
+                "Id",11,
+                "Date",13,
+                "Day",11,
+                "Start",9,
+                "End",9,
+                "Grade",7,
+                "Coach",12,
+                "Bookings",10
+        );
+    }
+
     protected abstract List<Lesson> fetchLessons(Terminal terminal, LineReader lineReader);
     protected void printHeader(){
         tablePrinter.printHeader();
@@ -153,9 +179,32 @@ public abstract class LessonListView {
         lessonData.add(lesson.getEndTime().toString());
         lessonData.add(lesson.getGrade().toString());
         lessonData.add(lesson.getCoach().getFormattedFullName());
+        if(bookingController!=null){
+            Integer bookingCount = bookingController.countNumberOfActiveBookings(lesson);
+            lessonData.add(bookingCount.toString()+"/"+lesson.getMaxCapacity());
+        }
 
         return lessonData;
     }
+
+    protected List<String> getLessonDataWithBookings(Lesson lesson){
+        List<String> lessonData = new ArrayList<>();
+
+        lessonData.add(lesson.getId());
+        lessonData.add(lesson.getLessonDate().toString());
+        lessonData.add(lesson.getLessonDay().toString());
+        lessonData.add(lesson.getStartTime().toString());
+        lessonData.add(lesson.getEndTime().toString());
+        lessonData.add(lesson.getGrade().toString());
+        lessonData.add(lesson.getCoach().getFormattedFullName());
+        if(bookingController!=null){
+            Integer bookingCount = bookingController.countNumberOfActiveBookings(lesson);
+            lessonData.add(bookingCount.toString()+"/"+lesson.getMaxCapacity());
+        }
+
+        return lessonData;
+    }
+
     protected String getUserInput(Terminal terminal, LineReader lineReader){
         renderUserOption(terminal);
         return lineReader.readLine("BookLesson>>").trim();

@@ -88,10 +88,6 @@ public class MonthlyLearnerReportView {
         System.out.print("\n");
         printLearnerInfo(learner);
         printBookingSummary(monthlyLearnerBookingList);
-//        if(monthlyLearnerBookingList.isEmpty()){
-//            System.out.println("\n" + " ".repeat(3)+"<No bookings found>"+"\n");
-//            return;
-//        }
         printLessonListHeader();
         for(Booking booking : monthlyLearnerBookingList){
             List<String> bookingData = getBookingData(booking);
@@ -116,7 +112,7 @@ public class MonthlyLearnerReportView {
             return null;
         }
     }
-    public void printLearnerReport(){
+    public void generateLearnerReport(){
         updateLearnerList();
         Integer month = getMonthFromInput();
         if(month==null){
@@ -171,6 +167,6 @@ public class MonthlyLearnerReportView {
         }
     }
     private void printPaginatedList(){
-
+// Need to work on this function
     }
 }

@@ -30,7 +30,7 @@ public class WeeklySchedule {
     private void initializeSchedule(){
         for(String[] values : this.schedule){
             DayTimeSlot dts = createDayTimeSlot(values);
-            add(dts);
+            addDayTimeSlot(dts);
         }
     }
     private DayTimeSlot createDayTimeSlot(String[] values){
@@ -42,7 +42,7 @@ public class WeeklySchedule {
 
         return new DayTimeSlot(day, ts);
     }
-    private void add(DayTimeSlot dts){
+    private void addDayTimeSlot(DayTimeSlot dts){
         this.weeklySchedule.add(dts);
     }
     public List<DayTimeSlot> getSchedule(){

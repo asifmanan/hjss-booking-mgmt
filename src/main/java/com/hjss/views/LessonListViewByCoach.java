@@ -1,5 +1,6 @@
 package com.hjss.views;
 
+import com.hjss.controllers.BookingController;
 import com.hjss.controllers.CoachController;
 import com.hjss.controllers.LessonController;
 import com.hjss.models.Coach;
@@ -13,17 +14,22 @@ import org.jline.terminal.Terminal;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public class LessonListViewByCoach extends LessonListView {
     CoachController coachController;
     List<Coach> coachList;
     CoachListView coachListView;
+    BookingController bookingController;
     public LessonListViewByCoach(LessonController lessonController, CoachController coachController) {
         super(lessonController);
+        this.coachController = coachController;
+        coachList = coachController.getAllObjects();
+        this.coachListView = new CoachListView(coachController);
+    }
+    public LessonListViewByCoach(LessonController lessonController, CoachController coachController, BookingController bookingController) {
+        super(lessonController, bookingController);
         this.coachController = coachController;
         coachList = coachController.getAllObjects();
         this.coachListView = new CoachListView(coachController);
@@ -92,8 +98,6 @@ public class LessonListViewByCoach extends LessonListView {
             coach = coachList.stream().filter(ch -> ch.getId().equalsIgnoreCase(coachString)).findFirst().orElse(null);
         }
         coachValuePair.setObject(coach);
-//        if (coach != null) return new Pair<>(coach, false);
-//        return new Pair<>(null, true);
         return coachValuePair;
     }
 }

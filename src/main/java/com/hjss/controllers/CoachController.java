@@ -3,7 +3,6 @@ package com.hjss.controllers;
 import com.hjss.modelrepository.ModelRegister;
 import com.hjss.models.Booking;
 import com.hjss.models.Coach;
-import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.Gender;
 
 import java.util.ArrayList;

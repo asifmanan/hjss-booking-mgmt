@@ -4,8 +4,7 @@ import com.hjss.utilities.BookingStatus;
 import com.hjss.utilities.HelpText;
 import com.hjss.utilities.IdGenerator;
 import com.hjss.utilities.Rating;
-import org.jline.reader.LineReader;
-import org.jline.terminal.Terminal;
+
 import org.threeten.extra.YearWeek;
 
 import java.time.LocalDateTime;
@@ -63,12 +62,11 @@ public class Booking implements Identifiable {
         this.bookingStatus = BookingStatus.Active;
         this.lesson = lesson;
     }
-    public boolean attendBooking(){
+    public Boolean attendBooking(){
+        if(this.bookingStatus==BookingStatus.Attended){
+            return null;
+        }
         this.bookingStatus = BookingStatus.Attended;
-//        if(learner.getGradeLevel() >= lesson.getMinLearnerGradeRequired()
-//                && learner.getGradeLevel() <= lesson.getGradeLevel()){
-//            this.learner.gradeLevelUp();
-//        }
         if(lesson.getGradeLevel() > learner.getGradeLevel()){
             learner.gradeLevelUp();
             this.updatedOn = LocalDateTime.now();
@@ -77,7 +75,10 @@ public class Booking implements Identifiable {
         return false;
     }
     public void attendAndRate(int ratingInt){
-        attendBooking();
+        Boolean bookingAndLevelUp = attendBooking();
+        if(bookingAndLevelUp == null){
+            return;
+        }
         try{
             Rating rating = Rating.fromInt(ratingInt);
             this.setRating(rating);
@@ -89,7 +90,10 @@ public class Booking implements Identifiable {
     }
     public void attendAndRate(){
         String leftMargin = " ".repeat(3);
-        boolean gradeLevelUp = attendBooking();
+        Boolean gradeLevelUp = attendBooking();
+        if(gradeLevelUp==null){
+            return;
+        }
         HelpText helpText = new HelpText();
         if(gradeLevelUp) {
             String congratulatoryNote = String.format("Congratulations %s, you have advanced to grade level %s", this.learner.getFirstName(), this.learner.getGradeLevel());
@@ -116,5 +120,11 @@ public class Booking implements Identifiable {
     }
     public String getReview(){
         return this.ratingAndReview.getReview();
+    }
+    public LocalDateTime getCreatedOn(){
+        return this.createdOn;
+    }
+    public LocalDateTime getUpdatedOn(){
+        return this.updatedOn;
     }
 }

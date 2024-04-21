@@ -14,7 +14,7 @@ public class InputValidator {
         if(helpText!=null){
             terminal.writer().println(helpText.getHelpText());
         }
-        //        This provides graceful exit when user presses ctrl+c
+        //        This provides graceful exit when user presses ctrl+c, (not quite yet, needs more work)
         try {
             input = lineReader.readLine("   "+prompt);
         } catch (RuntimeException re){

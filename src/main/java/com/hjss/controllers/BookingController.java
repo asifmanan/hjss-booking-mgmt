@@ -2,7 +2,6 @@ package com.hjss.controllers;
 
 import com.hjss.modelrepository.ModelRegister;
 import com.hjss.models.Booking;
-import com.hjss.models.Coach;
 import com.hjss.models.Learner;
 import com.hjss.models.Lesson;
 import com.hjss.utilities.BookingStatus;
@@ -47,6 +46,14 @@ public class BookingController implements ModelController<Booking> {
         List<Booking> lessonBookings = getBookingsByLesson(lesson);
         return lessonBookings.size();
     }
+
+    public Integer countNumberOfActiveBookings(Lesson lesson){
+        List<Booking> lessonBookings = getBookingsByLesson(lesson);
+        List<Booking> activeBookings = lessonBookings.stream()
+                .filter(booking -> booking.getBookingStatus()!= BookingStatus.Cancelled).toList();
+        return activeBookings.size();
+    }
+
     public List<Booking> getLessonsByMonth(int month){
         return getAllObjects().stream().filter
                 (booking -> booking.getLesson().getWeekDayTimeSlot()
@@ -82,8 +89,8 @@ public class BookingController implements ModelController<Booking> {
         return true;
     }
     public boolean isFullyBooked(Lesson lesson){
-        int bookingCount = getBookingByLessonCount(lesson);
-        return bookingCount >= lesson.getMaxCapacity();
+        int bookingCount = countNumberOfActiveBookings(lesson);
+        return !(bookingCount < lesson.getMaxCapacity());
     }
     public boolean isGradeCriteriaValid(Learner learner, Lesson lesson){
         return learner.getGradeLevel() == lesson.getMinLearnerGradeRequired() ||

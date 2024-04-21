@@ -48,15 +48,15 @@ public class BookingCreateView {
         return Optional.empty();
     }
     public void bookLessonByGrade(){
-        this.lessonListView = new LessonListViewByGrade(lessonController);
+        this.lessonListView = new LessonListViewByGrade(lessonController, bookingController);
         createBooking();
     }
     public void bookLessonByDay(){
-        this.lessonListView = new LessonListViewByDay(lessonController);
+        this.lessonListView = new LessonListViewByDay(lessonController, bookingController);
         createBooking();
     }
     public void bookLessonByCoach(){
-        this.lessonListView = new LessonListViewByCoach(lessonController, coachController);
+        this.lessonListView = new LessonListViewByCoach(lessonController, coachController, bookingController);
         createBooking();
     }
     public void createBooking() {
@@ -95,7 +95,7 @@ public class BookingCreateView {
     }
     public Booking updateBooking(Booking booking){
         Learner learner = booking.getLearner();
-        LessonGetView lessonGetView = new LessonGetView(lessonController, coachController);
+        LessonGetView lessonGetView = new LessonGetView(lessonController, coachController, bookingController);
         Lesson newLesson = lessonGetView.getLessonsByChoice(learner);
         if(newLesson==null) return null;
         Lesson verifiedLesson = verifyLessonConstraints(newLesson, learner);
@@ -122,7 +122,11 @@ public class BookingCreateView {
                 return null;
             }
             if (bookingController.isAlreadyBookedByLearner(learner, lesson)) {
-                System.out.println(leftMargin + "Booking Unsuccessful, Lesson actively booked or Attended by the same Learner.");
+                /* need to investigate the behaviour here, although there is clear screen
+                before "if conditions" but somehow its not getting invoked with this condition
+                 so putting extra clear screen here for now. */
+                terminal.puts(InfoCmp.Capability.clear_screen);
+                System.out.println(leftMargin + "Booking Unsuccessful, Lesson actively booked or Attended by the same Learner.\n");
                 return null;
             }
 
