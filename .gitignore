@@ -6,6 +6,9 @@ out/
 target/
 *.iml
 
+### maven ###
+dependency-reduced-pom.xml
+
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -33,3 +36,4 @@ bin/
 
 ### Project Specific ###
 development-notes.md
+gitlog.txt
