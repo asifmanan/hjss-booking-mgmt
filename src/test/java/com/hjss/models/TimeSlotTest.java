@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TimeSlotTest {
     // Test constructor with valid times
@@ -59,5 +58,15 @@ public class TimeSlotTest {
         assertThrows(IllegalArgumentException.class, () -> {
             timeSlot.setEndTime(LocalTime.of(9, 0));
         });
+    }
+
+    @Test
+    public void testTimeSlotOverlap() {
+        TimeSlot baseTimeSlot = new TimeSlot(LocalTime.of(9, 0), LocalTime.of(11, 0));
+        TimeSlot overlapTimeSlot = new TimeSlot(LocalTime.of(10, 0), LocalTime.of(12, 0));
+        assertTrue(baseTimeSlot.equals(overlapTimeSlot),"TimeSlots should overlap");
+
+        TimeSlot nonOverlapTimeSlot = new TimeSlot(LocalTime.of(11, 0), LocalTime.of(12, 0));
+        assertFalse(baseTimeSlot.equals(nonOverlapTimeSlot),"TimeSlots should not overlap");
     }
 }
